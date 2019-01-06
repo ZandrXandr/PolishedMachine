@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{42E754A6-0157-4D02-B44D-50B72CCED196}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PolishedMachine</RootNamespace>
+    <AssemblyName>PolishedMachine</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\..\References\RainWorld\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>..\..\References\RainWorld\Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
+    <Reference Include="HOOKS-Assembly-CSharp">
+      <HintPath>..\..\References\RainWorld\HOOKS-Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil">
+      <HintPath>..\..\References\RainWorld\Mono.Cecil.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Mdb">
+      <HintPath>..\..\References\RainWorld\Mono.Cecil.Mdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Pdb">
+      <HintPath>..\..\References\RainWorld\Mono.Cecil.Pdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Rocks">
+      <HintPath>..\..\References\RainWorld\Mono.Cecil.Rocks.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoMod">
+      <HintPath>..\..\References\RainWorld\MonoMod.exe</HintPath>
+    </Reference>
+    <Reference Include="MonoMod.RuntimeDetour">
+      <HintPath>..\..\References\RainWorld\MonoMod.RuntimeDetour.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoMod.RuntimeDetour.HookGen">
+      <HintPath>..\..\References\RainWorld\MonoMod.RuntimeDetour.HookGen.exe</HintPath>
+    </Reference>
+    <Reference Include="MonoMod.Utils">
+      <HintPath>..\..\References\RainWorld\MonoMod.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="Partiality">
+      <HintPath>..\..\References\RainWorld\Partiality.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\References\RainWorld\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>..\..\References\RainWorld\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="YamlDotNet">
+      <HintPath>..\..\References\RainWorld\YamlDotNet.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Bugfixes\BugfixManager.cs" />
+    <Compile Include="Config\ConfigManager.cs" />
+    <Compile Include="Config\ConfigMenu.cs" />
+    <Compile Include="Config\ConfigTabController.cs" />
+    <Compile Include="Config\Crypto.cs" />
+    <Compile Include="Config\MenuTab.cs" />
+    <Compile Include="Config\OptionalGameSession.cs" />
+    <Compile Include="Config\OptionalUI\DyeableRect.cs" />
+    <Compile Include="Config\OptionalUI\OpCheckBox.cs" />
+    <Compile Include="Config\OptionalUI\OpColorPicker.cs" />
+    <Compile Include="Config\OptionalUI\OpDragger.cs" />
+    <Compile Include="Config\OptionalUI\OpImage.cs" />
+    <Compile Include="Config\OptionalUI\OpKeyBinder.cs" />
+    <Compile Include="Config\OptionalUI\OpLabel.cs" />
+    <Compile Include="Config\OptionalUI\OpRadioButton.cs" />
+    <Compile Include="Config\OptionalUI\OpRadioButtonGroup.cs" />
+    <Compile Include="Config\OptionalUI\OpRect.cs" />
+    <Compile Include="Config\OptionalUI\OpTab.cs" />
+    <Compile Include="Config\OptionalUI\OpTextBox.cs" />
+    <Compile Include="Config\OptionalUI\UIconfig.cs" />
+    <Compile Include="Config\OptionalUI\UIelement.cs" />
+    <Compile Include="Config\OptionInterface.cs" />
+    <Compile Include="Config\OptionScript.cs" />
+    <Compile Include="Config\OptionsMenuPatch.cs" />
+    <Compile Include="Config\UnconfiguableOI.cs" />
+    <Compile Include="ModUtilities\Extenders\CharacterExtender.cs" />
+    <Compile Include="ModUtilities\Extenders\CreatureExtender.cs" />
+    <Compile Include="ModUtilities\Extenders\ObjectExtender.cs" />
+    <Compile Include="ModUtilities\ModUtilityManager.cs" />
+    <Compile Include="ModUtilities\UtilityScript.cs" />
+    <Compile Include="PolishedMachine.cs" />
+    <Compile Include="PolishedMachineModInterop.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Config\To Do List.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

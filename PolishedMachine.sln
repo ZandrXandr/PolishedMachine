@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PolishedMachine", "PolishedMachine\PolishedMachine.csproj", "{42E754A6-0157-4D02-B44D-50B72CCED196}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PublicityStunt", "PublicityStunt\PublicityStunt.csproj", "{92AB2B77-7907-4180-B560-3B0FA8666082}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{42E754A6-0157-4D02-B44D-50B72CCED196}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42E754A6-0157-4D02-B44D-50B72CCED196}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42E754A6-0157-4D02-B44D-50B72CCED196}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42E754A6-0157-4D02-B44D-50B72CCED196}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92AB2B77-7907-4180-B560-3B0FA8666082}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92AB2B77-7907-4180-B560-3B0FA8666082}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92AB2B77-7907-4180-B560-3B0FA8666082}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92AB2B77-7907-4180-B560-3B0FA8666082}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E9F4356A-910E-460B-9F8A-DCF644C8DF4A}
+	EndGlobalSection
+EndGlobal
