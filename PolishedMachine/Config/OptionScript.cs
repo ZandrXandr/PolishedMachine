@@ -88,11 +88,9 @@ namespace CompletelyOptional
         public static string[] blackList =
         {
             "CompletelyOptional",
-            "CommunicationModule",
             "ConfigMachine",
             "RustyMachine",
-            "PartialityFlatmode",
-            "daddy_corruption_patch"
+            "PolishedMachine"
         };
 
         /// <summary>
@@ -299,10 +297,6 @@ namespace CompletelyOptional
 
             if (pm.currentMainLoop?.ID != ProcessManager.ProcessID.OptionsMenu)
             {
-                if (pm.currentMainLoop?.ID == ProcessManager.ProcessID.Game && pm.arenaSitting?.levelPlaylist[0] == "SoundTest")
-                { //Music Player!
-                    //goto MusicPlayerUpdate;
-                }
                 return;
             }
             else if (!OptionsMenuPatch.mod)
@@ -406,194 +400,9 @@ namespace CompletelyOptional
                     (pm.currentMainLoop as ConfigMenu).OpenMenu();
                 }
             }
-
-            return;
-            /*
-            MusicPlayerUpdate:
-            Debug.Log("!");
-
-            game = pm.currentMainLoop as RainWorldGame;
-
-            if (game.session.GetType() == typeof(SandboxGameSession))
-            { //init
-                SandboxGameSession oldSession = (game.session as SandboxGameSession);
-                if ((game.session as SandboxGameSession)?.overlay != null)
-                {
-                    (game.session as SandboxGameSession).ProcessShutDown();
-                }
-                game.session = new SoundingGameSession(game);
-                (game.session as SoundingGameSession).overlaySpawned = false;
-
-                )
-                if(pm.menuMic != null)
-                {
-                    pm.sideProcesses.Remove(pm.menuMic);
-                    pm.menuMic = null;
-                }
-                pm.soundLoader.ReleaseAllUnityAudio();
-                if (pm.musicPlayer != null)
-                {
-                    Destroy(pm.musicPlayer.gameObj);
-                    pm.musicPlayer.song.StopAndDestroy();
-                    pm.musicPlayer.multiplayerDJ.ShutDown();
-                    pm.musicPlayer.ShutDownProcess();
-                    pm.sideProcesses.Remove(pm.musicPlayer);
-                }
-                pm.musicPlayer = new MaxMusicPlayer(pm);
-                pm.sideProcesses.Add(pm.musicPlayer);
-                
-                stinit = false;
-
-
-
-
-            }
-
-            if (!stinit)
-            {
-                //mimic Rustymachine
-                Overseer overseer = null;
-                this.room = null; oracle = null;
-                List<Room> loadedRooms = new List<Room>();
-                List<PhysicalObject> physObjects = new List<PhysicalObject>();
-                loadedRooms.AddRange(game.world.activeRooms);
-                foreach (Room r in loadedRooms)
-                {
-                    foreach (List<PhysicalObject> collection in r.physicalObjects)
-                    {
-                        physObjects.AddRange(collection);
-                    }
-                }
-                foreach (PhysicalObject physicalObject in physObjects)
-                {
-                    if (physicalObject is Overseer)
-                    {
-                        overseer = physicalObject as Overseer;
-                    }
-                    else
-                    {
-                        physicalObject.Destroy();
-                    }
-                }
-                if (overseer != null)
-                {
-                    this.room = overseer.room;
-
-                    //oracle.room.game.Players[0].realizedCreature
-                    game.session.Players = new List<AbstractCreature>();
-                    AbstractCreature temp = new AbstractCreature(this.room.world, overseer.abstractCreature.creatureTemplate, null, new WorldCoordinate(room.abstractRoom.index, 15, 15, -1), room.game.GetNewID());
-                    game.session.Players.Add(temp);
-                    overseer.Destroy();
-                    oracle = new MaxOracle(new AbstractPhysicalObject(this.room.world, AbstractPhysicalObject.AbstractObjectType.Oracle, null, new WorldCoordinate(room.abstractRoom.index, 15, 15, -1), room.game.GetNewID()), room);
-                    this.room.AddObject(oracle);
-                    this.room.waitToEnterAfterFullyLoaded = Math.Max(room.waitToEnterAfterFullyLoaded, 80);
-                    temp.Destroy();
-                    game.session.Players = new List<AbstractCreature>(0);
-
-
-                    physObjects = new List<PhysicalObject>();
-                    foreach (Room r in loadedRooms)
-                    {
-                        foreach (List<PhysicalObject> collection in r.physicalObjects)
-                        {
-                            physObjects.AddRange(collection);
-                        }
-                    }
-                    foreach (PhysicalObject physicalObject in physObjects)
-                    {
-                        if ((physicalObject is OracleSwarmer))
-                        {
-                            physicalObject.Destroy();
-                        }
-                    }
-                    oracle.mySwarmers = new List<OracleSwarmer>(0);
-
-                    swarmers = new MaxSwarmer[12];
-                    for (int t = 0; t < 12; t++)
-                    {
-                        swarmers[t] = new MaxSwarmer(new AbstractPhysicalObject(this.room.world, AbstractPhysicalObject.AbstractObjectType.SLOracleSwarmer, null, oracle.abstractPhysicalObject.pos, room.game.GetNewID()), room.world);
-                        this.room.AddObject(swarmers[t]);
-                    }
-
-
-
-
-                    stinit = true;
-
-
-                    (oracle.graphicsModule as MaxGraphics).halo.ChangeAllRadi();
-                }
-
-                return;
-            }
-
-
-            for (int n = 0; n < game.cameras.Length; n++)
-            {
-                //this.oracle.room.game.cameras[n].ChangeBothPalettes(25, 23, 0.80f * light);
-            }
-
-
-            if (game.pauseMenu != null)
-            { //Return
-                SoundTestToConfig();
-
-            }
-
-
-            return;
-            */
-            /*
-            foreach (KeyValuePair<string, OpTab> item in tabs)
-            {
-                tabs[item.Key].Update(Time.deltaTime);
-            }*/
+            
         }
-
-        /*
-        /// <summary>
-        /// SoundTest RainWorldGame
-        /// </summary>
-        public static RainWorldGame game;
-        /// <summary>
-        /// Whether SoundTest has been initiated or not
-        /// </summary>
-        public static bool stinit;
-        /// <summary>
-        /// SoundTest Room
-        /// </summary>
-        public Room room;
-
-        //public static MaxOracle oracle;
-        //public MaxSwarmer[] swarmers;
         
-        public void SoundTestToConfig()
-        {
-
-            game.processActive = false;
-            if (pm.menuMic != null)
-            {
-                pm.sideProcesses.Remove(pm.menuMic);
-                pm.menuMic = null;
-            }
-            game.pauseMenu.ShutDownProcess();
-            game.pauseMenu = null;
-            for (int n = 0; n < game.cameras.Length; n++)
-            {
-                game.cameras[n].ClearAllSprites();
-            }
-
-            (game.session as SoundingGameSession).ProcessShutDown();
-
-            HeavyTexturesCache.ClearRegisteredFutileAtlases();
-            GC.Collect();
-            Resources.UnloadUnusedAssets();
-
-            game = null;
-            oracle = null;
-        }
-        */
-
     }
 }
 

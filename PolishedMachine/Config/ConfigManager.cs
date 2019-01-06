@@ -24,8 +24,6 @@ namespace PolishedMachine.Config {
         /// </summary>
         public static OptionScript script;
 
-        public static bool soundTestEnabled = false;
-
         public static Dictionary<string, string> songNameDict;
 
         public ConfigManager() {
@@ -44,10 +42,6 @@ namespace PolishedMachine.Config {
             go = new GameObject( "OptionController" );
             script = go.AddComponent<OptionScript>();
             OptionScript.manager = this;
-
-            if( File.Exists( string.Concat( levelpath, "SoundTest.txt" ) ) ) {
-                RemoveMusicRoom();
-            }
         }
 
 
@@ -82,61 +76,6 @@ namespace PolishedMachine.Config {
                 }
             }
         }
-
-        /// <summary>
-        /// Path of Levels
-        /// </summary>
-        public static string levelpath = string.Concat( new object[] {
-            Custom.RootFolderDirectory(),
-            "Levels",
-            Path.DirectorySeparatorChar
-        } );
-        /// <summary>
-        /// Creates SoundTest Room files
-        /// </summary>
-        public static void CopyMusicRoom() {
-            string sspath = string.Concat( new object[] {
-                "World",
-                Path.DirectorySeparatorChar,
-                "Regions",
-                Path.DirectorySeparatorChar,
-                "SS",
-                Path.DirectorySeparatorChar,
-                "Rooms",
-                Path.DirectorySeparatorChar
-            } );
-
-            File.Copy( string.Concat( sspath, "SS_AI.txt" ), string.Concat( levelpath, "SoundTest.txt" ), true );
-            File.Copy( string.Concat( sspath, "SS_AI_1.png" ), string.Concat( levelpath, "SoundTest_1.png" ), true );
-
-
-            var assembly = Assembly.GetExecutingAssembly();
-            string resourceName = "CompletelyOptional.SoundTest.MaxRoom_Settings.txt";
-            string result;
-
-            /*
-            string[] names = assembly.GetManifestResourceNames();
-            foreach(string name in names)
-            {
-                Debug.Log(name);
-            }*/
-
-            using( Stream stream = assembly.GetManifestResourceStream( resourceName ) )
-            using( StreamReader reader = new StreamReader( stream ) ) {
-                result = reader.ReadToEnd();
-            }
-
-            File.WriteAllText( string.Concat( levelpath, "SoundTest_Settings.txt" ), result );
-
-        }
-        /// <summary>
-        /// Removes SoundTest room files to prevent unwanted predicaments
-        /// </summary>
-        public static void RemoveMusicRoom() {
-            File.Delete( string.Concat( levelpath, "SoundTest.txt" ) );
-            File.Delete( string.Concat( levelpath, "SoundTest_1.png" ) );
-            File.Delete( string.Concat( levelpath, "SoundTest_Settings.txt" ) );
-        }
-
+        
     }
 }

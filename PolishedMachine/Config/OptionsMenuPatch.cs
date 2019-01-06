@@ -202,19 +202,11 @@ namespace CompletelyOptional
             
             if (!mod)
             { //going back to main menu
-                /*
-                if (OptionScript.game != null)
-                {
-                    OptionScript.game.ShutDownProcess();
-                    OptionScript.game = null;
-                }*/
-                ConfigManager.RemoveMusicRoom();
                 if (menu.manager.musicPlayer != null && songid != "RW_8 " && songid != "Title")
                 {
                     Debug.Log(string.Concat("Shutdown Option Music :" + menu.manager.musicPlayer.song?.name));
                     menu.manager.musicPlayer.nextSong = new MenuOrSlideShowSong(menu.manager.musicPlayer, "RW_8 - Sundown", 0.8f, 2f);
                     menu.manager.musicPlayer.nextSong.playWhenReady = false;
-                    //this is how to force change music. watch and learn, SoundTest.cs!
                 }
                 
             }

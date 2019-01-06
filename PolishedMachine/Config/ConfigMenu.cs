@@ -55,12 +55,6 @@ namespace CompletelyOptional
             this.multiplayerUnlocks = new MultiplayerUnlocks(manager.rainWorld.progression, allLevels);
             currentInterface = null;
 
-            if (ConfigManager.soundTestEnabled)
-            {
-                ConfigManager.CopyMusicRoom();
-            }
-
-
             OptionScript.soundFill = 0;
             freezeMenu = false;
             BoundKey = new Dictionary<string, string>();
@@ -181,16 +175,11 @@ namespace CompletelyOptional
             
             
 
-            this.backButton = new SimpleButton(this, this.pages[0], "CANCEL", "CANCEL", new Vector2(450f, 50f), new Vector2(110f, 30f));
+            this.backButton = new SimpleButton(this, this.pages[0], "BACK", "CANCEL", new Vector2(450f, 50f), new Vector2(110f, 30f));
             this.pages[0].subObjects.Add(this.backButton);
             this.saveButton = new SimpleButton(this, this.pages[0], "APPLY", "APPLY", new Vector2(600f, 50f), new Vector2(110f, 30f));
             this.pages[0].subObjects.Add(this.saveButton);
             base.MutualHorizontalButtonBind(saveButton, backButton);
-            this.musicButton = new SimpleButton(this, this.pages[0], "SOUNDTEST", "SOUNDTEST", new Vector2(988f, 50f), new Vector2(110f, 30f));
-            this.pages[0].subObjects.Add(this.musicButton);
-            //this.musicButton.menuLabel.label.color = ConfigManager.soundTestEnabled && redUnlocked ? MenuRGB(MenuColors.White) : MenuRGB(MenuColors.DarkGrey);
-            this.musicButton.buttonBehav.greyedOut = !(ConfigManager.soundTestEnabled && redUnlocked);
-
             this.resetButton = new HoldButton(this, this.pages[0], "RESET CONFIG", "RESET CONFIG", new Vector2(300f, 90f), 30f);
             this.pages[0].subObjects.Add(this.resetButton);
 
@@ -202,8 +191,6 @@ namespace CompletelyOptional
             this.backButton.nextSelectable[0] = this.resetButton;
             this.backButton.nextSelectable[2] = this.saveButton;
             this.saveButton.nextSelectable[0] = this.backButton;
-            this.saveButton.nextSelectable[2] = this.musicButton;
-            this.musicButton.nextSelectable[0] = this.saveButton;
 
             
             
@@ -297,7 +284,6 @@ namespace CompletelyOptional
             this.resetButton.nextSelectable[1] = this.modButtons[this.modButtons.Length - 1];
             this.backButton.nextSelectable[1] = this.modButtons[this.modButtons.Length - 1];
             this.saveButton.nextSelectable[1] = this.modButtons[this.modButtons.Length - 1];
-            this.musicButton.nextSelectable[1] = this.modButtons[this.modButtons.Length - 1];
             this.modButtons[this.modButtons.Length - 1].nextSelectable[3] = this.saveButton;
             if (this.modButtons.Length > 1)
             {
@@ -354,8 +340,7 @@ namespace CompletelyOptional
 
         public SelectOneButton[] modButtons;
 
-
-        public SimpleButton musicButton;
+        
         public SimpleButton backButton;
         public SimpleButton saveButton;
         public HoldButton resetButton;
@@ -501,6 +486,10 @@ namespace CompletelyOptional
                 this.scene.camPos = new Vector2(this.scene.camPos.x * 0.7f, this.scene.camPos.y * 0.7f);
             }
 
+            if (OptionScript.configChanged)
+            { this.backButton.menuLabel.text = "CANCEL"; }
+            else
+            { this.backButton.menuLabel.text = "BACK"; }
 
             if (this.fadeSprite != null)
             {
@@ -807,17 +796,6 @@ namespace CompletelyOptional
                     return output;
                 }
                 return "Hold down to restore original config for this mod";
-            }
-            if(this.selectedObject == this.musicButton)
-            {
-                if (!redUnlocked)
-                {
-                    return "This feature will be unlocked with The Hunter";
-                }
-                else
-                {
-                    return "Enter Soundtest Screen";
-                }
             }
             if(this.selectedObject == this.backButton)
             {
