@@ -486,10 +486,7 @@ namespace CompletelyOptional
                 this.scene.camPos = new Vector2(this.scene.camPos.x * 0.7f, this.scene.camPos.y * 0.7f);
             }
 
-            if (OptionScript.configChanged)
-            { this.backButton.menuLabel.text = "CANCEL"; }
-            else
-            { this.backButton.menuLabel.text = "BACK"; }
+            
 
             if (this.fadeSprite != null)
             {
@@ -520,6 +517,13 @@ namespace CompletelyOptional
                 }
                 this.OpenMenu();
                 return;
+            }
+            else
+            {
+                if (OptionScript.configChanged && this.backButton != null)
+                { this.backButton.menuLabel.text = "CANCEL"; }
+                else
+                { this.backButton.menuLabel.text = "BACK"; }
             }
 
 
