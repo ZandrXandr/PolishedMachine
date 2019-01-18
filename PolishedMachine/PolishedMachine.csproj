@@ -90,7 +90,6 @@
     <Compile Include="Config\ConfigTabController.cs" />
     <Compile Include="Config\Crypto.cs" />
     <Compile Include="Config\MenuTab.cs" />
-    <Compile Include="Config\OptionalGameSession.cs" />
     <Compile Include="Config\OptionalUI\DyeableRect.cs" />
     <Compile Include="Config\OptionalUI\OpCheckBox.cs" />
     <Compile Include="Config\OptionalUI\OpColorPicker.cs" />

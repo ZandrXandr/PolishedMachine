@@ -95,8 +95,7 @@ namespace CompletelyOptional
                 else
                 {
                     _index = 0;
-                    return;
-                    //throw new Exception("Too Many Tabs! Maximum tab number is 20.\nAlso what are you going to do with all those settings?");
+                    throw new Exception("Too Many Tabs! Maximum tab number is 20.\nAlso what are you going to do with all those settings?");
                 }
                 Initialize();
                 _index = 0;
@@ -198,7 +197,7 @@ namespace CompletelyOptional
             /// </summary>
             public int index;
 
-            //public MenuLabel label;
+            public MenuLabel label;
             /// <summary>
             /// Tab Boundary
             /// </summary>
