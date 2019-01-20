@@ -38,5 +38,11 @@ namespace PolishedMachine {
 
         }
 
+        public override void OnEnable()
+        {
+            CheckSumFix.Patch();
+
+        }
+
     }
 }

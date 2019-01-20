@@ -812,9 +812,9 @@ namespace CompletelyOptional
                     return "Return to vanilla option menu";
                 }
             }
-            if(this.selectedObject == this.saveButton)
+            if (this.selectedObject == this.saveButton)
             {
-                if(this.saveButton.menuLabel.text == "SAVE ALL")
+                if (this.saveButton.menuLabel.text == "SAVE ALL")
                 {
                     return "Save all changes to file and exit";
                 }

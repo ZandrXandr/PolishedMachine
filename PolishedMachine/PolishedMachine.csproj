@@ -85,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bugfixes\BugfixManager.cs" />
+    <Compile Include="Bugfixes\CheckSumFix.cs" />
     <Compile Include="Config\ConfigManager.cs" />
     <Compile Include="Config\ConfigMenu.cs" />
     <Compile Include="Config\ConfigTabController.cs" />
