@@ -51,16 +51,6 @@ namespace OptionalUI
         /// </summary>
         public MenuLabel label;
 
-        public int valueInt
-        {
-            get { return int.Parse(_value); }
-            set { if(_value != value.ToString()) { this.value = value.ToString(); } }
-        }
-
-
-
-        private float black { get { return Mathf.Clamp(1f - this.flash, 0f, 1f); } }
-
         public override void GrafUpdate(float dt)
         {
             base.GrafUpdate(dt);
@@ -73,7 +63,7 @@ namespace OptionalUI
 
             this.flash = Custom.LerpAndTick(this.flash, 0f, 0.03f, 0.166666672f);
             this.greyFade = Custom.LerpAndTick(this.greyFade, (!CompletelyOptional.ConfigMenu.freezeMenu || this.held) ? 0f : 1f, 0.05f, 0.025f);
-            Color color = Color.Lerp(Menu.Menu.MenuRGB(Menu.Menu.MenuColors.Black), Menu.Menu.MenuRGB(Menu.Menu.MenuColors.White), this.flash);
+            Color color; //= Color.Lerp(Menu.Menu.MenuRGB(Menu.Menu.MenuColors.Black), Menu.Menu.MenuRGB(Menu.Menu.MenuColors.White), this.flash);
             float num = 0.5f - 0.5f * Mathf.Sin(this.sin / 30f * 3.14159274f * 2f);
             num *= this.sizeBump;
 

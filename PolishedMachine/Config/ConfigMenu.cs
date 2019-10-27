@@ -76,7 +76,7 @@ namespace CompletelyOptional
                     for (int p = 0; p < setup.gamePadButtons.Length; p++)
                     {
                         string key = setup.gamePadButtons[p].ToString();
-                        if (key.Length > 9 && int.TryParse(key.Substring(8, 1), out int ctrl))
+                        if (key.Length > 9 && int.TryParse(key.Substring(8, 1), out int _))
                         { }
                         else
                         {
@@ -148,19 +148,21 @@ namespace CompletelyOptional
 
             this.fadeSprite.RemoveFromContainer();
             this.pages[0].Container.AddChild(this.fadeSprite); //reset fadeSprite
-            
 
 
-            
-            this.darkSprite = new FSprite("pixel", true);
-            this.darkSprite.color = new Color(0f, 0f, 0f);
-            this.darkSprite.anchorX = 0f;
-            this.darkSprite.anchorY = 0f;
-            this.darkSprite.scaleX = 1368f;
-            this.darkSprite.scaleY = 770f;
-            this.darkSprite.x = -1f;
-            this.darkSprite.y = -1f;
-            this.darkSprite.alpha = 0.6f;
+
+
+            this.darkSprite = new FSprite("pixel", true)
+            {
+                color = new Color(0f, 0f, 0f),
+                anchorX = 0f,
+                anchorY = 0f,
+                scaleX = 1368f,
+                scaleY = 770f,
+                x = -1f,
+                y = -1f,
+                alpha = 0.6f
+            };
             this.pages[0].Container.AddChild(this.darkSprite);
 
 
@@ -361,7 +363,7 @@ namespace CompletelyOptional
         public FSprite darkSprite;
 
 
-        public void ChangeSelectedTab()
+        public static void ChangeSelectedTab()
         {
             currentTab.Hide();
 
@@ -390,7 +392,7 @@ namespace CompletelyOptional
             }
         }
 
-        public void SaveAllConfig()
+        public static void SaveAllConfig()
         {
             foreach(KeyValuePair<string,OptionInterface> item in OptionScript.loadedInterfaceDict)
             {
@@ -399,7 +401,7 @@ namespace CompletelyOptional
                 OptionScript.loadedInterfaceDict[item.Key].SaveConfig(newConfig);
             }
         }
-        public void SaveCurrentConfig()
+        public static void SaveCurrentConfig()
         {
             if (!currentInterface.Configuable()) { return; }
             Dictionary<string, string> newConfig = currentInterface.GrabConfig();
@@ -465,7 +467,7 @@ namespace CompletelyOptional
         private string lastDescription;
         public override void Update()
         {
-            if (description != "" && this.UpdateInfoText() == "")
+            if (!string.IsNullOrEmpty(description) && string.IsNullOrEmpty(this.UpdateInfoText()))
             {
                 this.infoLabelFade = 1f;
                 this.infoLabel.text = description;
@@ -551,9 +553,8 @@ namespace CompletelyOptional
                     dictionary.Add("SOUNDTEST", 3);
                     buttonList = dictionary;
                 }
-                int num;
 
-                if (buttonList.TryGetValue(message, out num))
+                if (buttonList.TryGetValue(message, out int num))
                 {
                     switch (num)
                     {
@@ -573,7 +574,7 @@ namespace CompletelyOptional
                             }
                             else
                             {
-                                if(this.saveButton.menuLabel.text == "SAVE ALL")
+                                if (this.saveButton.menuLabel.text == "SAVE ALL")
                                 {
                                     base.PlaySound(SoundID.MENU_Next_Slugcat);
                                     SaveAllConfig();
@@ -599,7 +600,7 @@ namespace CompletelyOptional
                             else
                             {
                                 base.PlaySound(SoundID.MENU_Switch_Page_In);
-                                
+
                                 Debug.Log("Enter SoundTest");
 
                                 this.InitializeSitting();
@@ -612,9 +613,9 @@ namespace CompletelyOptional
                                 {
                                     this.manager.arenaSitting = null;
                                 }
-                                
 
-                                
+
+
                             }
                             break;
                     }
@@ -644,8 +645,10 @@ namespace CompletelyOptional
         {
             if(this.manager.arenaSetup == null)
             {
-                ArenaSetup setup = new ArenaSetup();
-                setup.currentGameType = ArenaSetup.GameTypeID.Sandbox;
+                ArenaSetup setup = new ArenaSetup
+                {
+                    currentGameType = ArenaSetup.GameTypeID.Sandbox
+                };
 
                 setup.gametypeSetups.Add(new ArenaSetup.GameTypeSetup());
                 setup.gametypeSetups[setup.gametypeSetups.Count - 1].InitAsGameType(ArenaSetup.GameTypeID.Sandbox);
@@ -653,9 +656,10 @@ namespace CompletelyOptional
                 this.manager.arenaSetup = setup;
             }
 
-            this.manager.arenaSitting = new ArenaSitting(this.GetGameTypeSetup, this.multiplayerUnlocks);
-
-            this.manager.arenaSitting.levelPlaylist = new List<string>();
+            this.manager.arenaSitting = new ArenaSitting(this.GetGameTypeSetup, this.multiplayerUnlocks)
+            {
+                levelPlaylist = new List<string>()
+            };
             this.manager.arenaSitting.levelPlaylist.Add("SoundTest");
 
         }
@@ -699,7 +703,7 @@ namespace CompletelyOptional
                 //element.myContainer.RemoveFromContainer();
             //}
             KillTabElements();
-            script.KillTabs();
+            OptionScript.KillTabs();
             base.ShutDownProcess();
             this.darkSprite.RemoveFromContainer();
             currentTab = null;
@@ -763,27 +767,24 @@ namespace CompletelyOptional
             {
                 if ((this.selectedObject as SelectOneButton).signalText == "ModSelect")
                 {
-                    string id;
-                    if(modList.TryGetValue((this.selectedObject as SelectOneButton).buttonArrayIndex, out id))
+                    if (modList.TryGetValue((this.selectedObject as SelectOneButton).buttonArrayIndex, out string id))
                     {
-                        bool able;
                         string output = "";
-                        if (modConfiguability.TryGetValue((this.selectedObject as SelectOneButton).buttonArrayIndex, out able))
+                        if (modConfiguability.TryGetValue((this.selectedObject as SelectOneButton).buttonArrayIndex, out bool able))
                         {
                             output = able ? "Configure " : "Display ";
                         }
 
-                        output = output + id;
+                        output += id;
 
-                        PartialityMod mod;
-                        if(OptionScript.loadedModsDictionary.TryGetValue(id, out mod))
+                        if (OptionScript.loadedModsDictionary.TryGetValue(id, out PartialityMod mod))
                         {
-                            if(mod.author != "" && mod.author != "NULL")
+                            if (!string.IsNullOrEmpty(mod.author) && mod.author != "NULL")
                             {
                                 output = output + " by " + mod.author;
                             }
                         }
-                        
+
                         return output;
                     }
 
@@ -792,11 +793,10 @@ namespace CompletelyOptional
             }
             if (this.selectedObject is HoldButton)
             {
-                string id;
-                if (modList.TryGetValue(selectedModIndex, out id))
+                if (modList.TryGetValue(selectedModIndex, out string id))
                 {
                     string output = "Hold down to restore original config of " + id;
-                    
+
                     return output;
                 }
                 return "Hold down to restore original config for this mod";
@@ -812,16 +812,15 @@ namespace CompletelyOptional
                     return "Return to vanilla option menu";
                 }
             }
-            if(this.selectedObject == this.saveButton)
+            if (this.selectedObject == this.saveButton)
             {
-                if(this.saveButton.menuLabel.text == "SAVE ALL")
+                if (this.saveButton.menuLabel.text == "SAVE ALL")
                 {
                     return "Save all changes to file and exit";
                 }
                 else
                 {
-                    string id;
-                    if (modList.TryGetValue(selectedModIndex, out id))
+                    if (modList.TryGetValue(selectedModIndex, out string id))
                     {
                         string output = "Save changed config of " + id;
 
@@ -857,8 +856,7 @@ namespace CompletelyOptional
                     dictionary.Add("NOTSaveSlot", 1);
                     radioDictionary = dictionary;
                 }
-                int num;
-                if(radioDictionary.TryGetValue(series, out num))
+                if (radioDictionary.TryGetValue(series, out int num))
                 {
                     switch (num)
                     {
@@ -868,7 +866,7 @@ namespace CompletelyOptional
                             return 0;
                     }
                 }
-                
+
             }
             return -1;
         }
@@ -884,8 +882,7 @@ namespace CompletelyOptional
                     dictionary.Add("SaveSlot", 1);
                     radioDictionary = dictionary;
                 }
-                int num;
-                if (radioDictionary.TryGetValue(series, out num))
+                if (radioDictionary.TryGetValue(series, out int num))
                 {
                     switch (num)
                     {
@@ -896,8 +893,8 @@ namespace CompletelyOptional
                                 selectedModIndex = to;
                                 ChangeSelectedMod();
                             }
-                            
-                            
+
+
                             break;
                     }
 
@@ -921,12 +918,14 @@ namespace CompletelyOptional
                 {
                     this.fadeSprite.RemoveFromContainer();
                 }
-                this.fadeSprite = new FSprite("Futile_White", true);
-                this.fadeSprite.color = new Color(0f, 0f, 0f);
-                this.fadeSprite.x = this.manager.rainWorld.screenSize.x / 2f;
-                this.fadeSprite.y = this.manager.rainWorld.screenSize.y / 2f;
-                this.fadeSprite.alpha = 0f;
-                this.fadeSprite.shader = this.manager.rainWorld.Shaders["EdgeFade"];
+                this.fadeSprite = new FSprite("Futile_White", true)
+                {
+                    color = new Color(0f, 0f, 0f),
+                    x = this.manager.rainWorld.screenSize.x / 2f,
+                    y = this.manager.rainWorld.screenSize.y / 2f,
+                    alpha = 0f,
+                    shader = this.manager.rainWorld.Shaders["EdgeFade"]
+                };
 
                 this.pages[0].Container.AddChild(this.fadeSprite);
                 return;

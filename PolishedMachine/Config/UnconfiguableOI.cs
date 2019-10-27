@@ -54,14 +54,12 @@ namespace CompletelyOptional
             return;
         }
 
-        public new bool LoadConfig()
-        {
-            return true;
-        }
-        public new bool SaveConfig(Dictionary<string, string> newConfig)
-        {
-            return true;
-        }
+#pragma warning disable CA1822 // Mark members as static
+        public new bool LoadConfig() => true;
+#pragma warning disable IDE0060
+        public new bool SaveConfig(Dictionary<string, string> newConfig) => true;
+#pragma warning restore IDE0060
+#pragma warning restore CA1822 // Mark members as static
 
 
 
@@ -112,8 +110,7 @@ namespace CompletelyOptional
 
                     break;
                 case Reason.InitError:
-                    blue = new OpRect(new Vector2(40f, 40f), new Vector2(520f, 340f));
-                    blue.alpha = 0.7f;
+                    blue = new OpRect(new Vector2(40f, 40f), new Vector2(520f, 340f)) { alpha = 0.7f };
                     if (OptionScript.init)
                     {
                         for (int j = 0; j < 9; j++)
@@ -122,13 +119,13 @@ namespace CompletelyOptional
                         }
                     }
                     Color white = Menu.Menu.MenuRGB(Menu.Menu.MenuColors.White);
-                    oof = new OpLabel(new Vector2(100f, 320f), new Vector2(30f, 40f), ":(", FLabelAlignment.Left, true);
-                    oof.color = white;
-                    labelSluggo0 = new OpLabel(new Vector2(100f, 320f), new Vector2(400f, 20f), "There was an issue initializing OptionInterface.");
-                    labelSluggo0.color = white;
-                    labelSluggo1 = new OpLabel(new Vector2(100f, 80f), new Vector2(400f, 240f), exception, FLabelAlignment.Left);
-                    labelSluggo1.autoWrap = true;
-                    labelSluggo1.color = white;
+                    oof = new OpLabel(new Vector2(100f, 320f), new Vector2(30f, 40f), ":(", FLabelAlignment.Left, true) { color = white };
+                    labelSluggo0 = new OpLabel(new Vector2(100f, 320f), new Vector2(400f, 20f), "There was an issue initializing OptionInterface.") { color = white };
+                    labelSluggo1 = new OpLabel(new Vector2(100f, 80f), new Vector2(400f, 240f), exception, FLabelAlignment.Left)
+                    {
+                        autoWrap = true,
+                        color = white
+                    };
                     labelSluggo1.OnChange();
 
                     Tabs[0].AddItem(blue);

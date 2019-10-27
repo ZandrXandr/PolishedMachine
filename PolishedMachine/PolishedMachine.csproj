@@ -43,23 +43,11 @@
     <Reference Include="Mono.Cecil">
       <HintPath>..\..\References\RainWorld\Mono.Cecil.dll</HintPath>
     </Reference>
-    <Reference Include="Mono.Cecil.Mdb">
-      <HintPath>..\..\References\RainWorld\Mono.Cecil.Mdb.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil.Pdb">
-      <HintPath>..\..\References\RainWorld\Mono.Cecil.Pdb.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil.Rocks">
-      <HintPath>..\..\References\RainWorld\Mono.Cecil.Rocks.dll</HintPath>
-    </Reference>
     <Reference Include="MonoMod">
       <HintPath>..\..\References\RainWorld\MonoMod.exe</HintPath>
     </Reference>
     <Reference Include="MonoMod.RuntimeDetour">
       <HintPath>..\..\References\RainWorld\MonoMod.RuntimeDetour.dll</HintPath>
-    </Reference>
-    <Reference Include="MonoMod.RuntimeDetour.HookGen">
-      <HintPath>..\..\References\RainWorld\MonoMod.RuntimeDetour.HookGen.exe</HintPath>
     </Reference>
     <Reference Include="MonoMod.Utils">
       <HintPath>..\..\References\RainWorld\MonoMod.Utils.dll</HintPath>
@@ -79,12 +67,11 @@
     <Reference Include="UnityEngine.UI">
       <HintPath>..\..\References\RainWorld\UnityEngine.UI.dll</HintPath>
     </Reference>
-    <Reference Include="YamlDotNet">
-      <HintPath>..\..\References\RainWorld\YamlDotNet.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bugfixes\BugfixManager.cs" />
+    <Compile Include="Bugfixes\CheckSumFix.cs" />
+    <Compile Include="Config\COExceptions.cs" />
     <Compile Include="Config\ConfigManager.cs" />
     <Compile Include="Config\ConfigMenu.cs" />
     <Compile Include="Config\ConfigTabController.cs" />
@@ -100,6 +87,7 @@
     <Compile Include="Config\OptionalUI\OpRadioButton.cs" />
     <Compile Include="Config\OptionalUI\OpRadioButtonGroup.cs" />
     <Compile Include="Config\OptionalUI\OpRect.cs" />
+    <Compile Include="Config\OptionalUI\OpSlider.cs" />
     <Compile Include="Config\OptionalUI\OpTab.cs" />
     <Compile Include="Config\OptionalUI\OpTextBox.cs" />
     <Compile Include="Config\OptionalUI\UIconfig.cs" />
@@ -108,6 +96,7 @@
     <Compile Include="Config\OptionScript.cs" />
     <Compile Include="Config\OptionsMenuPatch.cs" />
     <Compile Include="Config\UnconfiguableOI.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="ModUtilities\Extenders\CharacterExtender.cs" />
     <Compile Include="ModUtilities\Extenders\CreatureExtender.cs" />
     <Compile Include="ModUtilities\Extenders\ObjectExtender.cs" />
@@ -119,6 +108,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Config\To Do List.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".editorconfig" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

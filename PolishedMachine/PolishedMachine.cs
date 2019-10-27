@@ -15,7 +15,6 @@ namespace PolishedMachine {
 
         public BugfixManager bugfixManager;
         public ModUtilityManager utilityManager;
-        public ConfigManager configManager;
 
         public override void Init() {
             base.Init();
@@ -29,12 +28,17 @@ namespace PolishedMachine {
             //Create mod part managers
             bugfixManager = new BugfixManager();
             utilityManager = new ModUtilityManager();
-            configManager = new ConfigManager();
 
             typeof( PolishedMachineModInterop ).ModInterop();
         }
 
         public override void OnLoad() {
+
+        }
+
+        public override void OnEnable()
+        {
+            CheckSumFix.Patch();
 
         }
 

@@ -42,7 +42,7 @@ namespace CompletelyOptional
                 }
                 menu.PlaySound(SoundID.MENU_MultipleChoice_Clicked);
                 ConfigMenu.selectedTabIndex = value;
-                cfgMenu.ChangeSelectedTab();
+                ConfigMenu.ChangeSelectedTab();
                 OnChange();
             }
         }
@@ -182,8 +182,10 @@ namespace CompletelyOptional
 
                 this._pos = ctrl.pos + new Vector2(17f, height * (ctrler._tabCount - index - 1) + 3f);
                 this.size = new Vector2(30f, height - 6f);
-                this.rect = new DyeableRect(menu, owner, this.pos, this.size, true);
-                this.rect.tab = true;
+                this.rect = new DyeableRect(menu, owner, this.pos, this.size, true)
+                {
+                    tab = true
+                };
 
                 this.subObjects.Add(this.rect);
                 this.rect.fillAlpha = 0.3f;
@@ -210,8 +212,8 @@ namespace CompletelyOptional
                 base.GrafUpdate(dt);
 
                 this.flash = Custom.LerpAndTick(this.flash, 0f, 0.03f, 0.166666672f);
-                float num = 0.5f - 0.5f * Mathf.Sin((this.sin) / 30f * 3.14159274f * 2f);
-                num *= this.sizeBump;
+                //float num = 0.5f - 0.5f * Mathf.Sin((this.sin) / 30f * 3.14159274f * 2f);
+                //num *= this.sizeBump;
 
 
                 if (this.MouseOver)
@@ -264,7 +266,7 @@ namespace CompletelyOptional
                         ctrl.cfgMenu.PlaySound(SoundID.MENU_Button_Select_Mouse);
                     }
                     string name = ConfigMenu.currentInterface.Tabs[index].name;
-                    if (name == "")
+                    if (string.IsNullOrEmpty(name))
                     {
                         CompletelyOptional.ConfigMenu.description = string.Concat("Switch to Tab No ", index.ToString());
                     }
@@ -305,8 +307,10 @@ namespace CompletelyOptional
 
                 this._pos = ctrl.pos + new Vector2(18f, 30f * (19 - index) + 3f);
                 this.size = new Vector2(30f, 24f);
-                this.rect = new DyeableRect(menu, owner, this.pos, this.size, true);
-                this.rect.tab = true;
+                this.rect = new DyeableRect(menu, owner, this.pos, this.size, true)
+                {
+                    tab = true
+                };
                 this.subObjects.Add(this.rect);
                 this.rect.fillAlpha = 0.3f;
 
@@ -333,7 +337,7 @@ namespace CompletelyOptional
                     }
 
                     string name = ConfigMenu.currentTab.name;
-                    if (name == "")
+                    if (string.IsNullOrEmpty(name))
                     {
                         ConfigMenu.description = string.Concat("Switch to Tab No ", index.ToString());
                     }

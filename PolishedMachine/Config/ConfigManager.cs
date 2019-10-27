@@ -9,7 +9,7 @@ using RWCustom;
 using CompletelyOptional;
 
 namespace PolishedMachine.Config {
-    public class ConfigManager {
+    public static class ConfigManager {
 
         /// <summary>
         /// Directory that all the data/configs is saved
@@ -25,27 +25,7 @@ namespace PolishedMachine.Config {
         public static OptionScript script;
 
         public static Dictionary<string, string> songNameDict;
-
-        public ConfigManager() {
-            directory = new DirectoryInfo( string.Concat( new object[] {
-                Custom.RootFolderDirectory(),
-                "ModConfigs",
-                Path.DirectorySeparatorChar
-            } ) );
-
-            On.Menu.OptionsMenu.UpdateInfoText += new On.Menu.OptionsMenu.hook_UpdateInfoText( OptionsMenuPatch.UpdateInfoTextPatch );
-            On.Menu.OptionsMenu.Update += new On.Menu.OptionsMenu.hook_Update( OptionsMenuPatch.UpdatePatch );
-            On.Menu.OptionsMenu.Singal += new On.Menu.OptionsMenu.hook_Singal( OptionsMenuPatch.SingalPatch );
-            On.Menu.OptionsMenu.ShutDownProcess += new On.Menu.OptionsMenu.hook_ShutDownProcess( OptionsMenuPatch.ShutDownProcessPatch );
-
-
-            go = new GameObject( "OptionController" );
-            script = go.AddComponent<OptionScript>();
-            OptionScript.manager = this;
-        }
-
-
-        private static string[] playlistMoody =
+        private static readonly string[] playlistMoody =
         {
             "NA_07 - Phasing", //16%
             "NA_11 - Reminiscence",
@@ -54,7 +34,7 @@ namespace PolishedMachine.Config {
             "NA_21 - New Terra",
 
         };
-        private static string[] playlistWork =
+        private static readonly string[] playlistWork =
         {
             "NA_20 - Crystalline", //7%
             "NA_29 - Flutter",

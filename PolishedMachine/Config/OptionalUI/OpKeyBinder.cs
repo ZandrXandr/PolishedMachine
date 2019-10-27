@@ -26,7 +26,7 @@ namespace OptionalUI
         /// <param name="collisionCheck">Whether you will check the key is colliding with other KeyBinder or not.</param>
         public OpKeyBinder(Vector2 pos, Vector2 size, string modID, string key, string defaultKey, bool collisionCheck = true) : base(pos, size, key, defaultKey)
         {
-            if(defaultKey == null || defaultKey == "") { throw new Exception("OpKeyBinderNull: defaultKey for this keyBinder is null."); }
+            if(defaultKey == null || string.IsNullOrEmpty(defaultKey)) { throw new Exception("OpKeyBinderNull: defaultKey for this keyBinder is null."); }
             this.controlKey = string.Concat(modID, "_", key);
             this.modID = modID;
             Vector2 minSize = new Vector2(Mathf.Max(30f, size.x), Mathf.Max(30f, size.y));
@@ -96,7 +96,7 @@ namespace OptionalUI
             get { return CompletelyOptional.ConfigMenu.BoundKey; }
             set { CompletelyOptional.ConfigMenu.BoundKey = value; }
         }
-        private string controlKey; private string modID;
+        private readonly string controlKey; private readonly string modID;
 
         //clicked ==> input key (Mouse out ==> reset)
         /// <summary>
@@ -132,7 +132,7 @@ namespace OptionalUI
             if (greyedOut)
             {
                 this.rect.color = Menu.Menu.MenuRGB(Menu.Menu.MenuColors.DarkGrey);
-                if(this._desError == "")
+                if(string.IsNullOrEmpty(this._desError))
                 {
                     this.label.label.color = Menu.Menu.MenuRGB(Menu.Menu.MenuColors.DarkGrey);
                 }
@@ -151,7 +151,7 @@ namespace OptionalUI
 
             if (this.MouseOver)
             {
-                CompletelyOptional.ConfigMenu.description = this.description;
+                CompletelyOptional.ConfigMenu.description = this.Getdescription();
                 this.sizeBump = Custom.LerpAndTick(this.sizeBump, 1f, 0.1f, 0.1f);
                 this.extraSizeBump = Mathf.Min(1f, this.extraSizeBump + 0.1f);
                 this.sin += 1f;
@@ -179,7 +179,7 @@ namespace OptionalUI
             this.rect.fillAlpha = Mathf.Lerp(0.3f, 0.6f, this.col);
             this.rect.addSize = new Vector2(4f, 4f) * (this.sizeBump + 0.5f * Mathf.Sin(this.extraSizeBump * 3.14159274f)) * ((!Input.GetMouseButton(0)) ? 1f : 0f);
 
-            if (this._desError == "")
+            if (string.IsNullOrEmpty(this._desError))
             {
                 Color myColor = Color.Lerp(Menu.Menu.MenuRGB(Menu.Menu.MenuColors.MediumGrey), Menu.Menu.MenuRGB(Menu.Menu.MenuColors.White), Mathf.Max(this.col, this.flash));
                 color = Color.Lerp(myColor, Menu.Menu.MenuRGB(Menu.Menu.MenuColors.VeryDarkGrey), num);
@@ -200,28 +200,26 @@ namespace OptionalUI
 
         private bool anyKeyDown; private bool lastAnyKeyDown;
 
-        public new string description
+        public string Getdescription()
         {
-            get {
-                if(_desError != "")
-                { return _desError; }
-                if(_description != "")
-                {
-                    return _description;
-                }
-                return "Click this and Press any key to bind";
-            }
-            set { _description = value; }
+            if (!string.IsNullOrEmpty(_desError))
+            { return _desError; }
+            if (!string.IsNullOrEmpty(_description))
+            { return _description; }
+            return "Click this and Press any key to bind";
         }
+
+        public void Setdescription(string value)
+        { _description = value; }
         private string _description;
         private string _desError;
 
         public override string value
         {
-            get { return _value; }
+            get { return base.value; }
             set
             {
-                if(_value != value)
+                if (base.value != value)
                 {
                     if (!this.check || !BoundKey.ContainsValue(value))
                     {
@@ -254,9 +252,9 @@ namespace OptionalUI
                             }
                         }
                     }
-                    if(this._desError == "")
+                    if(string.IsNullOrEmpty(this._desError))
                     {
-                        this._value = value;
+                        this.ForceValue(value);
                         menu.PlaySound(SoundID.MENU_Button_Successfully_Assigned);
                     }
                     else
@@ -266,7 +264,7 @@ namespace OptionalUI
                     if (this.check)
                     {
                         BoundKey.Remove(controlKey);
-                        BoundKey.Add(controlKey, this._value);
+                        BoundKey.Add(controlKey, value);
                     }
                     OnChange();
                 }

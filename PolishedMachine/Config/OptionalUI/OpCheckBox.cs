@@ -24,11 +24,11 @@ namespace OptionalUI
             //true of false!
             if (defaultBool)
             {
-                this._value = "true";
+                this.ForceValue("true");
             }
             else
             {
-                this._value = "false";
+                this.ForceValue("false");
             }
             if (!init) { return; }
 
@@ -51,34 +51,7 @@ namespace OptionalUI
         /// </summary>
         public FSprite symbolSprite;
 
-        /// <summary>
-        /// Value in bool form
-        /// </summary>
-        public bool valueBool
-        {
-            set
-            {
-                if (value)
-                {
-                    this.value = "true";
-                }
-                else
-                {
-                    this.value = "false";
-                }
-            }
-            get
-            {
-                if(this._value == "true")
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        }
+        
 
         public override void GrafUpdate(float dt)
         {
