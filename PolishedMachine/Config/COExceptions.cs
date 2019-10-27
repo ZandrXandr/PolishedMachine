@@ -83,6 +83,35 @@ namespace PolishedMachine.Config
         
     }
 
+    /// <summary>
+    /// You need at least one OpTab to contain any UIelements
+    /// </summary>
+    [Serializable]
+    public class DupelicateTabException : FormatException
+    {
+        public DupelicateTabException(string name, string key) : base(string.Concat(string.IsNullOrEmpty(name) ? "Tab" : "Tab ", name, " has duplicated key for UIconfig.",
+                          Environment.NewLine, "(key: ", key, ")"))
+        {
+        }
+
+        public DupelicateTabException()
+        {
+        }
+        public DupelicateTabException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+        protected DupelicateTabException(System.Runtime.Serialization.SerializationInfo serializationInfo, System.Runtime.Serialization.StreamingContext streamingContext)
+        {
+            throw new NotImplementedException();
+        }
+        public DupelicateTabException(string message) : base(message)
+        {
+        }
+    }
+
+    /// <summary>
+    /// Problem occured in Option Menu Update
+    /// </summary>
     [Serializable]
     public class GenericUpdateException : ApplicationException
     {
@@ -97,6 +126,54 @@ namespace PolishedMachine.Config
         {
         }
         protected GenericUpdateException(System.Runtime.Serialization.SerializationInfo serializationInfo, System.Runtime.Serialization.StreamingContext streamingContext)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    /// <summary>
+    /// Problem occured in LoadData
+    /// </summary>
+    [Serializable]
+    public class LoadDataException : Exception
+    {
+        public LoadDataException(string message) : base(message)
+        {
+        }
+
+        public LoadDataException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
+        public LoadDataException()
+        {
+        }
+
+        protected LoadDataException(System.Runtime.Serialization.SerializationInfo serializationInfo, System.Runtime.Serialization.StreamingContext streamingContext)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    /// <summary>
+    /// Problem occured in SaveData
+    /// </summary>
+    [Serializable]
+    public class SaveDataException : Exception
+    {
+        public SaveDataException(string message) : base(message)
+        {
+        }
+
+        public SaveDataException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
+        public SaveDataException()
+        {
+        }
+
+        protected SaveDataException(System.Runtime.Serialization.SerializationInfo serializationInfo, System.Runtime.Serialization.StreamingContext streamingContext)
         {
             throw new NotImplementedException();
         }

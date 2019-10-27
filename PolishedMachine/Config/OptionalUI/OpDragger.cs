@@ -11,7 +11,7 @@ namespace OptionalUI
     /// <summary>
     /// Dragger to adjust int value easily.
     /// </summary>
-    public class OpDragger : UIconfig
+    public class OpDragger : UIconfig, SelectableMenuObject
     {
         /// <summary>
         /// Dragger to adjust int value easily.
@@ -98,7 +98,7 @@ namespace OptionalUI
             }
             else
             {
-                color = Color.Lerp(Menu.Menu.MenuRGB(Menu.Menu.MenuColors.MediumGrey), Menu.Menu.MenuRGB(Menu.Menu.MenuColors.VeryDarkGrey), Mathf.Max(num, this.greyFade));
+                color = Color.Lerp(Menu.Menu.MenuRGB(Menu.Menu.MenuColors.MediumGrey), Menu.Menu.MenuRGB(Menu.Menu.MenuColors.White), Mathf.Max(num, this.greyFade));
             }
             this.label.label.color = color;
 
@@ -108,8 +108,8 @@ namespace OptionalUI
             }
             else
             {
-                HSLColor from = HSLColor.Lerp(Menu.Menu.MenuColor(Menu.Menu.MenuColors.DarkGrey), Menu.Menu.MenuColor(Menu.Menu.MenuColors.MediumGrey), Mathf.Max(this.col, this.flash));
-                color = HSLColor.Lerp(from, Menu.Menu.MenuColor(Menu.Menu.MenuColors.VeryDarkGrey), this.greyFade).rgb;
+                HSLColor from = HSLColor.Lerp(Menu.Menu.MenuColor(Menu.Menu.MenuColors.MediumGrey), Menu.Menu.MenuColor(Menu.Menu.MenuColors.White), Mathf.Max(this.col, this.flash));
+                color = HSLColor.Lerp(from, Menu.Menu.MenuColor(Menu.Menu.MenuColors.DarkGrey), this.greyFade).rgb;
             }
             this.rect.color = color;
         }
@@ -119,6 +119,13 @@ namespace OptionalUI
 
 
         private float savMouse; private int savValue;
+
+        bool SelectableMenuObject.IsMouseOverMe { get { return !this.held && this.MouseOver; } }
+
+        bool SelectableMenuObject.CurrentlySelectableMouse { get { return !this.greyedOut; } }
+
+        bool SelectableMenuObject.CurrentlySelectableNonMouse { get { return true; } }
+
         public override void Update(float dt)
         {
             base.Update(dt);

@@ -11,7 +11,7 @@ namespace CompletelyOptional
     /// <summary>
     /// These code attach themselves to OptionsMenu.
     /// </summary>
-    public class OptionsMenuPatch
+    public static class OptionsMenuPatch
     {
         public static string UpdateInfoTextPatch(On.Menu.OptionsMenu.orig_UpdateInfoText orig, OptionsMenu menu)
         {
@@ -131,18 +131,19 @@ namespace CompletelyOptional
             {
                 if (tuch6A == null)
                 {
-                    Dictionary<string, int> dictionary = new Dictionary<string, int>(6);//5);
-                    dictionary.Add("Toggle Fullscreen", 0);
-                    dictionary.Add("BACK", 1);
-                    dictionary.Add("CREDITS", 2);
-                    dictionary.Add("RESET PROGRESS", 3);
-                    dictionary.Add("INPUT", 4);
+                    Dictionary<string, int> dictionary = new Dictionary<string, int>(6)
+                    {
+                        { "Toggle Fullscreen", 0 },
+                        { "BACK", 1 },
+                        { "CREDITS", 2 },
+                        { "RESET PROGRESS", 3 },
+                        { "INPUT", 4 },
 
-                    dictionary.Add("MOD CONFIG", 5);
+                        { "MOD CONFIG", 5 }
+                    };//5
                     tuch6A = dictionary;
                 }
-                int num;
-                if (tuch6A.TryGetValue(message, out num))
+                if (tuch6A.TryGetValue(message, out int num))
                 {
                     switch (num)
                     {
@@ -205,8 +206,10 @@ namespace CompletelyOptional
                 if (menu.manager.musicPlayer != null && songid != "RW_8 " && songid != "Title")
                 {
                     Debug.Log(string.Concat("Shutdown Option Music :" + menu.manager.musicPlayer.song?.name));
-                    menu.manager.musicPlayer.nextSong = new MenuOrSlideShowSong(menu.manager.musicPlayer, "RW_8 - Sundown", 0.8f, 2f);
-                    menu.manager.musicPlayer.nextSong.playWhenReady = false;
+                    menu.manager.musicPlayer.nextSong = new MenuOrSlideShowSong(menu.manager.musicPlayer, "RW_8 - Sundown", 0.8f, 2f)
+                    {
+                        playWhenReady = false
+                    };
                 }
                 
             }

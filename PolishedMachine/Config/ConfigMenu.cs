@@ -110,11 +110,11 @@ namespace CompletelyOptional
         public static bool gamepad;
 
 
-        private static int[] bgList =
+        private static readonly int[] bgList =
         {
             33, 34, 35, 42
         };
-        private static int[] bgListRed =
+        private static readonly int[] bgListRed =
         {
             32, 33, 34, 35, 36, 38, 39, 40, 42,
             6, 9, 10, 18, 7
@@ -546,11 +546,13 @@ namespace CompletelyOptional
             {
                 if (buttonList == null)
                 {
-                    Dictionary<string, int> dictionary = new Dictionary<string, int>(4);
-                    dictionary.Add("CANCEL", 0);
-                    dictionary.Add("APPLY", 1);
-                    dictionary.Add("RESET CONFIG", 2);
-                    dictionary.Add("SOUNDTEST", 3);
+                    Dictionary<string, int> dictionary = new Dictionary<string, int>(4)
+                    {
+                        { "CANCEL", 0 },
+                        { "APPLY", 1 },
+                        { "RESET CONFIG", 2 },
+                        { "SOUNDTEST", 3 }
+                    };
                     buttonList = dictionary;
                 }
 
@@ -639,7 +641,7 @@ namespace CompletelyOptional
             }
         }
 
-        MultiplayerUnlocks multiplayerUnlocks;
+        private readonly MultiplayerUnlocks multiplayerUnlocks;
 
         private void InitializeSitting()
         {
@@ -851,9 +853,11 @@ namespace CompletelyOptional
             {
                 if(radioDictionary == null)
                 {
-                    Dictionary<string, int> dictionary = new Dictionary<string, int>(2);
-                    dictionary.Add("ModSelect", 0);
-                    dictionary.Add("NOTSaveSlot", 1);
+                    Dictionary<string, int> dictionary = new Dictionary<string, int>(2)
+                    {
+                        { "ModSelect", 0 },
+                        { "NOTSaveSlot", 1 }
+                    };
                     radioDictionary = dictionary;
                 }
                 if (radioDictionary.TryGetValue(series, out int num))
@@ -877,9 +881,11 @@ namespace CompletelyOptional
             {
                 if (radioDictionary == null)
                 {
-                    Dictionary<string, int> dictionary = new Dictionary<string, int>(2);
-                    dictionary.Add("ModSelect", 0);
-                    dictionary.Add("SaveSlot", 1);
+                    Dictionary<string, int> dictionary = new Dictionary<string, int>(2)
+                    {
+                        { "ModSelect", 0 },
+                        { "SaveSlot", 1 }
+                    };
                     radioDictionary = dictionary;
                 }
                 if (radioDictionary.TryGetValue(series, out int num))

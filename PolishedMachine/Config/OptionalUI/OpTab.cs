@@ -19,6 +19,8 @@ namespace OptionalUI
             this._name = name;
         }
 
+        public List<SelectableUIelement> selectables;
+
 
         /// <summary>
         /// Do not use this.
@@ -29,7 +31,7 @@ namespace OptionalUI
         {
             get { return _name; }
         }
-        private string _name;
+        private readonly string _name;
 
         public bool isHidden;
         public bool init
@@ -101,10 +103,7 @@ namespace OptionalUI
                 {
                     if (config.ContainsKey((element as UIconfig).key))
                     {
-                        throw new Exception(string.Concat(
-                          this._name == "" ? "Tab" : "Tab ", this._name, " has duplicated key for UIconfig.",
-                          Environment.NewLine, "(key: ", (element as UIconfig).key, ")"
-                          ));
+                        throw new PolishedMachine.Config.DupelicateTabException(this._name, (element as UIconfig).key);
                     }
                     config.Add((element as UIconfig).key, (element as UIconfig).value);
                 }
@@ -122,10 +121,8 @@ namespace OptionalUI
                 if (element.GetType().IsSubclassOf(typeof(UIconfig)))
                 {
                     if(config.ContainsKey((element as UIconfig).key))
-                    { throw new Exception(string.Concat(
-                        this._name == "" ? "Tab" : "Tab ", this._name, " has duplicated key for UIconfig.",
-                        Environment.NewLine, "(key: ", (element as UIconfig).key, ")"
-                        ));
+                    {
+                        throw new PolishedMachine.Config.DupelicateTabException(this._name, (element as UIconfig).key);
                     }
                     config.Add((element as UIconfig).key, (element as UIconfig));
                 }
