@@ -25,10 +25,6 @@ namespace CompletelyOptional
         {
             init = false;
         }
-        /// <summary>
-        /// CompletelyOptional Mod Instance.
-        /// </summary>
-        public static ConfigManager manager;
 
 
         public static bool init = false;
@@ -134,10 +130,12 @@ namespace CompletelyOptional
             if (loadedModsDictionary.Count == 0)
             {
                 loadedModsDictionary = new Dictionary<string, PartialityMod>(1);
-                PartialityMod blankMod = new PartialityMod();
-                blankMod.ModID = "No Mods Installed";
-                blankMod.Version = "XXXX";
-                blankMod.author = "NULL";
+                PartialityMod blankMod = new PartialityMod
+                {
+                    ModID = "No Mods Installed",
+                    Version = "XXXX",
+                    author = "NULL"
+                };
                 loadedModsDictionary.Add(blankMod.ModID, blankMod);
 
                 UnconfiguableOI itf = new UnconfiguableOI(blankMod, UnconfiguableOI.Reason.NoMod);
@@ -210,20 +208,13 @@ namespace CompletelyOptional
                 }
                 catch (Exception ex)
                 {
-                    itf = new UnconfiguableOI(itf.mod,
-                        new Exception(string.Concat(itf.mod.ModID, " had issue in Initialize()!", Environment.NewLine,
-                        "If you are accessing MenuObject in UIelements, make sure those don't run when IfConfigScreen is false.",
-                        Environment.NewLine, ex
-                        )));
+                    itf = new UnconfiguableOI(itf.mod, new InvalidMenuObjAccessException(ex));
                     itf.Initialize();
                 }
 
                 if (itf.Tabs == null || itf.Tabs.Length < 1)
                 {
-                    itf = new UnconfiguableOI(itf.mod, new Exception(string.Concat("TabIsNull: ", mod.ModID, " OI has No OpTabs! ",
-                        Environment.NewLine, "Did you put base.Initialize() after your code?",
-                        Environment.NewLine, "Leaving OI.Initialize() completely blank will prevent the mod from using LoadData/SaveData."
-                        )));
+                    itf = new UnconfiguableOI(itf.mod, new NoTabException(mod.ModID));
                     //OptionScript.loadedInterfaceDict.Remove(mod.ModID);
                     //OptionScript.loadedInterfaceDict.Add(mod.ModID, itf);
                 }
@@ -257,7 +248,7 @@ namespace CompletelyOptional
         /// <summary>
         /// Unload All Tabs
         /// </summary>
-        public void KillTabs()
+        public static void KillTabs()
         {
             foreach(KeyValuePair<string, OpTab> item in tabs)
             {
@@ -356,7 +347,7 @@ namespace CompletelyOptional
                         fullLog += Environment.NewLine + "TabUnloadError: " + ex0.ToString();
                     }
 
-                    UnconfiguableOI newItf = new UnconfiguableOI(mod, new Exception(fullLog));
+                    UnconfiguableOI newItf = new UnconfiguableOI(mod, new GenericUpdateException(fullLog));
                     loadedInterfaceDict.Remove(mod.ModID);
                     loadedInterfaceDict.Add(mod.ModID, newItf);
 

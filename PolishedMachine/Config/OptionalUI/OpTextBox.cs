@@ -24,7 +24,7 @@ namespace OptionalUI
             this._size = minSize;
 
             this.accept = accept;
-            this._value = defaultValue;
+            this.ForceValue(defaultValue);
             this._lastValue = defaultValue;
             this.maxLength = Mathf.FloorToInt((size.x - 20f) / 6f);
             this.allowSpace = false;
@@ -63,7 +63,7 @@ namespace OptionalUI
             this.curSpr[1].SetPosition(6f, 5f);
             this.curSpr[2].SetPosition(5f, 4f);
 
-            cursor.SetPosition(new Vector2(this._value.Length * 7f + 6f, this.size.y * 0.5f - 7f));
+            cursor.SetPosition(new Vector2(this.value.Length * 7f + 6f, this.size.y * 0.5f - 7f));
             this.myContainer.AddChild(this.cursor);
 
 
@@ -128,7 +128,7 @@ namespace OptionalUI
             if (keyboardOn)
             {
                 cursor.alpha = Mathf.Clamp(cursorAlpha, 0f, 1f);
-                cursor.SetPosition(new Vector2(this._value.Length * 7f + 6f, this.size.y * 0.5f - 7f));
+                cursor.SetPosition(new Vector2(this.value.Length * 7f + 6f, this.size.y * 0.5f - 7f));
                 cursorAlpha -= 0.05f;
                 if (cursorAlpha < -0.5f) { cursorAlpha = 2f; }
 
@@ -141,7 +141,7 @@ namespace OptionalUI
                         cursorAlpha = 2.5f; flash = 2.5f;
                         if (this.value.Length > 0)
                         {
-                            this._value = this.value.Substring(0, this.value.Length - 1);
+                            this.ForceValue(this.value.Substring(0, this.value.Length - 1));
                             if (!soundFilled)
                             {
                                 soundFill += 12;
@@ -158,13 +158,13 @@ namespace OptionalUI
                         if (this.accept == Accept.Float)
                         {
                             float temp;
-                            if (!float.TryParse(this._value, out temp))
+                            if (!float.TryParse(this.value, out temp))
                             {
-                                for (int i = this._value.Length - 1; i > 0; i--)
+                                for (int i = this.value.Length - 1; i > 0; i--)
                                 {
-                                    if (float.TryParse(this._value.Substring(0, i), out temp))
+                                    if (float.TryParse(this.value.Substring(0, i), out temp))
                                     {
-                                        this._value = this._value.Substring(0, i);
+                                        this.ForceValue(this.value.Substring(0, i));
                                         OnChange();
                                         menu.PlaySound(SoundID.Mouse_Light_Switch_On);
                                         return;
@@ -194,7 +194,7 @@ namespace OptionalUI
                     keyboardOn = true;
                     this.cursor.isVisible = true;
                     this.cursorAlpha = 1f;
-                    cursor.SetPosition(new Vector2(this._value.Length * 7f + 6f, this.size.y * 0.5f - 7f));
+                    cursor.SetPosition(new Vector2(this.value.Length * 7f + 6f, this.size.y * 0.5f - 7f));
                 }
                 else if(!MouseOver && keyboardOn)
                 { //Shutdown
@@ -202,14 +202,13 @@ namespace OptionalUI
                     this.cursor.isVisible = false;
                     if (this.accept == Accept.Float)
                     {
-                        float temp;
-                        if (!float.TryParse(this._value, out temp))
+                        if (!float.TryParse(this.value, out _))
                         {
-                            for (int i = this._value.Length - 1; i > 0; i--)
+                            for (int i = this.value.Length - 1; i > 0; i--)
                             {
-                                if (float.TryParse(this._value.Substring(0, i), out temp))
+                                if (float.TryParse(this.value.Substring(0, i), out _))
                                 {
-                                    this._value = this._value.Substring(0, i);
+                                    this.ForceValue(this.value.Substring(0, i));
                                     OnChange();
                                     menu.PlaySound(SoundID.Mouse_Light_Switch_On);
                                     return;
@@ -253,9 +252,9 @@ namespace OptionalUI
             {
                 if (value < 2 || this._maxLength == value) { return; }
                 _maxLength = value;
-                if(this._value.Length > _maxLength)
+                if(this.value.Length > _maxLength)
                 {
-                    this.value = this._value.Substring(0, _maxLength);
+                    this.value = this.value.Substring(0, _maxLength);
                 }
             }
         }
@@ -272,7 +271,7 @@ namespace OptionalUI
         /// <summary>
         /// value in int form.
         /// </summary>
-        public int valueInt
+        public new int valueInt
         {
             get
             {
@@ -280,10 +279,10 @@ namespace OptionalUI
                 {
                     default: return 0;
                     case Accept.Int:
-                        return int.Parse(_value);
+                        return int.Parse(value);
                     case Accept.Float:
                         float temp;
-                        if (float.TryParse(_value, out temp))
+                        if (float.TryParse(value, out temp))
                         {
                             return Mathf.FloorToInt(temp);
                         }
@@ -299,7 +298,7 @@ namespace OptionalUI
         /// <summary>
         /// value in float form.
         /// </summary>
-        public float valueFloat
+        public new float valueFloat
         {
             get
             {
@@ -307,10 +306,10 @@ namespace OptionalUI
                 {
                     default: return 0f;
                     case Accept.Int:
-                        return (float)int.Parse(_value);
+                        return (float)int.Parse(value);
                     case Accept.Float:
                         float temp;
-                        if(float.TryParse(_value, out temp))
+                        if(float.TryParse(value, out temp))
                         {
                             return temp;
                         }
@@ -323,22 +322,21 @@ namespace OptionalUI
             }
         }
 
-
         public override string value {
-            get { return _value; }
+            get { return base.value; }
             set
             {
-                if(_value == value) { return; }
-                _lastValue = _value;
-                _value = value;
+                if(base.value == value) { return; }
+                _lastValue = base.value;
+                ForceValue(value);
                 if (!this.allowSpace)
                 {
-                    char[] temp0 = this._value.ToCharArray();
+                    char[] temp0 = base.value.ToCharArray();
                     for (int t = 0; t < temp0.Length; t++)
                     {
                         if (!char.IsWhiteSpace(temp0[t])) { continue; }
-                        _value = _lastValue;
-                        _lastValue = _value;
+                        ForceValue(_lastValue);
+                        _lastValue = base.value;
                         return;
                     }
                 }
@@ -346,27 +344,25 @@ namespace OptionalUI
                 switch (this.accept)
                 {
                     case Accept.Int:
-                        if (Regex.IsMatch(this._value, "^[0-9]+$")) { break; }
-                        _value = _lastValue;
-                        _lastValue = _value;
-                        return;
+                        if (Regex.IsMatch(base.value, "^[0-9]+$")) { goto accepted; }
+                        break;
                     case Accept.Float:
-                        if (Regex.IsMatch(this._value, "^[0-9/./-]+$")) { break; }
-                        _value = _lastValue;
-                        _lastValue = _value;
-                        return;
+                        if (Regex.IsMatch(base.value, "^[0-9/./-]+$")) { goto accepted; }
+                        break;
                     default:
                     case Accept.StringEng:
-                        if (Regex.IsMatch(this._value, "^[a-zA-Z/s]+$")) { break; }
-                        _value = _lastValue;
-                        _lastValue = _value;
-                        return;
+                        if (Regex.IsMatch(base.value, "^[a-zA-Z/s]+$")) { goto accepted; }
+                        break;
                     case Accept.StringASCII:
-                        if (Regex.IsMatch(this._value, "^[\x20-\x7E/s]+$")) { break; }
-                        _value = _lastValue;
-                        _lastValue = _value;
-                        return;
+                        if (Regex.IsMatch(base.value, "^[\x20-\x7E/s]+$")) { goto accepted; }
+                        break;
                 }
+                //revert
+                ForceValue(_lastValue);
+                _lastValue = base.value;
+                return;
+
+                accepted:
                 if (Input.anyKey) {
                     if (!soundFilled)
                     {
@@ -387,12 +383,12 @@ namespace OptionalUI
 
             if (!this.password)
             {
-                this.label.label.text = this._value;
+                this.label.label.text = this.value;
             }
             else
             {
                 this.label.text = "";
-                for (int n = 0; n < this._value.Length; n++)
+                for (int n = 0; n < this.value.Length; n++)
                 {
                     this.label.text += "#";
                 }

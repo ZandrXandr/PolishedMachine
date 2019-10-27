@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using RWCustom;
+using PolishedMachine.Config;
 
 namespace OptionalUI
 {
@@ -22,7 +23,7 @@ namespace OptionalUI
         /// <param name="defaultValue">Default Value</param>
         public UIconfig(Vector2 pos, Vector2 size, string key, string defaultValue = "") : base(pos, size)
         {
-            if(key == null || key == "") { throw new Exception("UIconfigNull: Key for this obj is null!"); }
+            if (string.IsNullOrEmpty(key)) { throw new NullKeyException(); }
             this._key = key;
             this._value = defaultValue;
             this.greyedOut = false;
@@ -37,7 +38,7 @@ namespace OptionalUI
         /// <param name="defaultValue">Default Value</param>
         public UIconfig(Vector2 pos, float rad, string key, string defaultValue = "") : base(pos, rad)
         {
-            if (key == null || key == "") { throw new Exception("UIconfigNull: Key for this obj is null!"); }
+            if (string.IsNullOrEmpty(key)) { throw new NullKeyException(); }
             this._key = key;
             this._value = defaultValue;
             this.greyedOut = false;
@@ -66,7 +67,7 @@ namespace OptionalUI
         /// Key
         /// </summary>
         public string key { get { return _key; } }
-        private string _key;
+        private readonly string _key;
 
         /// <summary>
         /// Whether this button is greyedOut or not
@@ -77,7 +78,12 @@ namespace OptionalUI
         /// If you want to change value w/o running OnChange().
         /// This is not recommended unless you know what you are doing.
         /// </summary>
-        public string _value;
+        public void ForceValue(string newValue)
+        {
+            this._value = newValue;
+        }
+
+        private string _value;
         /// <summary>
         /// Value.
         /// </summary>
@@ -92,17 +98,48 @@ namespace OptionalUI
                 if (_value != value)
                 {
                     _value = value;
-                    if (init)
-                    {
-                        OnChange();
-                    }
+                    if (init) { OnChange(); }
                 }
             }
         }
 
         /// <summary>
-        /// 
+        /// Value in integer form
         /// </summary>
+        public int valueInt
+        {
+            get { return int.TryParse(value, out int i) ? i : 0; }
+            set { this.value = value.ToString(); }
+        }
+
+        /// <summary>
+        /// Value in float form
+        /// </summary>
+        public float valueFloat
+        {
+            get
+            {
+                return float.TryParse(value, out float d) ? d : 0f;
+            }
+            set
+            {
+                this.value = value.ToString();
+            }
+        }
+
+        /// <summary>
+        /// Value in bool form
+        /// </summary>
+        public bool valueBool
+        {
+            set { this.value = value ? "true" : "false"; }
+            get
+            {
+                if (this.value == "true") { return true; }
+                else { return false; }
+            }
+        }
+
         public override void OnChange()
         {
             base.OnChange();

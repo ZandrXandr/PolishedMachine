@@ -32,12 +32,12 @@ namespace OptionalUI
             }
         }
 
-        private int SideSprite(int side)
+        private new int SideSprite(int side)
         {
             return ((!this.filled) ? 0 : 9) + side;
         }
 
-        private int CornerSprite(int corner)
+        private new int CornerSprite(int corner)
         {
             return ((!this.filled) ? 0 : 9) + 4 + corner;
         }
@@ -49,7 +49,7 @@ namespace OptionalUI
         /// Edge Color of this Rect.
         /// </summary>
         public Color color;
-        private bool filled;
+        private new bool filled;
 
         /// <summary>
         /// whether you cut right side or not.

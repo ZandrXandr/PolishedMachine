@@ -17,7 +17,7 @@ namespace OptionalUI
     {
         public OpRadioButtonGroup(string key, int defaultValue = 0) : base(Vector2.zero, new Vector2(1f, 1f), key, defaultValue.ToString())
         {
-            this._value = defaultValue.ToString();
+            this.ForceValue(defaultValue.ToString());
             if (!init) { return; }
             this._greyedOut = false;
 
@@ -35,7 +35,7 @@ namespace OptionalUI
             {
                 buttons[i].group = this;
                 buttons[i].index = i;
-                if(i == int.Parse(this._value))
+                if(i == int.Parse(base.value))
                 {
                     buttons[i]._value = "true";
                 }
@@ -71,11 +71,11 @@ namespace OptionalUI
 
 
         public OpRadioButton[] buttons;
-        public int valueInt
+        public new int valueInt
         {
             get
             {
-                return int.Parse(this._value);
+                return int.Parse(this.value);
             }
             set
             {
@@ -90,9 +90,9 @@ namespace OptionalUI
             get => base.value;
             set
             {
-                if(_value != value)
+                if(base.value != value)
                 {
-                    _value = value;
+                    this.ForceValue(value);
                     if (init)
                     {
                         Switch(int.Parse(value));
@@ -110,7 +110,7 @@ namespace OptionalUI
             }
             this.buttons[index]._value = "true";
             this.buttons[index].OnChange();
-            this._value = index.ToString();
+            base.value = index.ToString();
             this.OnChange();
         }
 

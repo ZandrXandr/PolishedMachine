@@ -25,7 +25,7 @@ namespace OptionalUI
             Vector2 fixedSize = new Vector2(150f, 150f);
             if (!init)
             { //If this is called in main menu, just load the value, not ui.
-                this._value = defaultHex;
+                this.ForceValue(defaultHex);
                 return;
             }
 
@@ -44,7 +44,7 @@ namespace OptionalUI
             mod = 0;
             r = 0; g = 0; b = 0;
             h = 0; s = 0; l = 0;
-            this._value = "000000";
+            this.ForceValue("000000");
 
             Color grey = Menu.Menu.MenuRGB(Menu.Menu.MenuColors.MediumGrey);
             //lblR/G/B: Displays R/G/B value
@@ -144,6 +144,33 @@ namespace OptionalUI
         }
         //DyeableRect : RoundedRect (but dyeable) 
         public DyeableRect rect;
+
+        /// <summary>
+        /// If you want to convert hex from config dictionary to Color but you are too lazy to code that by yourself.
+        /// </summary>
+        /// <param name="hex">Hex ("FFFFFF")</param>
+        /// <returns>Color</returns>
+        public static Color HexToColor(string hex)
+        {
+            return new Color(
+                    Convert.ToInt32(hex.Substring(0, 2), 16) / 255f,
+                    Convert.ToInt32(hex.Substring(2, 2), 16) / 255f,
+                    Convert.ToInt32(hex.Substring(4, 2), 16) / 255f,
+                    1f
+                    );
+        }
+
+        /// <summary>
+        /// Converts color to hex; useful to set default for colorpickers.
+        /// </summary>
+        /// <param name="color">original color</param>
+        /// <returns>hex value</returns>
+        public static string ColorToHex(Color color)
+        {
+            return string.Concat(Mathf.RoundToInt(color.r * 255).ToString("X2"),
+                    Mathf.RoundToInt(color.g * 255).ToString("X2"),
+                    Mathf.RoundToInt(color.b * 255).ToString("X2"));
+        }
 
         public new string description
         {
@@ -659,7 +686,7 @@ namespace OptionalUI
                             }
 
                             ctor = false;
-                            string temp = _value;
+                            string temp = base.value;
                             value = "000000";
                             mod = newmod;
                             value = temp;
@@ -892,7 +919,7 @@ namespace OptionalUI
                                                 soundFill += 8;
                                             }
                                         }
-                                        _value = this.PaletteHex[_i];
+                                        this.ForceValue(this.PaletteHex[_i]);
                                         mod = 2;
                                         OnChange();
                                     }
@@ -1016,22 +1043,22 @@ namespace OptionalUI
                     g = Mathf.RoundToInt(c.g * 100f);
                     b = Mathf.RoundToInt(c.b * 100f);
                 }
-                else if(mod == 2) //palette
+                else if (mod == 2) //palette
                 {
                     return this.PaletteHex[pi];
                 }
 
                 //RGBtoHEX
 
-                _value = string.Concat(Mathf.RoundToInt(r * 255f / 100f).ToString("X2"),
+                this.ForceValue(string.Concat(Mathf.RoundToInt(r * 255f / 100f).ToString("X2"),
                     Mathf.RoundToInt(g * 255f / 100f).ToString("X2"),
-                    Mathf.RoundToInt(b * 255f / 100f).ToString("X2"));
-                return _value;
+                    Mathf.RoundToInt(b * 255f / 100f).ToString("X2")));
+                return base.value;
             }
             set
             {
-                if(this._value == value) { return; }
-                this._value = value;
+                if(base.value == value) { return; }
+                this.ForceValue(value);
 
                 r = Mathf.RoundToInt(Convert.ToInt32(value.Substring(0, 2), 16) / 255f * 100f);
                 g = Mathf.RoundToInt(Convert.ToInt32(value.Substring(2, 2), 16) / 255f * 100f);

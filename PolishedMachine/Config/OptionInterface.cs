@@ -56,32 +56,7 @@ namespace OptionalUI
             get { return CompletelyOptional.OptionScript.init; }
         }
 
-        /// <summary>
-        /// If you want to convert hex from config dictionary to Color but you are too lazy to code that by yourself.
-        /// </summary>
-        /// <param name="hex">Hex ("FFFFFF")</param>
-        /// <returns>Color</returns>
-        public static Color HexToColor(string hex)
-        {
-            return new Color(
-                    Convert.ToInt32(hex.Substring(0, 2), 16) / 255f,
-                    Convert.ToInt32(hex.Substring(2, 2), 16) / 255f,
-                    Convert.ToInt32(hex.Substring(4, 2), 16) / 255f,
-                    1f
-                    );
-        }
-
-        /// <summary>
-        /// Converts color to hex; useful to set default for colorpickers.
-        /// </summary>
-        /// <param name="color">original color</param>
-        /// <returns>hex value</returns>
-        public static string ColorToHex(Color color)
-        {
-            return string.Concat(Mathf.RoundToInt(color.r * 255).ToString("X2"),
-                    Mathf.RoundToInt(color.g * 255).ToString("X2"),
-                    Mathf.RoundToInt(color.b * 255).ToString("X2"));
-        }
+        
 
         /// <summary>
         /// Whether the mod is configuable or not.
@@ -149,7 +124,7 @@ namespace OptionalUI
         private string rawConfig;
 
         /// <summary>
-        /// This will be called by CompletelyOptional.
+        /// This will be called by CompletelyOptional modmanager.
         /// You don't need to worry about managing config.
         /// </summary>
         public bool LoadConfig()
@@ -330,7 +305,7 @@ namespace OptionalUI
 
         /// <summary>
         /// Dictionary that contains configuable objects.
-        /// I suggest use config instead.
+        /// I suggest using 'config' instead.
         /// </summary>
         public Dictionary<string, UIconfig> objectDictionary;
 
