@@ -11,7 +11,7 @@ namespace OptionalUI
     /// <summary>
     /// Dragger to adjust int value easily.
     /// </summary>
-    public class OpDragger : UIconfig
+    public class OpDragger : UIconfig, SelectableMenuObject
     {
         /// <summary>
         /// Dragger to adjust int value easily.
@@ -67,21 +67,20 @@ namespace OptionalUI
             float num = 0.5f - 0.5f * Mathf.Sin(this.sin / 30f * 3.14159274f * 2f);
             num *= this.sizeBump;
 
-            if (MouseOver)
+            if (MouseOver || this.flashBool)
             {
                 this.extraSizeBump = Mathf.Min(1f, this.extraSizeBump + 0.1f);
                 this.sizeBump = Custom.LerpAndTick(this.sizeBump, 1f, 0.1f, 0.1f);
                 this.col = Mathf.Min(1f, this.col + 0.1f);
                 this.sin += 1f;
-                if (!this.flashBool)
+                if (this.flashBool)
                 {
-                    this.flashBool = true;
+                    this.flashBool = false;
                     this.flash = 1f;
                 }
             }
             else
             {
-                this.flashBool = false;
                 this.extraSizeBump = 0f;
                 this.sizeBump = Custom.LerpAndTick(this.sizeBump, 0f, 0.1f, 0.05f);
                 this.col = Mathf.Max(0f, this.col - 0.0333333351f);
@@ -98,7 +97,7 @@ namespace OptionalUI
             }
             else
             {
-                color = Color.Lerp(Menu.Menu.MenuRGB(Menu.Menu.MenuColors.MediumGrey), Menu.Menu.MenuRGB(Menu.Menu.MenuColors.VeryDarkGrey), Mathf.Max(num, this.greyFade));
+                color = Color.Lerp(Menu.Menu.MenuRGB(Menu.Menu.MenuColors.MediumGrey), Menu.Menu.MenuRGB(Menu.Menu.MenuColors.White), Mathf.Max(num, this.greyFade));
             }
             this.label.label.color = color;
 
@@ -108,8 +107,8 @@ namespace OptionalUI
             }
             else
             {
-                HSLColor from = HSLColor.Lerp(Menu.Menu.MenuColor(Menu.Menu.MenuColors.DarkGrey), Menu.Menu.MenuColor(Menu.Menu.MenuColors.MediumGrey), Mathf.Max(this.col, this.flash));
-                color = HSLColor.Lerp(from, Menu.Menu.MenuColor(Menu.Menu.MenuColors.VeryDarkGrey), this.greyFade).rgb;
+                HSLColor from = HSLColor.Lerp(Menu.Menu.MenuColor(Menu.Menu.MenuColors.MediumGrey), Menu.Menu.MenuColor(Menu.Menu.MenuColors.White), Mathf.Max(this.col, this.flash));
+                color = HSLColor.Lerp(from, Menu.Menu.MenuColor(Menu.Menu.MenuColors.DarkGrey), this.greyFade).rgb;
             }
             this.rect.color = color;
         }
@@ -119,31 +118,23 @@ namespace OptionalUI
 
 
         private float savMouse; private int savValue;
+
+        bool SelectableMenuObject.IsMouseOverMe { get { return !this.held && this.MouseOver; } }
+
+        bool SelectableMenuObject.CurrentlySelectableMouse { get { return !this.greyedOut; } }
+
+        bool SelectableMenuObject.CurrentlySelectableNonMouse { get { return true; } }
+
         public override void Update(float dt)
         {
             base.Update(dt);
-
-
-            int num = valueInt;
-            if (this.menu.manager.menuesMouseMode && this.MouseOver)
-            {
-                int num3 = num;
-                num -= (int)Mathf.Sign(this.menu.mouseScrollWheelMovement);
-                num = Custom.IntClamp(num, this.min, this.max);
-                if (num != num3)
-                {
-                    //this.flash = 1f;
-                    //this.menu.PlaySound(SoundID.MENU_Scroll_Tick);
-                    //this.sizeBump = Mathf.Min(2.5f, this.sizeBump + 1f);
-                    this.value = num.ToString();
-                }
-            }
+            if (greyedOut) { return; }
 
             if (this.held)
             {
                 if (Input.GetMouseButton(0))
                 {
-                    this.value = Custom.IntClamp(this.savValue + Mathf.FloorToInt((Input.mousePosition.y - this.savMouse) / 10f), this.min, this.max).ToString();
+                    this.valueInt = Custom.IntClamp(this.savValue + Mathf.FloorToInt((Input.mousePosition.y - this.savMouse) / 10f), this.min, this.max);
                 }
                 else
                 {
@@ -151,12 +142,27 @@ namespace OptionalUI
                 }
 
             }
-            else if (!this.held && this.MouseOver && Input.GetMouseButton(0))
+            else if (!this.held && this.menu.manager.menuesMouseMode && this.MouseOver)
             {
-                this.held = true;
-                this.savMouse = Input.mousePosition.y;
-                this.savValue = this.valueInt;
-                menu.PlaySound(SoundID.MENU_First_Scroll_Tick);
+                if (Input.GetMouseButton(0))
+                {
+                    this.held = true;
+                    this.savMouse = Input.mousePosition.y;
+                    this.savValue = this.valueInt;
+                    menu.PlaySound(SoundID.MENU_First_Scroll_Tick);
+                }
+                else if(this.menu.mouseScrollWheelMovement != 0)
+                {
+                    int num = valueInt - (int)Mathf.Sign(this.menu.mouseScrollWheelMovement);
+                    num = Custom.IntClamp(num, this.min, this.max);
+                    if (num != valueInt)
+                    {
+                        this.flash = 1f;
+                        this.menu.PlaySound(SoundID.MENU_Scroll_Tick);
+                        this.sizeBump = Mathf.Min(2.5f, this.sizeBump + 1f);
+                        this.valueInt = num;
+                    }
+                }
             }
 
 
@@ -171,8 +177,8 @@ namespace OptionalUI
                     soundFill += 5;
                     menu.PlaySound(SoundID.MENU_Scroll_Tick);
                 }
-                this.flash = 1f;
                 this.sizeBump = Mathf.Min(2.5f, this.sizeBump + 1f);
+                this.flashBool = true;
             }
             this.label.label.text = value;
         }

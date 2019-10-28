@@ -92,7 +92,8 @@ namespace CompletelyOptional
         /// <summary>
         /// Current SaveSlot.
         /// </summary>
-        public static int slot {
+        public static int slot
+        {
             get { return pm.rainWorld.options.saveSlot; }
         }
 
@@ -110,7 +111,7 @@ namespace CompletelyOptional
 
             loadedMods = Partiality.PartialityManager.Instance.modManager.loadedMods;
             loadedModsDictionary = new Dictionary<string, PartialityMod>();
-            foreach(PartialityMod mod in loadedMods)
+            foreach (PartialityMod mod in loadedMods)
             {
                 if (blackList.Contains<string>(mod.ModID)) { continue; } //No Config for this :P
                 if (!loadedModsDictionary.ContainsKey(mod.ModID))
@@ -146,7 +147,7 @@ namespace CompletelyOptional
             }
 
             //Load Mod Interfaces!
-            foreach(KeyValuePair<string, PartialityMod> item in loadedModsDictionary)
+            foreach (KeyValuePair<string, PartialityMod> item in loadedModsDictionary)
             {
                 PartialityMod mod = loadedModsDictionary[item.Key];
                 OptionInterface itf;
@@ -250,7 +251,7 @@ namespace CompletelyOptional
         /// </summary>
         public static void KillTabs()
         {
-            foreach(KeyValuePair<string, OpTab> item in tabs)
+            foreach (KeyValuePair<string, OpTab> item in tabs)
             {
                 tabs[item.Key].Unload();
             }
@@ -311,13 +312,17 @@ namespace CompletelyOptional
                     }
                     else
                     {
+                        bool h = false;
                         foreach (UIelement element in ConfigMenu.currentTab.items)
                         {
                             if (element.GetType().IsSubclassOf(typeof(UIconfig)))
                             {
-                                if ((element as UIconfig).held) { element.Update(Time.deltaTime); continue; }
+                                if ((element as UIconfig).held) { h = true; element.Update(Time.deltaTime); continue; }
                             }
-                            else
+                        }
+                        if (!h)
+                        {
+                            foreach (UIelement element in ConfigMenu.currentTab.items)
                             {
                                 element.Update(Time.deltaTime);
                             }
@@ -391,9 +396,9 @@ namespace CompletelyOptional
                     (pm.currentMainLoop as ConfigMenu).OpenMenu();
                 }
             }
-            
+
         }
-        
+
     }
 }
 

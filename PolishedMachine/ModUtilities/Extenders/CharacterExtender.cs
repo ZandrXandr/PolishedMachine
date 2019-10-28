@@ -302,7 +302,7 @@ namespace PolishedMachine.ModUtilities.Extenders {
                 selectedCustom = true;
                 currentSelectedIndex = realIndex;
 
-                if( arts[currentSelectedIndex] != string.Empty ) {
+                if( !string.IsNullOrEmpty(arts[currentSelectedIndex]) ) {
                     artOffsetGoal = Futile.screen.height * 2;
                     SetNewArt();
                 }

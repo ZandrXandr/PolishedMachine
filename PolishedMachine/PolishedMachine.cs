@@ -40,6 +40,8 @@ namespace PolishedMachine {
         {
             CheckSumFix.Patch();
 
+            Config.ConfigManager.Initialize();
+
         }
 
     }

@@ -90,6 +90,7 @@
     <Compile Include="Config\OptionalUI\OpSlider.cs" />
     <Compile Include="Config\OptionalUI\OpTab.cs" />
     <Compile Include="Config\OptionalUI\OpTextBox.cs" />
+    <Compile Include="Config\OptionalUI\SelectableUIelement.cs" />
     <Compile Include="Config\OptionalUI\UIconfig.cs" />
     <Compile Include="Config\OptionalUI\UIelement.cs" />
     <Compile Include="Config\OptionInterface.cs" />
@@ -113,4 +114,9 @@
     <None Include=".editorconfig" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy /Y "$(TargetPath)" "D:\Drive\Repo\References\RainWorld\$(TargetName).dll"
+copy /Y "$(TargetPath)" "E:\Game\Rain World\mods\$(TargetName).dll"
+copy /Y "$(TargetPath)" "E:\SteamLibrary\steamapps\common\Rain World\Mods\$(TargetName).dll"</PostBuildEvent>
+  </PropertyGroup>
 </Project>

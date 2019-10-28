@@ -192,7 +192,7 @@ namespace CompletelyOptional
 
 
             }
-            private ConfigTabController ctrl;
+            private readonly ConfigTabController ctrl;
 
             /// <summary>
             /// Index this Object is presenting
@@ -220,7 +220,7 @@ namespace CompletelyOptional
                 {
                     this.sizeBump = Custom.LerpAndTick(this.sizeBump, 1f, 0.1f, 0.1f);
                     this.extraSizeBump = Mathf.Min(1f, this.extraSizeBump + 0.1f);
-                    this.sin += 1f;
+                    //this.sin += 1f;
                     if (!this.flashBool)
                     {
                         this.flashBool = true;
@@ -248,7 +248,7 @@ namespace CompletelyOptional
                 this.rect.pos = this.pos + new Vector2(-this.rect.addSize.x * 0.5f, 0f);
 
             }
-            private float col; private float sin;
+            private float col; //private float sin;
             private float flash; private bool flashBool;
             private float sizeBump; private float extraSizeBump;
                         
@@ -316,7 +316,7 @@ namespace CompletelyOptional
 
 
             }
-            private ConfigTabController ctrl;
+            private readonly ConfigTabController ctrl;
 
             public int index;
 

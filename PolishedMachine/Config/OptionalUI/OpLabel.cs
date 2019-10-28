@@ -31,7 +31,7 @@ namespace OptionalUI
             this.color = Menu.Menu.MenuRGB(Menu.Menu.MenuColors.MediumGrey);
             if (init)
             {
-                this.label = new MenuLabel(menu, owner, _text, this.pos, minSize, bigText);
+                this.label = new MenuLabel(menu, owner, _text, this.pos, minSize, this._bigText);
                 this.label.label.color = this.color;
                 this.subObjects.Add(this.label);
             }
@@ -42,12 +42,12 @@ namespace OptionalUI
         /// Access MenuLabel. Be aware: when IsConfigScreen is false, accessing this will throw NullRefException.
         /// </summary>
         public MenuLabel label;
-        private bool _bigText;
+        private readonly bool _bigText;
         /// <summary>
         /// (default : false) If this is true, OpLabel will automatically make text in MultiLine.
         /// </summary>
         public bool autoWrap;
-        private int lineLength;
+        private readonly int lineLength;
         public FLabelAlignment alignment
         {
             get

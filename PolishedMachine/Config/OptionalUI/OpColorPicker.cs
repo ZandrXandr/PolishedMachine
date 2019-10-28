@@ -34,8 +34,10 @@ namespace OptionalUI
             this.clickDelay = 0;
 
 
-            this.rect = new DyeableRect(menu, owner, this.pos, fixedSize, true); //Boundary Rectangle
-            this.rect.fillAlpha = 0.8f;
+            this.rect = new DyeableRect(menu, owner, this.pos, fixedSize, true)
+            {
+                fillAlpha = 0.8f
+            }; //Boundary Rectangle
             this.size = fixedSize;
             this.subObjects.Add(rect);
 
@@ -100,22 +102,26 @@ namespace OptionalUI
             this.rect1.SetPosition(new Vector2(60f, 120f));
 
             //This displays current color.
-            this.cdis0 = new FSprite("pixel", true);
-            this.cdis0.color = new Color(0f, 0f, 0f);
+            this.cdis0 = new FSprite("pixel", true)
+            {
+                color = new Color(0f, 0f, 0f),
+                scaleX = 18f,
+                scaleY = 12f,
+                alpha = 1f
+            };
             this.cdis0.SetPosition(135f, 15f);
-            this.cdis0.scaleX = 18f;
-            this.cdis0.scaleY = 12f;
-            this.cdis0.alpha = 1f;
             this.myContainer.AddChild(this.cdis0);
 
             //This displays cursor color.
-            this.cdis1 = new FSprite("pixel", true);
-            this.cdis1.color = new Color(0f, 0f, 0f);
+            this.cdis1 = new FSprite("pixel", true)
+            {
+                color = new Color(0f, 0f, 0f),
+                scaleX = 12f,
+                scaleY = 12f,
+                alpha = 1f,
+                isVisible = false
+            };
             this.cdis1.SetPosition(70f, 15f);
-            this.cdis1.scaleX = 12f;
-            this.cdis1.scaleY = 12f;
-            this.cdis1.alpha = 1f;
-            this.cdis1.isVisible = false;
             this.myContainer.AddChild(this.cdis1);
 
             this._description = "";
@@ -134,7 +140,7 @@ namespace OptionalUI
                     ex));
             }
         }
-        private int seed;
+        private readonly int seed;
         private string salt
         {
             get
@@ -176,7 +182,7 @@ namespace OptionalUI
         {
             get
             {
-                if (_description != "") { return _description; }
+                if (!string.IsNullOrEmpty(_description)) { return _description; }
                 if (inputMode)
                 {
                     return "Type Hex Code for desired Color";
@@ -482,7 +488,7 @@ namespace OptionalUI
             lblG.label.color = grey;
             lblB.label.color = grey;
             lblP.label.color = white;
-            this.lastCol = this.col;
+            this.LastCol = this.col;
             if (this.MouseOver)
             {
                 CompletelyOptional.ConfigMenu.description = this.description;
@@ -559,7 +565,7 @@ namespace OptionalUI
         private bool inputMode; private bool input;
         private string inputHex;
 
-        private static string[] acceptKeys = new string[]
+        private static readonly string[] acceptKeys = new string[]
         {
             "0", "1", "2", "3", "4", "5", "6", "7", "8",
             "9", "a", "b", "c", "d", "e", "f"
@@ -647,7 +653,7 @@ namespace OptionalUI
 
                         if (newmod != -1 && mod != newmod) //Mod is changed!
                         {
-                            button = true;
+                            //button = true;
                             //Unload current mod
                             switch (mod)
                             {
@@ -748,20 +754,22 @@ namespace OptionalUI
 
                                     Futile.atlasManager.LoadAtlasFromTexture(salt + "ele1", ttre1);
                                     this.rect1 = new FSprite(salt + "ele1", true);
-                                    this.myContainer.AddChild(this.rect1);
-                                    this.rect2 = new FSprite("pixel", true);
-                                    this.rect2.color = new Color(0f, 0f, 0f);
-                                    this.myContainer.AddChild(this.rect2);
                                     this.rect1.SetPosition(new Vector2(75f, 80f));
-                                    this.rect2.scaleX = 120f;
-                                    this.rect2.scaleY = 48f;
-                                    this.rect2.alpha = 0.5f;
-                                    lblP.pos = pos + new Vector2(10f, 30f);
-                                    this.lblP.pos = pos + new Vector2(15f, 52f);
+                                    this.myContainer.AddChild(this.rect1);
+                                    this.rect2 = new FSprite("pixel", true)
+                                    {
+                                        color = new Color(0f, 0f, 0f),
+                                        scaleX = 120f,
+                                        scaleY = 48f,
+                                        alpha = 0.5f,
+                                        isVisible = false
+                                    };
                                     this.rect2.SetPosition(new Vector2(75f, 56f));
+                                    this.myContainer.AddChild(this.rect2);
                                     this.cdis1.isVisible = false;
+                                    this.lblP.pos = pos + new Vector2(10f, 30f);
+                                    this.lblP.pos = pos + new Vector2(15f, 52f);
                                     this.lblP.label.isVisible = false;
-                                    this.rect2.isVisible = false;
                                     break;
                             }
 
@@ -1083,7 +1091,7 @@ namespace OptionalUI
             }
         }
 
-
+        public float LastCol { get => lastCol; set => lastCol = value; }
 
         public override void OnChange()
         {

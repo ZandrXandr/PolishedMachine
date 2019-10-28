@@ -152,7 +152,7 @@ namespace OptionalUI
                     this.rawConfig = CompletelyOptional.Crypto.DecryptString(txt, string.Concat("OptionalConfig " + mod.ModID));
                 }
                 catch {
-                    Debug.Log(string.Concat(mod.ModID, " config file has been corrupted! Load Default Config instead."));
+                    Debug.Log(new LoadDataException(string.Concat(mod.ModID, " config file has been corrupted! Load Default Config instead.")));
                     return false;
                 }
 
@@ -187,7 +187,7 @@ namespace OptionalUI
                         value = array2[j].Substring(6, array2[j].Length - 6);
                     }
                 }
-                if(key == string.Empty)
+                if(string.IsNullOrEmpty(key))
                 { //?!?!
                     continue;
                 }
@@ -203,7 +203,7 @@ namespace OptionalUI
             catch (Exception e)
             {
                 Debug.Log("CompletelyOptional: Lost backward capability in Config! Reset Config.");
-                Debug.Log(e);
+                Debug.Log(new LoadDataException(e.ToString()));
                 File.Delete(path);
                 config = new Dictionary<string, string>();
                 rawConfig = "Unconfiguable";
@@ -221,8 +221,7 @@ namespace OptionalUI
             if(!(config?.Count > 0)) { return; } //Nothing Loaded.
             foreach(KeyValuePair<string, string> setting in config)
             {
-                UIconfig obj;
-                if(objectDictionary.TryGetValue(setting.Key, out obj))
+                if (objectDictionary.TryGetValue(setting.Key, out UIconfig obj))
                 {
                     obj.value = setting.Value;
                 }
@@ -297,7 +296,7 @@ namespace OptionalUI
 
                 return true;
             }
-            catch (Exception ex) { Debug.LogError(ex); }
+            catch (Exception ex) { Debug.LogError(new SaveDataException(ex.ToString())); }
 
             return false;
 
@@ -377,7 +376,7 @@ namespace OptionalUI
         {
             try
             {
-                string data = defaultData != null ? defaultData : string.Empty;
+                string data = defaultData ?? string.Empty;
                 foreach (FileInfo file in directory.GetFiles())
                 {
                     if (file.Name.Substring(file.Name.Length - 4) != ".txt") { continue; }
@@ -414,7 +413,7 @@ namespace OptionalUI
 
                 _data = data;
             }
-            catch (Exception ex) { Debug.LogError(ex); }
+            catch (Exception ex) { Debug.LogError(new LoadDataException(ex.ToString())); }
 
             _data = defaultData;
         }
@@ -430,6 +429,7 @@ namespace OptionalUI
         /// </summary>
         public virtual bool SaveData()
         {
+            if (string.IsNullOrEmpty(_data)) { return false; }
             try
             {
                 string path = string.Concat(new object[] {
@@ -446,7 +446,7 @@ namespace OptionalUI
 
                 return true;
             }
-            catch (Exception ex) { Debug.LogError(ex); }
+            catch (Exception ex) { Debug.LogError(new SaveDataException(ex.ToString())); }
 
             return false;
         }

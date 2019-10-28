@@ -148,7 +148,7 @@ namespace OptionalUI
                 }
             }
         }
-        public Vector2 _size;
+        internal Vector2 _size;
         /// <summary>
         /// Radian of the element.
         /// </summary>
@@ -285,7 +285,7 @@ namespace OptionalUI
             }
             this.myContainer.SetPosition(this.ScreenPos);
             GrafUpdate(dt);
-            showDesc = !tab.isHidden && this.MouseOver && this.description != "";
+            showDesc = !tab.isHidden && this.MouseOver && !string.IsNullOrEmpty(this.description);
             if (showDesc && !(this is UIconfig))
             {
                 CompletelyOptional.ConfigMenu.description = this.description;
