@@ -69,8 +69,8 @@ namespace OptionalUI
 
 
         public FSprite sprite;
-        private bool isTexture;
-        private int seed;
+        private readonly bool isTexture;
+        private readonly int seed;
         public string salt
         {
             get

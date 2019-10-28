@@ -153,7 +153,6 @@ namespace OptionalUI
         public override void OnChange()
         {
             base.OnChange();
-
         }
 
         public override void Hide()

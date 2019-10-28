@@ -312,13 +312,17 @@ namespace CompletelyOptional
                     }
                     else
                     {
+                        bool h = false;
                         foreach (UIelement element in ConfigMenu.currentTab.items)
                         {
                             if (element.GetType().IsSubclassOf(typeof(UIconfig)))
                             {
-                                if ((element as UIconfig).held) { element.Update(Time.deltaTime); continue; }
+                                if ((element as UIconfig).held) { h = true; element.Update(Time.deltaTime); continue; }
                             }
-                            else
+                        }
+                        if (!h)
+                        {
+                            foreach (UIelement element in ConfigMenu.currentTab.items)
                             {
                                 element.Update(Time.deltaTime);
                             }
