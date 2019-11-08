@@ -2,6 +2,7 @@ using System;
 using Menu;
 using UnityEngine;
 using RWCustom;
+using PolishedMachine.Config;
 
 namespace OptionalUI
 {
@@ -132,12 +133,10 @@ namespace OptionalUI
                 //Now doing this will do the job.
                 this.value = defaultHex;
             }
-            catch (Exception ex)
+            catch
             {
                 //Throw Error Screen.
-                throw new Exception(string.Concat(
-                    "OpColorPicker Error: DefaultHex is not a proper value.\nMust be in form of \'FFFFFF\'.", Environment.NewLine,
-                    ex));
+                throw new ElementFormatException(this, "OpColorPicker Error: DefaultHex is not a proper value.\nMust be in form of \'FFFFFF\'.", key);
             }
         }
         private readonly int seed;

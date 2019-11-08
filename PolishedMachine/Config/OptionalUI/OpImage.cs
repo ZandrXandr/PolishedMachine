@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using PolishedMachine.Config;
 
 namespace OptionalUI
 {
@@ -18,7 +19,7 @@ namespace OptionalUI
         /// <param name="image">Image you want to display</param>
         public OpImage(Vector2 pos, Texture2D image) : base(pos, new Vector2(image.width, image.height))
         {
-            if (image == null) { throw new Exception("NullImage: There is no Texture2D for OpImage"); }
+            if (image == null) { throw new ElementFormatException(this, "There is no Texture2D for OpImage"); }
             if (!init) {
                 this.sprite = new FSprite("pixel", true);
                 return;
@@ -55,7 +56,7 @@ namespace OptionalUI
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new ElementFormatException(this, string.Concat("There is no such FAtlasElement called ", fAtlasElement, " : ",Environment.NewLine, ex.ToString()));
             }
 
             this.sprite = new FSprite(element.name, true);

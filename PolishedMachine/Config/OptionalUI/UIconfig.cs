@@ -23,7 +23,7 @@ namespace OptionalUI
         /// <param name="defaultValue">Default Value</param>
         public UIconfig(Vector2 pos, Vector2 size, string key, string defaultValue = "") : base(pos, size)
         {
-            if (string.IsNullOrEmpty(key)) { throw new NullKeyException(); }
+            if (string.IsNullOrEmpty(key)) { throw new NullKeyException(this); }
             this._key = key;
             this._value = defaultValue;
             this.greyedOut = false;
@@ -38,7 +38,7 @@ namespace OptionalUI
         /// <param name="defaultValue">Default Value</param>
         public UIconfig(Vector2 pos, float rad, string key, string defaultValue = "") : base(pos, rad)
         {
-            if (string.IsNullOrEmpty(key)) { throw new NullKeyException(); }
+            if (string.IsNullOrEmpty(key)) { throw new NullKeyException(this); }
             this._key = key;
             this._value = defaultValue;
             this.greyedOut = false;

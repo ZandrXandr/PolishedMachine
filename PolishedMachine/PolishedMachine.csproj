@@ -88,6 +88,8 @@
     <Compile Include="Config\OptionalUI\OpRadioButtonGroup.cs" />
     <Compile Include="Config\OptionalUI\OpRect.cs" />
     <Compile Include="Config\OptionalUI\OpSlider.cs" />
+    <Compile Include="Config\OptionalUI\OpSliderRange.cs" />
+    <Compile Include="Config\OptionalUI\OpSliderSubtle.cs" />
     <Compile Include="Config\OptionalUI\OpTab.cs" />
     <Compile Include="Config\OptionalUI\OpTextBox.cs" />
     <Compile Include="Config\OptionalUI\SelectableUIelement.cs" />

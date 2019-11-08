@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OptionalUI;
 
 namespace PolishedMachine.Config
 {
@@ -12,6 +13,11 @@ namespace PolishedMachine.Config
     public class NullKeyException : ArgumentNullException
     {
         public NullKeyException() : base("Key for this UIconfig is null!")
+        {
+
+        }
+
+        public NullKeyException(UIconfig instance) : base(string.Concat("Key for this ", instance.GetType().Name, " is null!"))
         {
 
         }
@@ -176,6 +182,31 @@ namespace PolishedMachine.Config
         protected SaveDataException(System.Runtime.Serialization.SerializationInfo serializationInfo, System.Runtime.Serialization.StreamingContext streamingContext)
         {
             throw new NotImplementedException();
+        }
+    }
+
+    [Serializable]
+    public class ElementFormatException : FormatException
+    {
+
+        public ElementFormatException(UIelement element, string message, string key = "") : base(
+            string.Concat(element.GetType().Name, " threw exception : ", message, string.IsNullOrEmpty(key) ? string.Empty : string.Concat(" (Key : ", key, ")"))
+            )
+        {
+        }
+
+        public ElementFormatException(string message) : base(string.Concat("Invalid argument for UIelement : ", message))
+        {
+        }
+        public ElementFormatException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+        protected ElementFormatException(System.Runtime.Serialization.SerializationInfo serializationInfo, System.Runtime.Serialization.StreamingContext streamingContext)
+        {
+            throw new NotImplementedException();
+        }
+        public ElementFormatException() : base("One of UIelement threw exception for Invalid arguments!")
+        {
         }
     }
 

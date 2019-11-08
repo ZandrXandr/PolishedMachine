@@ -6,6 +6,7 @@ using UnityEngine;
 using Menu;
 using RWCustom;
 using Partiality.Modloader;
+using PolishedMachine.Config;
 
 namespace OptionalUI
 {
@@ -16,35 +17,65 @@ namespace OptionalUI
     {
         /// <summary>
         /// Simple Key Binder. Value is the KeyCode in string form.
-        /// (Controller is not supported.) Make your own button binder if you really need.
         /// </summary>
         /// <param name="pos">LeftBottom Position of this UI</param>
         /// <param name="size">Size, minimum size is 30x30.</param>
         /// <param name="modID">Your PartialityMod's ModID</param>
-        /// <param name="key">Key</param>
+        /// <param name="key">Unique Key for UIconfig</param>
         /// <param name="defaultKey">Default Keycode name</param>
-        /// <param name="collisionCheck">Whether you will check the key is colliding with other KeyBinder or not.</param>
-        public OpKeyBinder(Vector2 pos, Vector2 size, string modID, string key, string defaultKey, bool collisionCheck = true) : base(pos, size, key, defaultKey)
+        /// <param name="collisionCheck">Whether you will check the key is colliding with other KeyBinder or not</param>
+        /// <param name="ctrlerNo">Which controller you want to bind to. The number is equal to RW control config menu.</param>
+        public OpKeyBinder(Vector2 pos, Vector2 size, string modID, string key, string defaultKey, bool collisionCheck = true, BindController ctrlerNo = BindController.AnyController) : base(pos, size, key, defaultKey)
         {
-            if(defaultKey == null || string.IsNullOrEmpty(defaultKey)) { throw new Exception("OpKeyBinderNull: defaultKey for this keyBinder is null."); }
+            if (string.IsNullOrEmpty(defaultKey)) { throw new ElementFormatException(this, "OpKeyBinderNull: defaultKey for this keyBinder is null.", key); }
             this.controlKey = string.Concat(modID, "_", key);
             this.modID = modID;
             Vector2 minSize = new Vector2(Mathf.Max(30f, size.x), Mathf.Max(30f, size.y));
             this._size = minSize;
             this.check = collisionCheck;
-            this.bind = BindController.AnyController;
+            this.bind = ctrlerNo;
 
             if (!init) { return; }
+            this.Initalize(defaultKey);
+        }
+
+
+        /// <summary>
+        /// Simple Key Binder. Value is the KeyCode in string form.
+        /// </summary>
+        /// <param name="pos">LeftBottom Position of this UI</param>
+        /// <param name="size">Size. minimum size is 30f*30f.</param>
+        /// <param name="mod">Your PartialityMod</param>
+        /// <param name="key">Unique Key for UIconfig</param>
+        /// <param name="defaultKey">Default Keycode name</param>
+        /// <param name="collisionCheck">Whether you will check the key is colliding with other KeyBinder or not</param>
+        /// <param name="ctrlerNo">Which controller you want to bind to. The number is equal to RW control config menu.</param>
+        public OpKeyBinder(Vector2 pos, Vector2 size, PartialityMod mod, string key, string defaultKey, bool collisionCheck = true, BindController ctrlerNo = BindController.AnyController) : this(pos, size, mod.ModID, key, defaultKey)
+        {
+            if (string.IsNullOrEmpty(defaultKey)) { throw new ElementFormatException(this, "OpKeyBinderNull: defaultKey for this keyBinder is null.", key); }
+            this.controlKey = string.Concat(modID, "_", key);
+            this.modID = mod.ModID;
+            Vector2 minSize = new Vector2(Mathf.Max(30f, size.x), Mathf.Max(30f, size.y));
+            this._size = minSize;
+            this.check = collisionCheck;
+            this.bind = ctrlerNo;
+
+            if (!init) { return; }
+            this.Initalize(defaultKey);
+        }
+
+        private void Initalize(string defaultKey)
+        {
             if (this.check && BoundKey.ContainsValue(defaultKey))
             { //defaultKey Conflict!
                 //string anotherControlKey;
-                foreach(KeyValuePair<string, string> item in BoundKey)
+                foreach (KeyValuePair<string, string> item in BoundKey)
                 {
-                    if(item.Value == defaultKey)
+                    if (item.Value == defaultKey)
                     {
                         string anotherMod = Regex.Split(item.Key, "_")[0];
 
-                        if(modID != anotherMod)
+                        if (modID != anotherMod)
                         {
                             Debug.LogError(string.Concat("More than two mods are using same defaultKey!", Environment.NewLine,
                             "Conflicting Control: ", item.Key, " & ", controlKey, " (duplicate defalutKey: ", item.Value, ")"
@@ -53,7 +84,7 @@ namespace OptionalUI
                             this._desError = string.Concat("Conflicting defaultKey with Mod ", anotherMod);
                             break;
                         }
-                        throw new Exception("You are using duplicated defaultKey for OpKeyBinders!");
+                        throw new ElementFormatException(this, "You are using duplicated defaultKey for OpKeyBinders!", key);
 
                     }
                 }
@@ -72,21 +103,8 @@ namespace OptionalUI
 
             this.label = new MenuLabel(menu, owner, defaultKey, this.pos, this.size, true);
             this.subObjects.Add(this.label);
-
         }
 
-
-        /// <summary>
-        /// Simple Key Binder. Value is the KeyCode in string form.
-        /// Size is fixed to 30f*30f.
-        /// (Controller is not supported.) Make your own button binder if you really need.
-        /// </summary>
-        /// <param name="pos">LeftBottom Position of this UI</param>
-        /// <param name="size">Size. minimum size is 30f*30f.</param>
-        /// <param name="mod">Your PartialityMod</param>
-        /// <param name="key">Key</param>
-        /// <param name="defaultKey">Default Keycode name</param>
-        public OpKeyBinder(Vector2 pos, Vector2 size, PartialityMod mod, string key, string defaultKey) : this(pos, size, mod.ModID, key, defaultKey) { }
         
         protected bool check;
 
