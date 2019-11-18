@@ -64,6 +64,7 @@ namespace PolishedMachine.Config {
                 "ModConfigs",
                 Path.DirectorySeparatorChar
                 }));
+            if (!directory.Exists) { directory.Create(); }
 
             On.Menu.OptionsMenu.UpdateInfoText += new On.Menu.OptionsMenu.hook_UpdateInfoText(OptionsMenuPatch.UpdateInfoTextPatch);
             On.Menu.OptionsMenu.Update += new On.Menu.OptionsMenu.hook_Update(OptionsMenuPatch.UpdatePatch);

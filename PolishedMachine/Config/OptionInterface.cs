@@ -56,7 +56,7 @@ namespace OptionalUI
             get { return CompletelyOptional.OptionScript.init; }
         }
 
-        
+
 
         /// <summary>
         /// Whether the mod is configuable or not.
@@ -131,6 +131,10 @@ namespace OptionalUI
         {
             config = new Dictionary<string, string>();
             rawConfig = "Unconfiguable";
+            if (!directory.Exists)
+            {
+                directory.Create(); return false;
+            }
 
             string path = string.Concat(new object[] {
             directory.FullName,
@@ -140,7 +144,7 @@ namespace OptionalUI
             {
                 try
                 {
-                    string txt = File.ReadAllText(path);
+                    string txt = File.ReadAllText(path, Encoding.UTF8);
                     string key = txt.Substring(0, 32);
                     txt = txt.Substring(32, txt.Length - 32);
                     if (Custom.Md5Sum(txt) != key)
@@ -151,7 +155,8 @@ namespace OptionalUI
 
                     this.rawConfig = CompletelyOptional.Crypto.DecryptString(txt, string.Concat("OptionalConfig " + mod.ModID));
                 }
-                catch {
+                catch
+                {
                     Debug.Log(new LoadDataException(string.Concat(mod.ModID, " config file has been corrupted! Load Default Config instead.")));
                     return false;
                 }
@@ -170,7 +175,7 @@ namespace OptionalUI
             //<CfgC>key<CfgB><CfgD>value<CfgA>
             string[] array = Regex.Split(this.rawConfig, "<CfgA>");
 
-            for(int i = 0; i < array.Length; i++)
+            for (int i = 0; i < array.Length; i++)
             { //<CfgC>key<CfgB><CfgD>value
                 string key = string.Empty;
                 string value = string.Empty;
@@ -187,7 +192,7 @@ namespace OptionalUI
                         value = array2[j].Substring(6, array2[j].Length - 6);
                     }
                 }
-                if(string.IsNullOrEmpty(key))
+                if (string.IsNullOrEmpty(key))
                 { //?!?!
                     continue;
                 }
@@ -218,8 +223,8 @@ namespace OptionalUI
         public void ShowConfig()
         {
             GrabObject();
-            if(!(config?.Count > 0)) { return; } //Nothing Loaded.
-            foreach(KeyValuePair<string, string> setting in config)
+            if (!(config?.Count > 0)) { return; } //Nothing Loaded.
+            foreach (KeyValuePair<string, string> setting in config)
             {
                 if (objectDictionary.TryGetValue(setting.Key, out UIconfig obj))
                 {
@@ -255,7 +260,7 @@ namespace OptionalUI
         public Dictionary<string, string> GrabConfig()
         {
             GrabObject();
-            if(this.objectDictionary.Count < 1) { return new Dictionary<string, string>(0); }
+            if (this.objectDictionary.Count < 1) { return new Dictionary<string, string>(0); }
             Dictionary<string, string> displayedConfig = new Dictionary<string, string>();
             foreach (KeyValuePair<string, UIconfig> setting in this.objectDictionary)
             {
@@ -269,7 +274,7 @@ namespace OptionalUI
         /// </summary>
         public bool SaveConfig(Dictionary<string, string> newConfig)
         {
-            if(newConfig.Count < 1) { return false; } //Nothing to Save.
+            if (newConfig.Count < 1) { return false; } //Nothing to Save.
             config = newConfig;
             ConfigOnChange();
 
@@ -277,7 +282,7 @@ namespace OptionalUI
             //convert to raw data
             //<CfgC>key<CfgB><CfgD>value<CfgA>
 
-            foreach(KeyValuePair<string, string> item in newConfig)
+            foreach (KeyValuePair<string, string> item in newConfig)
             {
                 this.rawConfig = this.rawConfig + "<CfgC>" + item.Key + "<CfgB><CfgD>" + item.Value + "<CfgA>";
             }
@@ -292,7 +297,7 @@ namespace OptionalUI
                 string enc = CompletelyOptional.Crypto.EncryptString(this.rawConfig, string.Concat("OptionalConfig " + mod.ModID));
                 string key = Custom.Md5Sum(enc);
 
-                File.WriteAllText(path, key + enc);
+                File.WriteAllText(path, key + enc, Encoding.UTF8);
 
                 return true;
             }
@@ -386,11 +391,14 @@ namespace OptionalUI
                         switch (file.Name.Substring(file.Name.Length - 5, 1))
                         {
                             case "1":
-                                if (slot != 1) { continue; } break;
+                                if (slot != 1) { continue; }
+                                break;
                             case "2":
-                                if (slot != 2) { continue; } break;
+                                if (slot != 2) { continue; }
+                                break;
                             case "3":
-                                if (slot != 3) { continue; } break;
+                                if (slot != 3) { continue; }
+                                break;
                         }
                     }
                     else { continue; }
@@ -451,7 +459,11 @@ namespace OptionalUI
             return false;
         }
 
-
+        /// <summary>
+        /// If true, Initialize is in Mod Config; if false, this is game initialization and
+        /// do not edit graphical details of UIelements when init is false
+        /// </summary>
+        public static bool init => CompletelyOptional.OptionScript.init;
 
         /// <summary>
         /// Write your UI overlay here.
@@ -471,7 +483,7 @@ namespace OptionalUI
         /// <param name="dt">deltaTime</param>
         public virtual void Update(float dt)
         {
-            if(_slot != slot) { SlotOnChange(); }
+            if (_slot != slot) { SlotOnChange(); }
         }
 
     }

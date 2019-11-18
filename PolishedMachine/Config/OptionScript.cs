@@ -86,7 +86,8 @@ namespace CompletelyOptional
             "CompletelyOptional",
             "ConfigMachine",
             "RustyMachine",
-            "PolishedMachine"
+            "PolishedMachine",
+            "Enum Extender"
         };
 
         /// <summary>
@@ -105,9 +106,8 @@ namespace CompletelyOptional
         /// <summary>
         /// Runs right before MainMenu opens
         /// </summary>
-        public void Initialize()
+        public static void Initialize()
         {
-            if (!directory.Exists) { directory.Create(); }
 
             loadedMods = Partiality.PartialityManager.Instance.modManager.loadedMods;
             loadedModsDictionary = new Dictionary<string, PartialityMod>();

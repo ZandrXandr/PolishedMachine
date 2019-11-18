@@ -17,6 +17,8 @@ namespace OptionalUI
         /// </summary>
         /// <param name="pos">LeftBottom</param>
         /// <param name="sizeX">Size (minimum size = 30f)</param>
+        /// <param name="key">Key for this UIconfig</param>
+        /// <param name="defaultValue">Default string value</param>
         /// <param name="accept">Which type of text you want to allow</param>
         public OpTextBox(Vector2 pos, float sizeX, string key, string defaultValue = "TEXT", Accept accept = Accept.StringASCII) : base(pos, new Vector2(30f, 24f), key, defaultValue)
         {
