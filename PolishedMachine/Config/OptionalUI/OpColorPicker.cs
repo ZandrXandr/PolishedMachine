@@ -201,7 +201,9 @@ namespace OptionalUI
         }
         private string _description;
 
-        //When the Tab this obj is in is hidden
+        /// <summary>
+        /// When the Tab this obj is in is hidden
+        /// </summary>
         public override void Hide()
         {
             base.Hide();
@@ -240,7 +242,9 @@ namespace OptionalUI
             this.cdis1.isVisible = false;
 
         }
-        //when the tab this obj is in is revealed
+        /// <summary>
+        /// when the tab this obj is in is revealed
+        /// </summary>
         public override void Show()
         {
             base.Show();
@@ -305,18 +309,21 @@ namespace OptionalUI
         {
             get
             {
-                return new Color(
+                return HexToColor(value);
+                /*new Color(
                     Convert.ToInt32(value.Substring(0, 2), 16) / 255f,
                     Convert.ToInt32(value.Substring(2, 2), 16) / 255f,
                     Convert.ToInt32(value.Substring(4, 2), 16) / 255f,
                     1f
-                    );
+                    );*/
             }
             set
             {
+                this.value = ColorToHex(value);
+                /*
                 this.value = string.Concat(Mathf.RoundToInt(value.r * 255).ToString("X2"),
                     Mathf.RoundToInt(value.g * 255).ToString("X2"),
-                    Mathf.RoundToInt(value.b * 255).ToString("X2"));
+                    Mathf.RoundToInt(value.b * 255).ToString("X2"));*/
             }
         }
 

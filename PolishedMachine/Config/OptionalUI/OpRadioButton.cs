@@ -165,8 +165,8 @@ namespace OptionalUI
 
         public string _value;
         /// <summary>
-        /// This OpRadioButton isn't UIconfig, so this value does not saved.
-        /// (OpRadioButtonGroup will be saved instead)
+        /// OpRadioButton is not UIconfig, so this value will not be saved.
+        /// (OpRadioButtonGroup is the one gets saved instead)
         /// </summary>
         public virtual string value
         {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using OptionalUI;
 
-namespace PolishedMachine.Config
+namespace OptionalUI
 {
     /// <summary>
     /// Exception that's thrown when any of your UIconfig's Key is null
