@@ -388,18 +388,7 @@ namespace OptionalUI
 
                     if (file.Name.Substring(0, 4) == "data")
                     {
-                        switch (file.Name.Substring(file.Name.Length - 5, 1))
-                        {
-                            case "1":
-                                if (slot != 1) { continue; }
-                                break;
-                            case "2":
-                                if (slot != 2) { continue; }
-                                break;
-                            case "3":
-                                if (slot != 3) { continue; }
-                                break;
-                        }
+                        if (slot.ToString() != file.Name.Substring(file.Name.Length - 5, 1)) { continue; }
                     }
                     else { continue; }
 
@@ -420,6 +409,7 @@ namespace OptionalUI
                 }
 
                 _data = data;
+                return;
             }
             catch (Exception ex) { Debug.LogError(new LoadDataException(ex.ToString())); }
 
