@@ -30,6 +30,7 @@ namespace OptionalUI
             {
                 this.ForceValue("false");
             }
+            this.defaultValue = this.value;
             if (!init) { return; }
 
             this.rect = new DyeableRect(menu, owner, this.pos, this.size, true);

@@ -247,7 +247,8 @@ namespace OptionalUI
 
                 foreach (KeyValuePair<string, UIconfig> item in tabDictionary)
                 {
-                    if (displayedConfig.ContainsKey(item.Key)) { throw new Exception(string.Concat(mod.ModID, " DuplicateKeyError! (key: ", item.Key, ")")); }
+                    if (item.Value.cosmetic) { continue; }
+                    if (displayedConfig.ContainsKey(item.Key)) { throw new DupelicateKeyException(string.Empty, item.Key); }
                     displayedConfig.Add(item.Key, item.Value);
                 }
             }
@@ -264,6 +265,7 @@ namespace OptionalUI
             Dictionary<string, string> displayedConfig = new Dictionary<string, string>();
             foreach (KeyValuePair<string, UIconfig> setting in this.objectDictionary)
             {
+                if (setting.Value.cosmetic) { continue; }
                 displayedConfig.Add(setting.Key, setting.Value.value);
             }
             return displayedConfig;
@@ -352,7 +354,19 @@ namespace OptionalUI
         /// </summary>
         public virtual void ConfigOnChange()
         {
-
+            if (init)
+            {
+                foreach (OpTab tab in Tabs)
+                {
+                    foreach (UIelement item in tab.items)
+                    {
+                        if (item is UIconfig && (item as UIconfig).cosmetic)
+                        {
+                            item.Reset();
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>

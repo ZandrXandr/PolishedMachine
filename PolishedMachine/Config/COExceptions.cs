@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using OptionalUI;
 
 namespace OptionalUI
 {
@@ -93,24 +89,24 @@ namespace OptionalUI
     /// You need at least one OpTab to contain any UIelements
     /// </summary>
     [Serializable]
-    public class DupelicateTabException : FormatException
+    public class DupelicateKeyException : FormatException
     {
-        public DupelicateTabException(string name, string key) : base(string.Concat(string.IsNullOrEmpty(name) ? "Tab" : "Tab ", name, " has duplicated key for UIconfig.",
-                          Environment.NewLine, "(key: ", key, ")"))
+        public DupelicateKeyException(string tab, string key) : base(string.Concat(string.IsNullOrEmpty(tab) ? "Tab" : "Tab ", tab, " has duplicated key for UIconfig.",
+                          Environment.NewLine, "(dupe key: ", key, ")"))
         {
         }
 
-        public DupelicateTabException()
+        public DupelicateKeyException()
         {
         }
-        public DupelicateTabException(string message, Exception innerException) : base(message, innerException)
+        public DupelicateKeyException(string message, Exception innerException) : base(message, innerException)
         {
         }
-        protected DupelicateTabException(System.Runtime.Serialization.SerializationInfo serializationInfo, System.Runtime.Serialization.StreamingContext streamingContext)
+        protected DupelicateKeyException(System.Runtime.Serialization.SerializationInfo serializationInfo, System.Runtime.Serialization.StreamingContext streamingContext)
         {
             throw new NotImplementedException();
         }
-        public DupelicateTabException(string message) : base(message)
+        public DupelicateKeyException(string message) : base(message)
         {
         }
     }

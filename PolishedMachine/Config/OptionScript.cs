@@ -114,6 +114,7 @@ namespace CompletelyOptional
             foreach (PartialityMod mod in loadedMods)
             {
                 if (blackList.Contains<string>(mod.ModID)) { continue; } //No Config for this :P
+                else if (mod.ModID.Substring(0, 1) == "_") { continue; } //Skip this mod from configuration
                 if (!loadedModsDictionary.ContainsKey(mod.ModID))
                 {
                     loadedModsDictionary.Add(mod.ModID, mod);

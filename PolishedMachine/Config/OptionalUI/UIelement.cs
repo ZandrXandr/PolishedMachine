@@ -62,6 +62,10 @@ namespace OptionalUI
 
             //CompletelyOptional.OptionScript.uielements.Add(this);
         }
+        public virtual void Reset()
+        {
+            
+        }
 
         /// <summary>
         /// Offset from BottomLeft of the screen.

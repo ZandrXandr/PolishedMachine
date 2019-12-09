@@ -27,6 +27,7 @@ namespace OptionalUI
             if (!init)
             { //If this is called in main menu, just load the value, not ui.
                 this.ForceValue(defaultHex);
+                this.defaultValue = this.value;
                 return;
             }
 
@@ -132,6 +133,7 @@ namespace OptionalUI
             {
                 //Now doing this will do the job.
                 this.value = defaultHex;
+                this.defaultValue = this.value;
             }
             catch
             {
@@ -147,8 +149,16 @@ namespace OptionalUI
                 return seed.ToString("D3");
             }
         }
-        //DyeableRect : RoundedRect (but dyeable) 
+
+        /// <summary>
+        /// DyeableRect : RoundedRect (but dyeable)
+        /// </summary>
         public DyeableRect rect;
+        public override void Reset()
+        {
+            base.Reset();
+            this.mod = 0;
+        }
 
         /// <summary>
         /// If you want to convert hex from config dictionary to Color but you are too lazy to code that by yourself.

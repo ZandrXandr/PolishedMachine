@@ -28,6 +28,7 @@ namespace OptionalUI
             this.accept = accept;
             this.ForceValue(defaultValue);
             this._lastValue = defaultValue;
+            this.defaultValue = this.value;
             this.maxLength = Mathf.FloorToInt((size.x - 20f) / 6f);
             this.allowSpace = false;
             this.password = false;
@@ -160,11 +161,11 @@ namespace OptionalUI
                         this.cursor.isVisible = false;
                         if (this.accept == Accept.Float)
                         {
-                            if (!float.TryParse(this.value, out float temp))
+                            if (!float.TryParse(this.value, out _))
                             {
                                 for (int i = this.value.Length - 1; i > 0; i--)
                                 {
-                                    if (float.TryParse(this.value.Substring(0, i), out temp))
+                                    if (float.TryParse(this.value.Substring(0, i), out _))
                                     {
                                         this.ForceValue(this.value.Substring(0, i));
                                         OnChange();

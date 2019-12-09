@@ -53,6 +53,7 @@ namespace OptionalUI
             this.mul = l / r;
             this._size = this.vertical ? new Vector2(24f, Mathf.Max(32f, l)) : new Vector2(Mathf.Max(32f, l), 24f);
             this.ForceValue(Custom.IntClamp(defaultValue, min, max).ToString());
+            this.defaultValue = this.value;
             if (!init) { return; }
             Initialize();
         }

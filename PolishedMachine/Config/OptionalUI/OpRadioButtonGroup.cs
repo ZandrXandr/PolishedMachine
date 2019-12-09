@@ -18,6 +18,7 @@ namespace OptionalUI
         public OpRadioButtonGroup(string key, int defaultValue = 0) : base(Vector2.zero, new Vector2(1f, 1f), key, defaultValue.ToString())
         {
             this.ForceValue(defaultValue.ToString());
+            this.defaultValue = this.value;
             if (!init) { return; }
             this._greyedOut = false;
 

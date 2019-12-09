@@ -27,6 +27,7 @@ namespace OptionalUI
             }
             this.ForceValue(defaultSet.Substring(0, this.multi));
             this.valueOrder = this.value;
+            this.defaultValue = this.value;
             if (!init) { return; }
 
             this._greyedOut = false;

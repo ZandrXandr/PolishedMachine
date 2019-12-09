@@ -45,7 +45,7 @@ namespace OptionalUI
         public void Update(float dt)
         {
             if (this.isHidden || !init) { return; }
-            
+
             foreach (UIelement item in this.items)
             {
                 item.Update(dt);
@@ -55,12 +55,21 @@ namespace OptionalUI
         /// <summary>
         /// Add UIelement to this Tab.
         /// </summary>
-        /// <param name="item">UIelement.</param>
+        /// <param name="item">UIelement</param>
         public void AddItem(UIelement item)
         {
             if (this.items.Contains(item)) { return; }
             this.items.Add(item);
             item.tab = this;
+        }
+
+        /// <summary>
+        /// Add Multiple UIelements to this Tab.
+        /// </summary>
+        /// <param name="items">UIelements</param>
+        public void AddItems(params UIelement[] items)
+        {
+            foreach (UIelement item in items) { this.AddItem(item); }
         }
 
         /// <summary>
@@ -97,13 +106,14 @@ namespace OptionalUI
         {
             Dictionary<string, string> config = new Dictionary<string, string>();
 
-            foreach(UIelement element in this.items)
+            foreach (UIelement element in this.items)
             {
                 if (element.GetType().IsSubclassOf(typeof(UIconfig)))
                 {
+                    if ((element as UIconfig).cosmetic) { continue; }
                     if (config.ContainsKey((element as UIconfig).key))
                     {
-                        throw new PolishedMachine.Config.DupelicateTabException(this._name, (element as UIconfig).key);
+                        throw new DupelicateKeyException(this._name, (element as UIconfig).key);
                     }
                     config.Add((element as UIconfig).key, (element as UIconfig).value);
                 }
@@ -120,9 +130,10 @@ namespace OptionalUI
             {
                 if (element.GetType().IsSubclassOf(typeof(UIconfig)))
                 {
-                    if(config.ContainsKey((element as UIconfig).key))
+                    if ((element as UIconfig).cosmetic) { continue; }
+                    if (config.ContainsKey((element as UIconfig).key))
                     {
-                        throw new PolishedMachine.Config.DupelicateTabException(this._name, (element as UIconfig).key);
+                        throw new DupelicateKeyException(this._name, (element as UIconfig).key);
                     }
                     config.Add((element as UIconfig).key, (element as UIconfig));
                 }
@@ -134,7 +145,7 @@ namespace OptionalUI
 
         public void Unload()
         {
-            foreach(UIelement item in this.items)
+            foreach (UIelement item in this.items)
             {
                 item.Unload();
             }

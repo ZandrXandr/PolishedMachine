@@ -34,6 +34,7 @@ namespace OptionalUI
             this._size = minSize;
             this.check = collisionCheck;
             this.bind = ctrlerNo;
+            this.defaultValue = this.value;
 
             if (!init) { return; }
             this.Initalize(defaultKey);
