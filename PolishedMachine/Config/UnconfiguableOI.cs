@@ -59,7 +59,7 @@ namespace CompletelyOptional
 #pragma warning disable IDE0060
         public new bool SaveConfig(Dictionary<string, string> newConfig) => true;
 #pragma warning restore IDE0060
-#pragma warning restore CA1822 // Mark members as static
+#pragma warning restore CA1822
 
 
 

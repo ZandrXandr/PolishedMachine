@@ -30,6 +30,7 @@ namespace OptionalUI
             {
                 this.ForceValue("false");
             }
+            this.defaultValue = this.value;
             if (!init) { return; }
 
             this.rect = new DyeableRect(menu, owner, this.pos, this.size, true);
@@ -86,9 +87,6 @@ namespace OptionalUI
                 this.col = Mathf.Min(1f, this.col + 0.1f);
                 this.symbolHalfVisible = Custom.LerpAndTick(this.symbolHalfVisible, 1f, 0.07f, 0.0166666675f);
 
-
-
-
             }
             else
             {
@@ -128,22 +126,32 @@ namespace OptionalUI
             if (greyedOut) { return; }
 
 
-            if (this.MouseOver&& Input.GetMouseButton(0))
+            if (this.MouseOver)
             {
-                if (!mouseDown) {
-                    mouseDown = true;
-                    this.valueBool = !this.valueBool;
-                    menu.PlaySound(this.valueBool ? SoundID.MENU_Checkbox_Check : SoundID.MENU_Checkbox_Uncheck);
+                if (Input.GetMouseButton(0))
+                {
+                    this.held = true;
+                }
+                else
+                {
+                    if (this.held)
+                    {
+                        this.held = false;
+                        this.valueBool = !this.valueBool;
+                        menu.PlaySound(!this.valueBool ? SoundID.MENU_Checkbox_Check : SoundID.MENU_Checkbox_Uncheck);
+                    }
                 }
             }
-            else
+            else if (this.held)
             {
-                mouseDown = false;
+                if (!Input.GetMouseButton(0))
+                {
+                    this.held = false;
+                }
             }
 
         }
 
-        private bool mouseDown;
         private float col;
         private float flash; private bool flashBool;
         private float sizeBump; private float extraSizeBump;

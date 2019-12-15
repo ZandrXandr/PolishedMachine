@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace PolishedMachine.Config
+namespace OptionalUI
 {
     /// <summary>
     /// Exception that's thrown when any of your UIconfig's Key is null
@@ -12,6 +9,11 @@ namespace PolishedMachine.Config
     public class NullKeyException : ArgumentNullException
     {
         public NullKeyException() : base("Key for this UIconfig is null!")
+        {
+
+        }
+
+        public NullKeyException(UIconfig instance) : base(string.Concat("Key for this ", instance.GetType().Name, " is null!"))
         {
 
         }
@@ -87,24 +89,24 @@ namespace PolishedMachine.Config
     /// You need at least one OpTab to contain any UIelements
     /// </summary>
     [Serializable]
-    public class DupelicateTabException : FormatException
+    public class DupelicateKeyException : FormatException
     {
-        public DupelicateTabException(string name, string key) : base(string.Concat(string.IsNullOrEmpty(name) ? "Tab" : "Tab ", name, " has duplicated key for UIconfig.",
-                          Environment.NewLine, "(key: ", key, ")"))
+        public DupelicateKeyException(string tab, string key) : base(string.Concat(string.IsNullOrEmpty(tab) ? "Tab" : "Tab ", tab, " has duplicated key for UIconfig.",
+                          Environment.NewLine, "(dupe key: ", key, ")"))
         {
         }
 
-        public DupelicateTabException()
+        public DupelicateKeyException()
         {
         }
-        public DupelicateTabException(string message, Exception innerException) : base(message, innerException)
+        public DupelicateKeyException(string message, Exception innerException) : base(message, innerException)
         {
         }
-        protected DupelicateTabException(System.Runtime.Serialization.SerializationInfo serializationInfo, System.Runtime.Serialization.StreamingContext streamingContext)
+        protected DupelicateKeyException(System.Runtime.Serialization.SerializationInfo serializationInfo, System.Runtime.Serialization.StreamingContext streamingContext)
         {
             throw new NotImplementedException();
         }
-        public DupelicateTabException(string message) : base(message)
+        public DupelicateKeyException(string message) : base(message)
         {
         }
     }
@@ -178,5 +180,55 @@ namespace PolishedMachine.Config
             throw new NotImplementedException();
         }
     }
+
+    [Serializable]
+    public class ElementFormatException : FormatException
+    {
+
+        public ElementFormatException(UIelement element, string message, string key = "") : base(
+            string.Concat(element.GetType().Name, " threw exception : ", message, string.IsNullOrEmpty(key) ? string.Empty : string.Concat(" (Key : ", key, ")"))
+            )
+        {
+        }
+
+        public ElementFormatException(string message) : base(string.Concat("Invalid argument for UIelement : ", message))
+        {
+        }
+        public ElementFormatException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+        protected ElementFormatException(System.Runtime.Serialization.SerializationInfo serializationInfo, System.Runtime.Serialization.StreamingContext streamingContext)
+        {
+        }
+        public ElementFormatException() : base("One of UIelement threw exception for Invalid arguments!")
+        {
+        }
+    }
+
+    /// <summary>
+    /// Called progData property without being it progData
+    /// </summary>
+    [Serializable]
+    public class NoProgDataException : FormatException
+    {
+        public NoProgDataException(OptionInterface oi, string name) : base(
+            string.Concat(oi.mod.ModID, " called ", name, "eventhough its progData is false!"))
+        {
+        }
+
+        public NoProgDataException(string message) : base(string.Concat("NoProgDataException: ", message))
+        {
+        }
+        public NoProgDataException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+        public NoProgDataException() : base("Invaild property called eventhough its progData is false")
+        {
+        }
+        protected NoProgDataException(System.Runtime.Serialization.SerializationInfo serializationInfo, System.Runtime.Serialization.StreamingContext streamingContext)
+        {
+        }
+    }
+
 
 }

@@ -50,7 +50,6 @@ namespace OptionalUI
         /// </summary>
         public float alpha;
 
-        private float lastCol;
         private float col = 0f;
         private float sizeBump = 0f;
         private float extraSizeBump = 0f;
@@ -71,7 +70,6 @@ namespace OptionalUI
                 return;
             }
 
-            this.lastCol = this.col;
             if (this.MouseOver)
             {
                 this.col = Mathf.Min(1f, this.col + 0.1f);

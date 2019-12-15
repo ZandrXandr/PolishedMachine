@@ -22,13 +22,15 @@ namespace OptionalUI
             this.tab = false;
             if (filled)
             {
-                tabInvisible = new List<FSprite>();
-                tabInvisible.Add(this.sprites[2]);
-                tabInvisible.Add(this.sprites[6]);
-                tabInvisible.Add(this.sprites[7]);
-                tabInvisible.Add(this.sprites[11]);
-                tabInvisible.Add(this.sprites[15]);
-                tabInvisible.Add(this.sprites[16]);
+                tabInvisible = new List<FSprite>
+                {
+                    this.sprites[2],
+                    this.sprites[6],
+                    this.sprites[7],
+                    this.sprites[11],
+                    this.sprites[15],
+                    this.sprites[16]
+                };
             }
         }
 
@@ -43,13 +45,13 @@ namespace OptionalUI
         }
 
         //public int[] visibleIndex = { 0, 1, 3, 4, 5, 8, 9, 10, 12, 13, 14 };
-        private List<FSprite> tabInvisible;
+        private readonly List<FSprite> tabInvisible;
 
         /// <summary>
         /// Edge Color of this Rect.
         /// </summary>
         public Color color;
-        private new bool filled;
+        private new readonly bool filled;
 
         /// <summary>
         /// whether you cut right side or not.

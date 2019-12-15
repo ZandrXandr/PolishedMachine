@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\PolishedMachine.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,14 +32,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>..\..\References\RainWorld\Assembly-CSharp.dll</HintPath>
+    <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\RWPublic\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
       <HintPath>..\..\References\RainWorld\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
-    <Reference Include="HOOKS-Assembly-CSharp">
-      <HintPath>..\..\References\RainWorld\HOOKS-Assembly-CSharp.dll</HintPath>
+    <Reference Include="HOOKS-Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\References\RWPublic\HOOKS-Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Cecil">
       <HintPath>..\..\References\RainWorld\Mono.Cecil.dll</HintPath>
@@ -86,8 +89,11 @@
     <Compile Include="Config\OptionalUI\OpLabel.cs" />
     <Compile Include="Config\OptionalUI\OpRadioButton.cs" />
     <Compile Include="Config\OptionalUI\OpRadioButtonGroup.cs" />
+    <Compile Include="Config\OptionalUI\OpRadioButtonMultiGroup.cs" />
     <Compile Include="Config\OptionalUI\OpRect.cs" />
     <Compile Include="Config\OptionalUI\OpSlider.cs" />
+    <Compile Include="Config\OptionalUI\OpSliderRange.cs" />
+    <Compile Include="Config\OptionalUI\OpSliderSubtle.cs" />
     <Compile Include="Config\OptionalUI\OpTab.cs" />
     <Compile Include="Config\OptionalUI\OpTextBox.cs" />
     <Compile Include="Config\OptionalUI\SelectableUIelement.cs" />
@@ -96,6 +102,7 @@
     <Compile Include="Config\OptionInterface.cs" />
     <Compile Include="Config\OptionScript.cs" />
     <Compile Include="Config\OptionsMenuPatch.cs" />
+    <Compile Include="Config\ProgressData.cs" />
     <Compile Include="Config\UnconfiguableOI.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="ModUtilities\Extenders\CharacterExtender.cs" />
@@ -116,6 +123,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy /Y "$(TargetPath)" "D:\Drive\Repo\References\RainWorld\$(TargetName).dll"
+copy /Y "$(TargetDir)$(TargetName).xml" "D:\Drive\Repo\References\RainWorld\$(TargetName).xml"
 copy /Y "$(TargetPath)" "E:\Game\Rain World\mods\$(TargetName).dll"
 copy /Y "$(TargetPath)" "E:\SteamLibrary\steamapps\common\Rain World\Mods\$(TargetName).dll"</PostBuildEvent>
   </PropertyGroup>

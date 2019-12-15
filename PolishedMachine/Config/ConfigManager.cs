@@ -64,11 +64,13 @@ namespace PolishedMachine.Config {
                 "ModConfigs",
                 Path.DirectorySeparatorChar
                 }));
+            if (!directory.Exists) { directory.Create(); }
 
             On.Menu.OptionsMenu.UpdateInfoText += new On.Menu.OptionsMenu.hook_UpdateInfoText(OptionsMenuPatch.UpdateInfoTextPatch);
             On.Menu.OptionsMenu.Update += new On.Menu.OptionsMenu.hook_Update(OptionsMenuPatch.UpdatePatch);
             On.Menu.OptionsMenu.Singal += new On.Menu.OptionsMenu.hook_Singal(OptionsMenuPatch.SingalPatch);
             On.Menu.OptionsMenu.ShutDownProcess += new On.Menu.OptionsMenu.hook_ShutDownProcess(OptionsMenuPatch.ShutDownProcessPatch);
+            ProgressData.SubPatch();
 
             go = new GameObject("OptionController");
             script = go.AddComponent<OptionScript>();

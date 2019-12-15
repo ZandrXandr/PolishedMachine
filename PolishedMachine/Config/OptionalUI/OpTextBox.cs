@@ -17,6 +17,8 @@ namespace OptionalUI
         /// </summary>
         /// <param name="pos">LeftBottom</param>
         /// <param name="sizeX">Size (minimum size = 30f)</param>
+        /// <param name="key">Key for this UIconfig</param>
+        /// <param name="defaultValue">Default string value</param>
         /// <param name="accept">Which type of text you want to allow</param>
         public OpTextBox(Vector2 pos, float sizeX, string key, string defaultValue = "TEXT", Accept accept = Accept.StringASCII) : base(pos, new Vector2(30f, 24f), key, defaultValue)
         {
@@ -26,6 +28,7 @@ namespace OptionalUI
             this.accept = accept;
             this.ForceValue(defaultValue);
             this._lastValue = defaultValue;
+            this.defaultValue = this.value;
             this.maxLength = Mathf.FloorToInt((size.x - 20f) / 6f);
             this.allowSpace = false;
             this.password = false;
@@ -34,8 +37,7 @@ namespace OptionalUI
 
             if (!init) { return; }
 
-            this.rect = new DyeableRect(menu, owner, this.pos, this.size, true);
-            this.rect.fillAlpha = 0.5f;
+            this.rect = new DyeableRect(menu, owner, this.pos, this.size, true) { fillAlpha = 0.5f };
             this.subObjects.Add(this.rect);
 
             this.label = new MenuLabel(menu, owner, defaultValue, this.pos + new Vector2(5f - this._size.x * 0.5f, 12f), new Vector2(this._size.x, 16f), false);
@@ -50,11 +52,13 @@ namespace OptionalUI
             this.curSpr = new FSprite[3];
             for(int i = 0; i < 3; i++)
             {
-                this.curSpr[i] = new FSprite("pixel", true);
-                this.curSpr[i].color = Menu.Menu.MenuRGB(Menu.Menu.MenuColors.White);
+                this.curSpr[i] = new FSprite("pixel", true)
+                {
+                    color = Menu.Menu.MenuRGB(Menu.Menu.MenuColors.White),
+                    scaleX = 2f,
+                    scaleY = 2f
+                };
                 this.curSpr[i].SetAnchor(0f, 0f);
-                this.curSpr[i].scaleX = 2f;
-                this.curSpr[i].scaleY = 2f;
                 this.cursor.AddChild(curSpr[i]);
             }
             this.curSpr[0].scaleX = 7f;
@@ -77,8 +81,8 @@ namespace OptionalUI
         /// </summary>
         public DyeableRect rect;
         private string _lastValue;
-        private FContainer cursor;
-        private FSprite[] curSpr;
+        private readonly FContainer cursor;
+        private readonly FSprite[] curSpr;
         private float cursorAlpha;
 
 
@@ -157,12 +161,11 @@ namespace OptionalUI
                         this.cursor.isVisible = false;
                         if (this.accept == Accept.Float)
                         {
-                            float temp;
-                            if (!float.TryParse(this.value, out temp))
+                            if (!float.TryParse(this.value, out _))
                             {
                                 for (int i = this.value.Length - 1; i > 0; i--)
                                 {
-                                    if (float.TryParse(this.value.Substring(0, i), out temp))
+                                    if (float.TryParse(this.value.Substring(0, i), out _))
                                     {
                                         this.ForceValue(this.value.Substring(0, i));
                                         OnChange();
@@ -179,7 +182,7 @@ namespace OptionalUI
                     {
                         cursorAlpha = 2.5f;
                         flash = 2.5f;
-                        this.value = this.value + c;
+                        this.value += c;
                     }
 
                 }

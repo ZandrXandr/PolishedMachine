@@ -2,6 +2,7 @@ using System;
 using Menu;
 using UnityEngine;
 using RWCustom;
+using PolishedMachine.Config;
 
 namespace OptionalUI
 {
@@ -26,6 +27,7 @@ namespace OptionalUI
             if (!init)
             { //If this is called in main menu, just load the value, not ui.
                 this.ForceValue(defaultHex);
+                this.defaultValue = this.value;
                 return;
             }
 
@@ -131,13 +133,12 @@ namespace OptionalUI
             {
                 //Now doing this will do the job.
                 this.value = defaultHex;
+                this.defaultValue = this.value;
             }
-            catch (Exception ex)
+            catch
             {
                 //Throw Error Screen.
-                throw new Exception(string.Concat(
-                    "OpColorPicker Error: DefaultHex is not a proper value.\nMust be in form of \'FFFFFF\'.", Environment.NewLine,
-                    ex));
+                throw new ElementFormatException(this, "OpColorPicker Error: DefaultHex is not a proper value.\nMust be in form of \'FFFFFF\'.", key);
             }
         }
         private readonly int seed;
@@ -148,8 +149,16 @@ namespace OptionalUI
                 return seed.ToString("D3");
             }
         }
-        //DyeableRect : RoundedRect (but dyeable) 
+
+        /// <summary>
+        /// DyeableRect : RoundedRect (but dyeable)
+        /// </summary>
         public DyeableRect rect;
+        public override void Reset()
+        {
+            base.Reset();
+            this.mod = 0;
+        }
 
         /// <summary>
         /// If you want to convert hex from config dictionary to Color but you are too lazy to code that by yourself.
@@ -202,7 +211,9 @@ namespace OptionalUI
         }
         private string _description;
 
-        //When the Tab this obj is in is hidden
+        /// <summary>
+        /// When the Tab this obj is in is hidden
+        /// </summary>
         public override void Hide()
         {
             base.Hide();
@@ -241,7 +252,9 @@ namespace OptionalUI
             this.cdis1.isVisible = false;
 
         }
-        //when the tab this obj is in is revealed
+        /// <summary>
+        /// when the tab this obj is in is revealed
+        /// </summary>
         public override void Show()
         {
             base.Show();
@@ -306,18 +319,21 @@ namespace OptionalUI
         {
             get
             {
-                return new Color(
+                return HexToColor(value);
+                /*new Color(
                     Convert.ToInt32(value.Substring(0, 2), 16) / 255f,
                     Convert.ToInt32(value.Substring(2, 2), 16) / 255f,
                     Convert.ToInt32(value.Substring(4, 2), 16) / 255f,
                     1f
-                    );
+                    );*/
             }
             set
             {
+                this.value = ColorToHex(value);
+                /*
                 this.value = string.Concat(Mathf.RoundToInt(value.r * 255).ToString("X2"),
                     Mathf.RoundToInt(value.g * 255).ToString("X2"),
-                    Mathf.RoundToInt(value.b * 255).ToString("X2"));
+                    Mathf.RoundToInt(value.b * 255).ToString("X2"));*/
             }
         }
 

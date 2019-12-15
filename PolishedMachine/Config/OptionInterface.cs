@@ -28,8 +28,10 @@ namespace OptionalUI
         {
             this.mod = mod;
             this.rawConfig = "Unconfiguable";
-
+            instance = this;
         }
+
+        private static OptionInterface instance;
 
         /// <summary>
         /// Returns whether CompletelyOptional is loaded or not.
@@ -56,7 +58,7 @@ namespace OptionalUI
             get { return CompletelyOptional.OptionScript.init; }
         }
 
-        
+
 
         /// <summary>
         /// Whether the mod is configuable or not.
@@ -106,14 +108,13 @@ namespace OptionalUI
         /// <summary>
         /// Currently selected saveslot
         /// </summary>
-        public static int slot
-        {
-            get
-            {
-                return CompletelyOptional.OptionScript.slot;
-            }
-        }
+        public static int slot { get { return CompletelyOptional.OptionScript.slot; } }
         private static int _slot;
+        /// <summary>
+        /// Currently selected slugcat
+        /// </summary>
+        public static int slugcat { get { return CompletelyOptional.OptionScript.slugcat; } }
+        private static int _slugcat;
 
 
         /// <summary>
@@ -131,6 +132,10 @@ namespace OptionalUI
         {
             config = new Dictionary<string, string>();
             rawConfig = "Unconfiguable";
+            if (!directory.Exists)
+            {
+                directory.Create(); return false;
+            }
 
             string path = string.Concat(new object[] {
             directory.FullName,
@@ -140,7 +145,7 @@ namespace OptionalUI
             {
                 try
                 {
-                    string txt = File.ReadAllText(path);
+                    string txt = File.ReadAllText(path, Encoding.UTF8);
                     string key = txt.Substring(0, 32);
                     txt = txt.Substring(32, txt.Length - 32);
                     if (Custom.Md5Sum(txt) != key)
@@ -151,7 +156,8 @@ namespace OptionalUI
 
                     this.rawConfig = CompletelyOptional.Crypto.DecryptString(txt, string.Concat("OptionalConfig " + mod.ModID));
                 }
-                catch {
+                catch
+                {
                     Debug.Log(new LoadDataException(string.Concat(mod.ModID, " config file has been corrupted! Load Default Config instead.")));
                     return false;
                 }
@@ -170,7 +176,7 @@ namespace OptionalUI
             //<CfgC>key<CfgB><CfgD>value<CfgA>
             string[] array = Regex.Split(this.rawConfig, "<CfgA>");
 
-            for(int i = 0; i < array.Length; i++)
+            for (int i = 0; i < array.Length; i++)
             { //<CfgC>key<CfgB><CfgD>value
                 string key = string.Empty;
                 string value = string.Empty;
@@ -187,7 +193,7 @@ namespace OptionalUI
                         value = array2[j].Substring(6, array2[j].Length - 6);
                     }
                 }
-                if(string.IsNullOrEmpty(key))
+                if (string.IsNullOrEmpty(key))
                 { //?!?!
                     continue;
                 }
@@ -218,8 +224,8 @@ namespace OptionalUI
         public void ShowConfig()
         {
             GrabObject();
-            if(!(config?.Count > 0)) { return; } //Nothing Loaded.
-            foreach(KeyValuePair<string, string> setting in config)
+            if (!(config?.Count > 0)) { return; } //Nothing Loaded.
+            foreach (KeyValuePair<string, string> setting in config)
             {
                 if (objectDictionary.TryGetValue(setting.Key, out UIconfig obj))
                 {
@@ -242,7 +248,8 @@ namespace OptionalUI
 
                 foreach (KeyValuePair<string, UIconfig> item in tabDictionary)
                 {
-                    if (displayedConfig.ContainsKey(item.Key)) { throw new Exception(string.Concat(mod.ModID, " DuplicateKeyError! (key: ", item.Key, ")")); }
+                    if (item.Value.cosmetic) { continue; }
+                    if (displayedConfig.ContainsKey(item.Key)) { throw new DupelicateKeyException(string.Empty, item.Key); }
                     displayedConfig.Add(item.Key, item.Value);
                 }
             }
@@ -255,10 +262,11 @@ namespace OptionalUI
         public Dictionary<string, string> GrabConfig()
         {
             GrabObject();
-            if(this.objectDictionary.Count < 1) { return new Dictionary<string, string>(0); }
+            if (this.objectDictionary.Count < 1) { return new Dictionary<string, string>(0); }
             Dictionary<string, string> displayedConfig = new Dictionary<string, string>();
             foreach (KeyValuePair<string, UIconfig> setting in this.objectDictionary)
             {
+                if (setting.Value.cosmetic) { continue; }
                 displayedConfig.Add(setting.Key, setting.Value.value);
             }
             return displayedConfig;
@@ -269,7 +277,7 @@ namespace OptionalUI
         /// </summary>
         public bool SaveConfig(Dictionary<string, string> newConfig)
         {
-            if(newConfig.Count < 1) { return false; } //Nothing to Save.
+            if (newConfig.Count < 1) { return false; } //Nothing to Save.
             config = newConfig;
             ConfigOnChange();
 
@@ -277,7 +285,7 @@ namespace OptionalUI
             //convert to raw data
             //<CfgC>key<CfgB><CfgD>value<CfgA>
 
-            foreach(KeyValuePair<string, string> item in newConfig)
+            foreach (KeyValuePair<string, string> item in newConfig)
             {
                 this.rawConfig = this.rawConfig + "<CfgC>" + item.Key + "<CfgB><CfgD>" + item.Value + "<CfgA>";
             }
@@ -292,7 +300,7 @@ namespace OptionalUI
                 string enc = CompletelyOptional.Crypto.EncryptString(this.rawConfig, string.Concat("OptionalConfig " + mod.ModID));
                 string key = Custom.Md5Sum(enc);
 
-                File.WriteAllText(path, key + enc);
+                File.WriteAllText(path, key + enc, Encoding.UTF8);
 
                 return true;
             }
@@ -311,25 +319,20 @@ namespace OptionalUI
 
 
 
+        private static string[] _data;
+
         /// <summary>
-        /// string you can save and load however you want.
+        /// Use progData instead
         /// </summary>
-        public string data
+        public string data { get { throw new NotImplementedException("OptionInterface.data is no longer used! Use GetData and SetData instead."); } }
+        public static string progData
         {
+            get { return _data[slugcat]; }
             set
             {
-                if (_data != value)
-                {
-                    _data = value;
-                    DataOnChange();
-                }
-            }
-            get
-            {
-                return _data;
+                if (_data[slugcat] != value) { instance.DataOnChange(); _data[slugcat] = value; }
             }
         }
-        private static string _data;
 
 
         /// <summary>
@@ -347,22 +350,47 @@ namespace OptionalUI
         /// </summary>
         public virtual void ConfigOnChange()
         {
-
+            if (init)
+            {
+                foreach (OpTab tab in Tabs)
+                {
+                    foreach (UIelement item in tab.items)
+                    {
+                        if (item is UIconfig && (item as UIconfig).cosmetic)
+                        {
+                            item.Reset();
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>
         /// Event that happens when selected SaveSlot has been changed.
         /// This automatically saves and loads data by default.
-        /// (if you want to not use base.SlotOnChange, keep '_slot = slot;' to prevent loop.
         /// </summary>
         public virtual void SlotOnChange()
         {
             SaveData();
-            _slot = slot;
+            _slot = slot; _slugcat = slugcat;
             LoadData();
         }
 
-
+        /// <summary>
+        /// If this is true, data is automatically Saved/Loaded like vanilla game
+        /// </summary>
+        public bool progressData = false;
+        public bool saveAsDeath
+        {
+            get { if (!progressData) { throw new Exception(); } return _saveAsDeath; }
+            set { _saveAsDeath = value; }
+        }
+        public bool saveAsQuit
+        {
+            get { if (!progressData) { throw new Exception(); } return _saveAsQuit; }
+            set { _saveAsQuit = value; }
+        }
+        private bool _saveAsDeath = false, _saveAsQuit = false;
 
 
 
@@ -374,24 +402,20 @@ namespace OptionalUI
         /// <returns>Loaded Data</returns>
         public virtual void LoadData()
         {
+            for (int i = 0; i < _data.Length; i++)
+            {
+                _data[i] = defaultData;
+            }
             try
             {
-                string data = defaultData ?? string.Empty;
+                string data = string.Empty;
                 foreach (FileInfo file in directory.GetFiles())
                 {
                     if (file.Name.Substring(file.Name.Length - 4) != ".txt") { continue; }
 
                     if (file.Name.Substring(0, 4) == "data")
                     {
-                        switch (file.Name.Substring(file.Name.Length - 5, 1))
-                        {
-                            case "1":
-                                if (slot != 1) { continue; } break;
-                            case "2":
-                                if (slot != 2) { continue; } break;
-                            case "3":
-                                if (slot != 3) { continue; } break;
-                        }
+                        if (slot.ToString() != file.Name.Substring(file.Name.Length - 5, 1)) { continue; }
                     }
                     else { continue; }
 
@@ -410,12 +434,17 @@ namespace OptionalUI
                     }
                     data = CompletelyOptional.Crypto.DecryptString(data, string.Concat("OptionalData " + mod.ModID));
                 }
-
-                _data = data;
+                string[] raw = Regex.Split(data, "<slugChar>");
+                _data = new string[Math.Max(_data.Length, raw.Length)];
+                for (int j = 0; j < raw.Length; j++)
+                {
+                    _data[j] = raw[j];
+                }
+                return;
             }
             catch (Exception ex) { Debug.LogError(new LoadDataException(ex.ToString())); }
 
-            _data = defaultData;
+
         }
 
         /// <summary>
@@ -429,7 +458,9 @@ namespace OptionalUI
         /// </summary>
         public virtual bool SaveData()
         {
-            if (string.IsNullOrEmpty(_data)) { return false; }
+            string data = string.Empty;
+            for (int i = 0; i < _data.Length; i++) { data += _data[i] + "<slugChar>"; };
+            //if (string.IsNullOrEmpty(_data)) { return false; }
             try
             {
                 string path = string.Concat(new object[] {
@@ -438,7 +469,7 @@ namespace OptionalUI
                 slot.ToString(),
                 ".txt"
                 });
-                string enc = CompletelyOptional.Crypto.EncryptString(_data, string.Concat("OptionalData " + mod.ModID));
+                string enc = CompletelyOptional.Crypto.EncryptString(data, string.Concat("OptionalData " + mod.ModID));
                 string key = Custom.Md5Sum(enc);
 
                 File.WriteAllText(path, key + enc);
@@ -451,7 +482,11 @@ namespace OptionalUI
             return false;
         }
 
-
+        /// <summary>
+        /// If true, Initialize is in Mod Config; if false, this is game initialization and
+        /// do not edit graphical details of UIelements when init is false
+        /// </summary>
+        public static bool init => CompletelyOptional.OptionScript.init;
 
         /// <summary>
         /// Write your UI overlay here.
@@ -466,12 +501,36 @@ namespace OptionalUI
         }
 
         /// <summary>
-        /// Event that's called every frame.
+        /// Event that's called every frame. Do not call this by your own.
         /// </summary>
         /// <param name="dt">deltaTime</param>
         public virtual void Update(float dt)
         {
-            if(_slot != slot) { SlotOnChange(); }
+            
+        }
+
+        /// <summary>
+        /// Do not call this by your own.
+        /// </summary>
+        public void BackgroundUpdate(int saveOrLoad)
+        {
+            switch (saveOrLoad)
+            {
+                case 1: SaveData(); break;
+                case 2: LoadData(); break;
+            }
+            if (_slot != slot) { SlotOnChange(); }
+            else if (_slugcat != slugcat) { SlotOnChange(); }
+        }
+
+        /// <summary>
+        /// Do not call this by your own.
+        /// </summary>
+        /// <param name="slugcatLength"></param>
+        public void GenerateDataArray(int slugcatLength)
+        {
+            _data = new string[slugcatLength];
+            LoadData();
         }
 
     }

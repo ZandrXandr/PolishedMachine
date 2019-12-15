@@ -8,3 +8,6 @@ dotnet_diagnostic.CA1034.severity = silent
 
 # CA1031: Do not catch general exception types
 dotnet_diagnostic.CA1031.severity = silent
+
+# CS1591: No XML summary
+dotnet_diagnostic.CS1591.severity = none

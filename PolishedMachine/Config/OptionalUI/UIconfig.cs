@@ -23,9 +23,10 @@ namespace OptionalUI
         /// <param name="defaultValue">Default Value</param>
         public UIconfig(Vector2 pos, Vector2 size, string key, string defaultValue = "") : base(pos, size)
         {
-            if (string.IsNullOrEmpty(key)) { throw new NullKeyException(); }
-            this._key = key;
+            if (string.IsNullOrEmpty(key) || key.Substring(0, 1) == "_") { this.cosmetic = true; this.key = "_"; }
+            else { this.cosmetic = false; this.key = key; }
             this._value = defaultValue;
+            this.defaultValue = this._value;
             this.greyedOut = false;
             this.held = false;
         }
@@ -38,12 +39,26 @@ namespace OptionalUI
         /// <param name="defaultValue">Default Value</param>
         public UIconfig(Vector2 pos, float rad, string key, string defaultValue = "") : base(pos, rad)
         {
-            if (string.IsNullOrEmpty(key)) { throw new NullKeyException(); }
-            this._key = key;
+            if (string.IsNullOrEmpty(key) || key.Substring(0, 1) == "_") { this.cosmetic = true; this.key = "_"; }
+            else { this.cosmetic = false; this.key = key; }
             this._value = defaultValue;
+            this.defaultValue = this._value;
             this.greyedOut = false;
             this.held = false;
         }
+
+        internal string defaultValue;
+        public override void Reset()
+        {
+            base.Reset();
+            this.value = this.defaultValue;
+            this.held = false;
+        }
+
+        /// <summary>
+        /// Set key to "_" to make this UIconfig cosmetic and don't save its value
+        /// </summary>
+        public readonly bool cosmetic;
 
         /// <summary>
         /// Whether this is held or not.
@@ -54,7 +69,7 @@ namespace OptionalUI
             get { return _held; }
             set
             {
-                if(_held != value)
+                if (_held != value)
                 {
                     _held = value;
                     CompletelyOptional.ConfigMenu.freezeMenu = value;
@@ -64,13 +79,12 @@ namespace OptionalUI
         private bool _held;
 
         /// <summary>
-        /// Key
+        /// Unique Key for this UIconfig
         /// </summary>
-        public string key { get { return _key; } }
-        private readonly string _key;
+        public readonly string key;
 
         /// <summary>
-        /// Whether this button is greyedOut or not
+        /// Whether this UIconfig is greyedOut or not
         /// </summary>
         public bool greyedOut;
 
@@ -154,7 +168,7 @@ namespace OptionalUI
         public override void GrafUpdate(float dt)
         {
             base.GrafUpdate(dt);
-            
+
         }
 
         /// <summary>
@@ -175,5 +189,5 @@ namespace OptionalUI
 
 
 
-    
+
 }

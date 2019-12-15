@@ -86,7 +86,8 @@ namespace CompletelyOptional
             "CompletelyOptional",
             "ConfigMachine",
             "RustyMachine",
-            "PolishedMachine"
+            "PolishedMachine",
+            "Enum Extender"
         };
 
         /// <summary>
@@ -95,6 +96,13 @@ namespace CompletelyOptional
         public static int slot
         {
             get { return pm.rainWorld.options.saveSlot; }
+        }
+        /// <summary>
+        /// Currently Playing Slugcat.
+        /// </summary>
+        public static int slugcat
+        {
+            get { return pm.rainWorld.progression.PlayingAsSlugcat; }
         }
 
         /// <summary>
@@ -105,15 +113,15 @@ namespace CompletelyOptional
         /// <summary>
         /// Runs right before MainMenu opens
         /// </summary>
-        public void Initialize()
+        public static void Initialize()
         {
-            if (!directory.Exists) { directory.Create(); }
 
             loadedMods = Partiality.PartialityManager.Instance.modManager.loadedMods;
             loadedModsDictionary = new Dictionary<string, PartialityMod>();
             foreach (PartialityMod mod in loadedMods)
             {
                 if (blackList.Contains<string>(mod.ModID)) { continue; } //No Config for this :P
+                else if (mod.ModID.Substring(0, 1) == "_") { continue; } //Skip this mod from configuration
                 if (!loadedModsDictionary.ContainsKey(mod.ModID))
                 {
                     loadedModsDictionary.Add(mod.ModID, mod);
@@ -289,7 +297,7 @@ namespace CompletelyOptional
 
             if (pm.currentMainLoop?.ID != ProcessManager.ProcessID.OptionsMenu)
             {
-                return;
+                goto BackgroundUpdate;
             }
             else if (!OptionsMenuPatch.mod)
             {
@@ -397,6 +405,17 @@ namespace CompletelyOptional
                 }
             }
 
+            return;
+
+        BackgroundUpdate:
+            //Background running
+            if (pm.currentMainLoop?.ID == ProcessManager.ProcessID.IntroRoll) { return; }
+            /*
+            foreach (OptionInterface oi in loadedInterfaces)
+            {
+
+            }
+            */
         }
 
     }

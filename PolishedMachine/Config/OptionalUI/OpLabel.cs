@@ -17,14 +17,14 @@ namespace OptionalUI
         /// </summary>
         /// <param name="pos">BottomLeft Position</param>
         /// <param name="size">Size of the Box</param>
-        /// <param name="text">Text you want to display</param>
+        /// <param name="text">Text you want to display; max length 600</param>
         /// <param name="alignment">Alignment. Left/Center/Right</param>
         /// <param name="bigText">Whether this use bigFont or not</param>
         public OpLabel(Vector2 pos, Vector2 size, string text = "TEXT", FLabelAlignment alignment = FLabelAlignment.Center, bool bigText = false) : base(pos, size)
         {
             Vector2 minSize = new Vector2(Mathf.Max(size.x, 20f), Mathf.Max(size.y, 20f));
             this._size = minSize;
-            this._text = text;
+            this._text = text.Length < 600 ? text : text.Substring(0, 600);
             this._bigText = bigText;
             this.lineLength = Mathf.FloorToInt((size.x - 10f) / 6f);
             this.autoWrap = false;
@@ -77,11 +77,11 @@ namespace OptionalUI
             base.OnChange();
             if (!this.autoWrap)
             {
-                this.label.text = _text;
+                this.label.text = _text.Length < 600 ? _text : _text.Substring(0, 600);
             }
             else
             {
-                string ml = _text.ToString();
+                string ml = _text.Length < 600 ? _text : _text.Substring(0, 600);
                 char[] array = ml.ToCharArray();
                 int d = 0; bool f = true; int l = 0;
                 do

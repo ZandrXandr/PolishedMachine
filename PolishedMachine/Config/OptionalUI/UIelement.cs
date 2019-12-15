@@ -58,9 +58,16 @@ namespace OptionalUI
                 this.nextSelectable = new PositionedMenuObject[4];
                 this.myContainer = new FContainer();
                 this.myContainer.SetPosition(this._pos);
+                this.myContainer.scaleX = 1f;
+                this.myContainer.scaleY = 1f;
             }
+            this.description = "";
 
             //CompletelyOptional.OptionScript.uielements.Add(this);
+        }
+        public virtual void Reset()
+        {
+            
         }
 
         /// <summary>
@@ -96,13 +103,7 @@ namespace OptionalUI
         /// <summary>
         /// Whether this is in ConfigMenu or not.
         /// </summary>
-        public static bool init
-        {
-            get
-            {
-                return CompletelyOptional.OptionScript.init;
-            }
-        }
+        public static bool init => CompletelyOptional.OptionScript.init;
 
         /// <summary>
         /// Position of this element.
@@ -125,7 +126,7 @@ namespace OptionalUI
                 }
             }
         }
-        public Vector2 _pos;
+        internal Vector2 _pos;
 
         /// <summary>
         /// Size of this element.
@@ -170,12 +171,13 @@ namespace OptionalUI
                 }
             }
         }
-        private float _rad;
+        internal float _rad;
+
         public Menu.Menu menu;
         /// <summary>
         /// Whether the element is Rectangular or Circular(false)
         /// </summary>
-        public bool isRectangular;
+        public readonly bool isRectangular;
         /// <summary>
         /// OpTab this element is belong to.
         /// </summary>
@@ -214,7 +216,7 @@ namespace OptionalUI
             this.myContainer.SetPosition(this.ScreenPos);
         }
 
-        public Vector2 ScreenPos
+        internal Vector2 ScreenPos
         {
             get
             {

@@ -12,8 +12,7 @@ namespace OptionalUI
     {
         /// <summary>
         /// Size is fixed (24x24)
-        /// This returns value in "true" of "false", although this is NOT UIconfig
-        /// so this value won't be saved
+        /// This returns value in "true" of "false", although this is NOT UIconfig thus this value won't be saved
         /// </summary>
         /// <param name="pos">LeftBottom of the Button (12x12 offset from center)</param>
         public OpRadioButton(Vector2 pos) : base(pos, new Vector2(24f, 24f))
@@ -166,8 +165,8 @@ namespace OptionalUI
 
         public string _value;
         /// <summary>
-        /// This OpRadioButton isn't UIconfig, so this value does not saved.
-        /// (OpRadioButtonGroup will be saved instead)
+        /// OpRadioButton is not UIconfig, so this value will not be saved.
+        /// (OpRadioButtonGroup is the one gets saved instead)
         /// </summary>
         public virtual string value
         {

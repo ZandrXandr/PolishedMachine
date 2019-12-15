@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using PolishedMachine.Config;
 
 namespace OptionalUI
 {
@@ -18,7 +19,7 @@ namespace OptionalUI
         /// <param name="image">Image you want to display</param>
         public OpImage(Vector2 pos, Texture2D image) : base(pos, new Vector2(image.width, image.height))
         {
-            if (image == null) { throw new Exception("NullImage: There is no Texture2D for OpImage"); }
+            if (image == null) { throw new ElementFormatException(this, "There is no Texture2D for OpImage"); }
             if (!init) {
                 this.sprite = new FSprite("pixel", true);
                 return;
@@ -55,7 +56,7 @@ namespace OptionalUI
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new ElementFormatException(this, string.Concat("There is no such FAtlasElement called ", fAtlasElement, " : ",Environment.NewLine, ex.ToString()));
             }
 
             this.sprite = new FSprite(element.name, true);
@@ -67,6 +68,21 @@ namespace OptionalUI
             this.isTexture = false;
         }
 
+        /// <summary>
+        /// Swap Image to new one
+        /// </summary>
+        /// <param name="newImage">new image</param>
+        public void ChangeImage(Texture2D newImage)
+        {
+            if (!init) { return; }
+            if (!isTexture) { throw new ElementFormatException(this, "You must construct this with Texture2D to use this function"); }
+            Futile.atlasManager.UnloadAtlas(salt + "image");
+            myContainer.RemoveAllChildren();
+            Futile.atlasManager.LoadAtlasFromTexture(salt + "image", newImage);
+            this.sprite = new FSprite(salt + "image", true);
+            this.sprite.SetAnchor(0f, 0f);
+            this.myContainer.AddChild(this.sprite);
+        }
 
         public FSprite sprite;
         private readonly bool isTexture;

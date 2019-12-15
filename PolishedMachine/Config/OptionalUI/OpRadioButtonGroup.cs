@@ -18,6 +18,7 @@ namespace OptionalUI
         public OpRadioButtonGroup(string key, int defaultValue = 0) : base(Vector2.zero, new Vector2(1f, 1f), key, defaultValue.ToString())
         {
             this.ForceValue(defaultValue.ToString());
+            this.defaultValue = this.value;
             if (!init) { return; }
             this._greyedOut = false;
 
@@ -28,14 +29,14 @@ namespace OptionalUI
         /// Bind OpRadioButtons to this group
         /// </summary>
         /// <param name="buttons">Array of OpRadioButton</param>
-        public void SetButtons(OpRadioButton[] buttons)
+        public virtual void SetButtons(OpRadioButton[] buttons)
         {
             this.buttons = buttons;
             for (int i = 0; i < buttons.Length; i++)
             {
                 buttons[i].group = this;
                 buttons[i].index = i;
-                if(i == int.Parse(base.value))
+                if (i == base.valueInt)
                 {
                     buttons[i]._value = "true";
                 }
@@ -56,7 +57,7 @@ namespace OptionalUI
             get { return _greyedOut; }
             set
             {
-                if(_greyedOut != value)
+                if (_greyedOut != value)
                 {
                     _greyedOut = value;
                     for (int i = 0; i < this.buttons.Length; i++)
@@ -66,7 +67,7 @@ namespace OptionalUI
                 }
             }
         }
-        private bool _greyedOut;
+        internal bool _greyedOut;
 
 
 
@@ -86,11 +87,12 @@ namespace OptionalUI
             }
         }
 
-        public override string value {
+        public override string value
+        {
             get => base.value;
             set
             {
-                if(base.value != value)
+                if (base.value != value)
                 {
                     this.ForceValue(value);
                     if (init)
@@ -101,7 +103,7 @@ namespace OptionalUI
             }
         }
 
-        public void Switch(int index)
+        public virtual void Switch(int index)
         {
             for (int i = 0; i < this.buttons.Length; i++)
             {
