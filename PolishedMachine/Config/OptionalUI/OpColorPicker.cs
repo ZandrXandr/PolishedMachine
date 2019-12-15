@@ -24,7 +24,7 @@ namespace OptionalUI
         {
             ctor = false; //to prevent OnChange from running before ready
             Vector2 fixedSize = new Vector2(150f, 150f);
-            if (!init)
+            if (!_init)
             { //If this is called in main menu, just load the value, not ui.
                 this.ForceValue(defaultHex);
                 this.defaultValue = this.value;
@@ -52,9 +52,9 @@ namespace OptionalUI
 
             Color grey = Menu.Menu.MenuRGB(Menu.Menu.MenuColors.MediumGrey);
             //lblR/G/B: Displays R/G/B value
-            lblB = new MenuLabel(menu, owner, r.ToString(), pos + offset + new Vector2(124f, 30f), new Vector2(20f, 20f), false);
-            lblG = new MenuLabel(menu, owner, g.ToString(), pos + offset + new Vector2(124f, 70f), new Vector2(20f, 20f), false);
-            lblR = new MenuLabel(menu, owner, b.ToString(), pos + offset + new Vector2(124f, 110f), new Vector2(20f, 20f), false);
+            lblB = new MenuLabel(menu, owner, r.ToString(), pos + _offset + new Vector2(124f, 30f), new Vector2(20f, 20f), false);
+            lblG = new MenuLabel(menu, owner, g.ToString(), pos + _offset + new Vector2(124f, 70f), new Vector2(20f, 20f), false);
+            lblR = new MenuLabel(menu, owner, b.ToString(), pos + _offset + new Vector2(124f, 110f), new Vector2(20f, 20f), false);
             this.subObjects.Add(lblR);
             this.subObjects.Add(lblG);
             this.subObjects.Add(lblB);
@@ -62,25 +62,25 @@ namespace OptionalUI
             lblG.label.color = grey;
             lblB.label.color = grey;
             //lblP: Displays Selected Palette Color Name
-            lblP = new MenuLabel(menu, owner, "", pos + offset + new Vector2(10f, 5f), new Vector2(60f, 20f), false);
+            lblP = new MenuLabel(menu, owner, "", pos + _offset + new Vector2(10f, 5f), new Vector2(60f, 20f), false);
             this.subObjects.Add(lblP);
             lblP.label.isVisible = false;
             lblP.label.color = Menu.Menu.MenuRGB(Menu.Menu.MenuColors.White);
 
             //Hex Value Label
-            lblHex = new MenuLabel(menu, owner, value.ToString(), pos + offset + new Vector2(50f, 5f), new Vector2(60f, 20f), false);
+            lblHex = new MenuLabel(menu, owner, value.ToString(), pos + _offset + new Vector2(50f, 5f), new Vector2(60f, 20f), false);
             this.subObjects.Add(lblHex);
             lblHex.label.alignment = FLabelAlignment.Left;
             //Top Menu RGB mode Button
-            lblRGB = new MenuLabel(menu, owner, "RGB", pos + offset + new Vector2(20f, 130f), new Vector2(30f, 15f), false);
+            lblRGB = new MenuLabel(menu, owner, "RGB", pos + _offset + new Vector2(20f, 130f), new Vector2(30f, 15f), false);
             this.subObjects.Add(lblRGB);
             lblRGB.label.color = grey;
             //Top Menu HSL mode Button
-            lblHSL = new MenuLabel(menu, owner, "HSL", pos + offset + new Vector2(60f, 130f), new Vector2(30f, 15f), false);
+            lblHSL = new MenuLabel(menu, owner, "HSL", pos + _offset + new Vector2(60f, 130f), new Vector2(30f, 15f), false);
             this.subObjects.Add(lblHSL);
             lblHSL.label.color = grey;
             //Top Menu Palette mode Button
-            lblPLT = new MenuLabel(menu, owner, "PLT", pos + offset + new Vector2(100f, 130f), new Vector2(30f, 15f), false);
+            lblPLT = new MenuLabel(menu, owner, "PLT", pos + _offset + new Vector2(100f, 130f), new Vector2(30f, 15f), false);
             this.subObjects.Add(lblPLT);
             lblPLT.label.color = grey;
 
@@ -484,7 +484,7 @@ namespace OptionalUI
             return texture;
         }
 
-        private float col; private float lastCol;
+        private float col; // private float lastCol;
         private float sizeBump; private float extraSizeBump;
         public override void GrafUpdate(float dt)
         { //Visual polish.
@@ -504,10 +504,10 @@ namespace OptionalUI
             lblG.label.color = grey;
             lblB.label.color = grey;
             lblP.label.color = white;
-            this.LastCol = this.col;
+            //this.LastCol = this.col;
             if (this.MouseOver)
             {
-                CompletelyOptional.ConfigMenu.description = this.description;
+                ConfigMenu.description = this.description;
 
                 this.col = Mathf.Min(1f, this.col + 0.1f);
                 this.sizeBump = Custom.LerpAndTick(this.sizeBump, 1f, 0.1f, 0.1f);
@@ -617,9 +617,9 @@ namespace OptionalUI
                     {
                         if (Input.GetKey(acceptKeys[n]))
                         {
-                            if (!soundFilled)
+                            if (!_soundFilled)
                             {
-                                soundFill += 12;
+                                _soundFill += 12;
                                 menu.PlaySound(SoundID.MENY_Already_Selected_MultipleChoice_Clicked);
                             }
                             inputHex += acceptKeys[n].Substring(0, 1).ToUpper();
@@ -837,10 +837,10 @@ namespace OptionalUI
                                         r = dr;
                                         g = dg;
                                         b = db;
-                                        if (!soundFilled)
+                                        if (!_soundFilled)
                                         {
                                             menu.PlaySound(SoundID.MENU_Scroll_Tick);
-                                            soundFill += 4;
+                                            _soundFill += 4;
                                         }
                                         button = true;
                                     }
@@ -872,10 +872,10 @@ namespace OptionalUI
                                         if (l != lastL)
                                         {
                                             button = true;
-                                            if (!soundFilled)
+                                            if (!_soundFilled)
                                             {
                                                 menu.PlaySound(SoundID.MENU_Scroll_Tick);
-                                                soundFill += 4;
+                                                _soundFill += 4;
                                             }
                                         }
                                     }
@@ -904,10 +904,10 @@ namespace OptionalUI
                                         if (lastH != h || lastS != s)
                                         {
                                             button = true;
-                                            if (!soundFilled)
+                                            if (!_soundFilled)
                                             {
                                                 menu.PlaySound(SoundID.MENU_Scroll_Tick);
-                                                soundFill += 4;
+                                                _soundFill += 4;
                                             }
                                         }
                                     }
@@ -937,10 +937,10 @@ namespace OptionalUI
                                         {
                                             pi = _i;
                                             button = true;
-                                            if (!soundFilled)
+                                            if (!_soundFilled)
                                             {
                                                 menu.PlaySound(SoundID.Mouse_Scurry);
-                                                soundFill += 8;
+                                                _soundFill += 8;
                                             }
                                         }
                                         this.ForceValue(this.PaletteHex[_i]);
@@ -1107,11 +1107,11 @@ namespace OptionalUI
             }
         }
 
-        public float LastCol { get => lastCol; set => lastCol = value; }
+        //private float LastCol { get => lastCol; set => lastCol = value; }
 
-        public override void OnChange()
+        internal override void OnChange()
         {
-            if (!ctor || !init) { return; }
+            if (!ctor || !_init) { return; }
             base.OnChange();
             RecalculateTexture();
 

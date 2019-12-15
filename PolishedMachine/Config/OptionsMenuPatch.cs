@@ -6,13 +6,14 @@ using UnityEngine;
 using Menu;
 using PolishedMachine.Config;
 
-namespace CompletelyOptional
+namespace PolishedMachine.Config
 {
     /// <summary>
     /// These code attach themselves to OptionsMenu.
     /// </summary>
     public static class OptionsMenuPatch
     {
+#pragma warning disable IDE0060
         public static string UpdateInfoTextPatch(On.Menu.OptionsMenu.orig_UpdateInfoText orig, OptionsMenu menu)
         {
             //Code

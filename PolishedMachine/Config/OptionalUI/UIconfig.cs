@@ -72,7 +72,7 @@ namespace OptionalUI
                 if (_held != value)
                 {
                     _held = value;
-                    CompletelyOptional.ConfigMenu.freezeMenu = value;
+                    ConfigMenu.freezeMenu = value;
                 }
             }
         }
@@ -112,7 +112,7 @@ namespace OptionalUI
                 if (_value != value)
                 {
                     _value = value;
-                    if (init) { OnChange(); }
+                    if (_init) { OnChange(); }
                 }
             }
         }
@@ -154,11 +154,11 @@ namespace OptionalUI
             }
         }
 
-        public override void OnChange()
+        internal override void OnChange()
         {
             base.OnChange();
-            CompletelyOptional.OptionScript.configChanged = true;
-            (menu as CompletelyOptional.ConfigMenu).saveButton.menuLabel.text = "APPLY";
+            OptionScript.configChanged = true;
+            (menu as ConfigMenu).saveButton.menuLabel.text = "APPLY";
         }
 
         /// <summary>
@@ -177,11 +177,11 @@ namespace OptionalUI
         /// <param name="dt">deltaTime</param>
         public override void Update(float dt)
         {
-            if (!init) { return; }
+            if (!_init) { return; }
             base.Update(dt);
             if (showDesc && !this.greyedOut)
             {
-                CompletelyOptional.ConfigMenu.description = this.description;
+                ConfigMenu.description = this.description;
             }
         }
 

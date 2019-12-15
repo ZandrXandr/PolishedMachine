@@ -6,7 +6,7 @@ using OptionalUI;
 using Partiality.Modloader;
 using UnityEngine;
 
-namespace CompletelyOptional
+namespace PolishedMachine.Config
 {
     /// <summary>
     /// Default OI that's called when your mod does not support CompletelyOptional.
@@ -78,13 +78,12 @@ namespace CompletelyOptional
             //Futile.atlasManager.LogAllElementNames();
 
             labelID = new OpLabel(new Vector2(100f, 500f), new Vector2(400f, 50f), mod.ModID, FLabelAlignment.Center, true);
-            Tabs[0].AddItem(labelID);
             labelVersion = new OpLabel(new Vector2(100f, 450f), new Vector2(100f, 20f), string.Concat("Version: ", mod.Version), FLabelAlignment.Left);
-            Tabs[0].AddItem(labelVersion);
+            Tabs[0].AddItems(labelID, labelVersion);
             if (mod.author != "NULL")
             {
                 labelAuthor = new OpLabel(new Vector2(350f, 450f), new Vector2(200f, 20f), string.Concat("Author: ", mod.author), FLabelAlignment.Right);
-                Tabs[0].AddItem(labelAuthor);
+                Tabs[0].AddItems(labelAuthor);
                 labelAuthor.autoWrap = true;
             }
             /*
@@ -106,7 +105,7 @@ namespace CompletelyOptional
             {
                 case Reason.NoInterface:
                     labelSluggo0 = new OpLabel(new Vector2(100f, 200f), new Vector2(400f, 20f), "This Partiality Mod/Patch cannot be configured.");
-                    Tabs[0].AddItem(labelSluggo0);
+                    Tabs[0].AddItems(labelSluggo0);
 
                     break;
                 case Reason.InitError:
@@ -128,10 +127,7 @@ namespace CompletelyOptional
                     };
                     labelSluggo1.OnChange();
 
-                    Tabs[0].AddItem(blue);
-                    Tabs[0].AddItem(oof);
-                    Tabs[0].AddItem(labelSluggo0);
-                    Tabs[0].AddItem(labelSluggo1);
+                    Tabs[0].AddItems(blue, oof, labelSluggo0, labelSluggo1);
 
                     break;
             }
@@ -140,26 +136,18 @@ namespace CompletelyOptional
         public void TutoInit()
         {
             labelID = new OpLabel(new Vector2(100f, 500f), new Vector2(400f, 50f), "No Mod can be configured", FLabelAlignment.Center, true);
-            Tabs[0].AddItem(labelID);
+            
             labelVersion = new OpLabel(new Vector2(100f, 440f), new Vector2(200f, 20f), string.Concat("Config Machine (CompletelyOptional) by topicular"), FLabelAlignment.Left);
-            Tabs[0].AddItem(labelVersion);
             labelAuthor = new OpLabel(new Vector2(300f, 410f), new Vector2(200f, 20f), string.Concat("also shoutout to RW Discord for helping me out"), FLabelAlignment.Right);
-            Tabs[0].AddItem(labelAuthor);
-
+            
             labelSluggo0 = new OpLabel(new Vector2(100f, 300f), new Vector2(400f, 20f), "checkout pinned tutorial in modding-support");
             labelSluggo1 = new OpLabel(new Vector2(100f, 260f), new Vector2(400f, 20f), "and create your own config screen!");
-            Tabs[0].AddItem(labelSluggo0);
-            Tabs[0].AddItem(labelSluggo1);
+            Tabs[0].AddItems(labelID, labelVersion, labelAuthor, labelSluggo0, labelSluggo1);
         }
 
 
-        public OpLabel labelID;
-        public OpLabel labelVersion;
-        public OpLabel labelAuthor;
-        public OpLabel labelCoauthor;
-        public OpLabel labelDesc;
-        public OpLabel labelSluggo0;
-        public OpLabel labelSluggo1;
+        public OpLabel labelID, labelVersion, labelAuthor, labelCoauthor;
+        public OpLabel labelDesc, labelSluggo0, labelSluggo1;
         public OpRect blue;
         public OpLabel oof;
 

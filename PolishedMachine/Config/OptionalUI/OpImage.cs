@@ -20,7 +20,7 @@ namespace OptionalUI
         public OpImage(Vector2 pos, Texture2D image) : base(pos, new Vector2(image.width, image.height))
         {
             if (image == null) { throw new ElementFormatException(this, "There is no Texture2D for OpImage"); }
-            if (!init) {
+            if (!_init) {
                 this.sprite = new FSprite("pixel", true);
                 return;
             }
@@ -43,7 +43,7 @@ namespace OptionalUI
         /// <param name="fAtlasElement">Name of FAtlasElement in Rain World you want to display</param>
         public OpImage(Vector2 pos, string fAtlasElement) : base(pos, Vector2.zero)
         {
-            if (!init)
+            if (!_init)
             {
                 this.sprite = new FSprite("pixel", true);
                 return;
@@ -74,7 +74,7 @@ namespace OptionalUI
         /// <param name="newImage">new image</param>
         public void ChangeImage(Texture2D newImage)
         {
-            if (!init) { return; }
+            if (!_init) { return; }
             if (!isTexture) { throw new ElementFormatException(this, "You must construct this with Texture2D to use this function"); }
             Futile.atlasManager.UnloadAtlas(salt + "image");
             myContainer.RemoveAllChildren();
@@ -135,9 +135,9 @@ namespace OptionalUI
         }
         private Color _color;
 
-        public override void OnChange()
+        internal override void OnChange()
         {
-            if (!init) { return; }
+            if (!_init) { return; }
             base.OnChange();
             sprite.alpha = _alpha;
             if (!isTexture)

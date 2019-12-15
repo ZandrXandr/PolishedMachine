@@ -7,7 +7,7 @@ using OptionalUI;
 using Menu;
 
 
-namespace CompletelyOptional
+namespace PolishedMachine.Config
 {
     /// <summary>
     /// Special kind of OpTab for ConfigMenu. You don't need this.

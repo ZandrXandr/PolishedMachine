@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
-using CompletelyOptional;
 using Menu;
 
 namespace OptionalUI
@@ -28,7 +27,7 @@ namespace OptionalUI
             this.ForceValue(defaultSet.Substring(0, this.multi));
             this.valueOrder = this.value;
             this.defaultValue = this.value;
-            if (!init) { return; }
+            if (!_init) { return; }
 
             this._greyedOut = false;
 
@@ -116,9 +115,9 @@ namespace OptionalUI
 
         private string valueOrder;
 
-        public override void OnChange()
+        internal override void OnChange()
         {
-            if (!init) { return; }
+            if (!_init) { return; }
             base.OnChange();
             this.Reorder();
         }

@@ -42,6 +42,7 @@ namespace MonoMod {
                 type.IsPublic = true;
         }
 
+#pragma warning disable IDE0060
         private static void PostProcessField(MonoModder modder, FieldDefinition field) {
             field.IsPublic = true;
         }

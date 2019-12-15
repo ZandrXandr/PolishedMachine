@@ -22,7 +22,7 @@ namespace OptionalUI
         /// <param name="defaultInt">default value</param>
         public OpDragger(Vector2 pos, string key, int defaultInt = 0) : base(pos, new Vector2(24f, 24f), key, defaultInt.ToString())
         {
-            if (!init) { return; }
+            if (!_init) { return; }
             this.rect = new DyeableRect(menu, owner, this.pos, this.size, true);
             this.subObjects.Add(this.rect);
             this.label = new MenuLabel(menu, owner, defaultInt.ToString(), this.pos + new Vector2(0f, 2f), new Vector2(24f, 20f), false);
@@ -62,7 +62,7 @@ namespace OptionalUI
             }
 
             this.flash = Custom.LerpAndTick(this.flash, 0f, 0.03f, 0.166666672f);
-            this.greyFade = Custom.LerpAndTick(this.greyFade, (!CompletelyOptional.ConfigMenu.freezeMenu || this.held) ? 0f : 1f, 0.05f, 0.025f);
+            this.greyFade = Custom.LerpAndTick(this.greyFade, (!PolishedMachine.Config.ConfigMenu.freezeMenu || this.held) ? 0f : 1f, 0.05f, 0.025f);
             Color color; //= Color.Lerp(Menu.Menu.MenuRGB(Menu.Menu.MenuColors.Black), Menu.Menu.MenuRGB(Menu.Menu.MenuColors.White), this.flash);
             float num = 0.5f - 0.5f * Mathf.Sin(this.sin / 30f * 3.14159274f * 2f);
             num *= this.sizeBump;
@@ -168,13 +168,13 @@ namespace OptionalUI
 
         }
 
-        public override void OnChange()
+        internal override void OnChange()
         {
             base.OnChange();
             if (MouseOver || held) {
-                if (!soundFilled)
+                if (!_soundFilled)
                 {
-                    soundFill += 5;
+                    _soundFill += 5;
                     menu.PlaySound(SoundID.MENU_Scroll_Tick);
                 }
                 this.sizeBump = Mathf.Min(2.5f, this.sizeBump + 1f);

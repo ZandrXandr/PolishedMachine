@@ -6,7 +6,7 @@ using System.Text;
 using RWCustom;
 using UnityEngine;
 
-namespace CompletelyOptional
+namespace PolishedMachine.Config
 {
     /// <summary>
     /// This Encrypt/Decrypt data/config.

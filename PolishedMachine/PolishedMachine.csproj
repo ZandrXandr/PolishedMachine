@@ -104,7 +104,6 @@
     <Compile Include="Config\OptionsMenuPatch.cs" />
     <Compile Include="Config\ProgressData.cs" />
     <Compile Include="Config\UnconfiguableOI.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="ModUtilities\Extenders\CharacterExtender.cs" />
     <Compile Include="ModUtilities\Extenders\CreatureExtender.cs" />
     <Compile Include="ModUtilities\Extenders\ObjectExtender.cs" />
@@ -115,7 +114,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Config\To Do List.txt" />
+    <None Include="Config\To Do List.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />

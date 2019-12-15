@@ -31,7 +31,7 @@ namespace OptionalUI
                 this.ForceValue("false");
             }
             this.defaultValue = this.value;
-            if (!init) { return; }
+            if (!_init) { return; }
 
             this.rect = new DyeableRect(menu, owner, this.pos, this.size, true);
             this.subObjects.Add(rect);
@@ -158,7 +158,7 @@ namespace OptionalUI
         private float sin; private float symbolHalfVisible;
 
 
-        public override void OnChange()
+        internal override void OnChange()
         {
             base.OnChange();
         }

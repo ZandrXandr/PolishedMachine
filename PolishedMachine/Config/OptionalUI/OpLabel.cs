@@ -29,7 +29,7 @@ namespace OptionalUI
             this.lineLength = Mathf.FloorToInt((size.x - 10f) / 6f);
             this.autoWrap = false;
             this.color = Menu.Menu.MenuRGB(Menu.Menu.MenuColors.MediumGrey);
-            if (init)
+            if (_init)
             {
                 this.label = new MenuLabel(menu, owner, _text, this.pos, minSize, this._bigText);
                 this.label.label.color = this.color;
@@ -71,9 +71,9 @@ namespace OptionalUI
         public Color color;
 
 
-        public override void OnChange()
+        internal override void OnChange()
         {
-            if (!init) { return; }
+            if (!_init) { return; }
             base.OnChange();
             if (!this.autoWrap)
             {

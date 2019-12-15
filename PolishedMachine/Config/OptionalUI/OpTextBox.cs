@@ -35,7 +35,7 @@ namespace OptionalUI
             this.mouseDown = false;
             this.keyboardOn = false;
 
-            if (!init) { return; }
+            if (!_init) { return; }
 
             this.rect = new DyeableRect(menu, owner, this.pos, this.size, true) { fillAlpha = 0.5f };
             this.subObjects.Add(this.rect);
@@ -146,9 +146,9 @@ namespace OptionalUI
                         if (this.value.Length > 0)
                         {
                             this.ForceValue(this.value.Substring(0, this.value.Length - 1));
-                            if (!soundFilled)
+                            if (!_soundFilled)
                             {
-                                soundFill += 12;
+                                _soundFill += 12;
                                 menu.PlaySound(SoundID.MENY_Already_Selected_MultipleChoice_Clicked);
                             }
                             OnChange();
@@ -367,9 +367,9 @@ namespace OptionalUI
 
                 accepted:
                 if (Input.anyKey) {
-                    if (!soundFilled)
+                    if (!_soundFilled)
                     {
-                        soundFill += 12;
+                        _soundFill += 12;
                         menu.PlaySound(SoundID.MENU_Checkbox_Uncheck);
                     }
                 }
@@ -378,9 +378,9 @@ namespace OptionalUI
             }
         }
 
-        public override void OnChange()
+        internal override void OnChange()
         {
-            if (!init) { return; }
+            if (!_init) { return; }
             base.OnChange();
 
 

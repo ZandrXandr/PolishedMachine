@@ -82,7 +82,7 @@ namespace OptionalUI
             throw new NotImplementedException();
         }
 
-        
+
     }
 
     /// <summary>
@@ -209,23 +209,29 @@ namespace OptionalUI
     /// Called progData property without being it progData
     /// </summary>
     [Serializable]
-    public class NoProgDataException : FormatException
+    public class InvaildGetPropertyException : FormatException
     {
-        public NoProgDataException(OptionInterface oi, string name) : base(
+        public InvaildGetPropertyException(OptionInterface oi, string name) : base(
             string.Concat(oi.mod.ModID, " called ", name, "eventhough its progData is false!"))
         {
         }
 
-        public NoProgDataException(string message) : base(string.Concat("NoProgDataException: ", message))
+        public InvaildGetPropertyException(UIelement element, string name) : base(
+            string.Concat(element, element is UIconfig ? string.Concat("(key: ", (element as UIconfig).key, ")") : string.Empty,
+                " called ", name, "which is invaild!"))
         {
         }
-        public NoProgDataException(string message, Exception innerException) : base(message, innerException)
+
+        public InvaildGetPropertyException(string message) : base(string.Concat("NoProgDataException: ", message))
         {
         }
-        public NoProgDataException() : base("Invaild property called eventhough its progData is false")
+        public InvaildGetPropertyException(string message, Exception innerException) : base(message, innerException)
         {
         }
-        protected NoProgDataException(System.Runtime.Serialization.SerializationInfo serializationInfo, System.Runtime.Serialization.StreamingContext streamingContext)
+        public InvaildGetPropertyException() : base("Invaild property called eventhough its progData is false")
+        {
+        }
+        protected InvaildGetPropertyException(System.Runtime.Serialization.SerializationInfo serializationInfo, System.Runtime.Serialization.StreamingContext streamingContext)
         {
         }
     }

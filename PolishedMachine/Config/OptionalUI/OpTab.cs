@@ -34,17 +34,25 @@ namespace OptionalUI
         private readonly string _name;
 
         public bool isHidden;
+        /// <summary>
+        /// Use OptionInterface.init instead.
+        /// </summary>
+        [Obsolete]
         public bool init
         {
-            get { return CompletelyOptional.OptionScript.init; }
+            get { return PolishedMachine.Config.OptionScript.init; }
         }
 
 
         public List<UIelement> items;
 
+        /// <summary>
+        /// Update for OpTab. Automatically called. Don't use this by yourself.
+        /// </summary>
+        /// <param name="dt">deltaTime</param>
         public void Update(float dt)
         {
-            if (this.isHidden || !init) { return; }
+            if (this.isHidden || !PolishedMachine.Config.OptionScript.init) { return; }
 
             foreach (UIelement item in this.items)
             {
@@ -53,14 +61,20 @@ namespace OptionalUI
         }
 
         /// <summary>
-        /// Add UIelement to this Tab.
+        /// Obsolete! Use AddItems instead.
         /// </summary>
         /// <param name="item">UIelement</param>
+        [Obsolete]
         public void AddItem(UIelement item)
+        {
+            this._AddItem(item);
+        }
+
+        private void _AddItem(UIelement item)
         {
             if (this.items.Contains(item)) { return; }
             this.items.Add(item);
-            item.tab = this;
+            item.SetTab(this);
         }
 
         /// <summary>
@@ -69,22 +83,36 @@ namespace OptionalUI
         /// <param name="items">UIelements</param>
         public void AddItems(params UIelement[] items)
         {
-            foreach (UIelement item in items) { this.AddItem(item); }
+            foreach (UIelement item in items) { this._AddItem(item); }
         }
 
         /// <summary>
-        /// Remove UIelement in this Tab.
+        /// Obsolete! Use RemoveItems instead.
         /// </summary>
-        /// <param name="item"></param>
-        public void RemoveItem(UIelement item)
+        /// <param name="item">UIelement</param>
+        [Obsolete]
+        public void RemoveItem(UIelement item) { _RemoveItem(item); }
+        /// <summary>
+        /// Remove UIelements in this Tab.
+        /// </summary>
+        /// <param name="items">UIelements</param>
+        public void RemoveItems(params UIelement[] items)
+        {
+            foreach (UIelement item in items) { this._RemoveItem(item); }
+        }
+
+        private void _RemoveItem(UIelement item)
         {
             while (this.items.Contains(item))
             {
                 this.items.Remove(item);
             }
-            item.tab = null;
+            item.SetTab(null);
         }
 
+        /// <summary>
+        /// Hide this tab. Automatically called. Don't use this by yourself.
+        /// </summary>
         public void Hide()
         {
             this.isHidden = true;
@@ -93,6 +121,9 @@ namespace OptionalUI
                 element.Hide();
             }
         }
+        /// <summary>
+        /// Show this tab. Automatically called. Don't use this by yourself.
+        /// </summary>
         public void Show()
         {
             this.isHidden = false;
