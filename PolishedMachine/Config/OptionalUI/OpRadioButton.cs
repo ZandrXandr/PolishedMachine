@@ -18,7 +18,7 @@ namespace OptionalUI
         public OpRadioButton(Vector2 pos) : base(pos, new Vector2(24f, 24f))
         {
             this._value = "false";
-            if (!init) { return; }
+            if (!_init) { return; }
             
             this.rect = new DyeableRect(menu, owner, this.pos, this.size, true);
             this.subObjects.Add(rect);

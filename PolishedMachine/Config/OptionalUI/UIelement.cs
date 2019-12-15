@@ -6,6 +6,7 @@ using UnityEngine;
 using System.ComponentModel;
 using Menu;
 using RWCustom;
+using PolishedMachine.Config;
 
 namespace OptionalUI
 {
@@ -22,12 +23,12 @@ namespace OptionalUI
         public UIelement(Vector2 pos, Vector2 size)
         {
             this.isRectangular = true;
-            this._pos = pos + offset;
+            this._pos = pos + _offset;
             this._size = size;
-            if (init)
+            if (_init)
             {
-                this.menu = CompletelyOptional.OptionScript.configMenu;
-                this.owner = CompletelyOptional.OptionScript.configMenu.pages[0];
+                this.menu = OptionScript.configMenu;
+                this.owner = OptionScript.configMenu.pages[0];
                 this.subObjects = new List<PositionedMenuObject>();
                 this.nextSelectable = new PositionedMenuObject[4];
                 this.myContainer = new FContainer();
@@ -48,12 +49,12 @@ namespace OptionalUI
         {
 
             this.isRectangular = false;
-            this._pos = pos + offset;
+            this._pos = pos + _offset;
             this._rad = rad;
-            if (init)
+            if (_init)
             {
-                this.menu = CompletelyOptional.OptionScript.configMenu;
-                this.owner = CompletelyOptional.OptionScript.configMenu.pages[0];
+                this.menu = OptionScript.configMenu;
+                this.owner = OptionScript.configMenu.pages[0];
                 this.subObjects = new List<PositionedMenuObject>();
                 this.nextSelectable = new PositionedMenuObject[4];
                 this.myContainer = new FContainer();
@@ -67,43 +68,61 @@ namespace OptionalUI
         }
         public virtual void Reset()
         {
-            
+
         }
 
         /// <summary>
         /// Offset from BottomLeft of the screen.
         /// </summary>
-        public static Vector2 offset = new Vector2(538f, 120f);
+        [Obsolete]
+        public static Vector2 offset => _offset;
 
         /// <summary>
-        /// Prevent Sound Engine from Crashing.
+        /// Offset from BottomLeft of the screen.
         /// </summary>
-        public static int soundFill
+        internal static readonly Vector2 _offset = new Vector2(538f, 120f);
+
+
+        /// <summary>
+        /// Prevent Sound Engine from Crashing. Use OptionInterface one instead.
+        /// </summary>
+        [Obsolete]
+        public static int soundFill => _soundFill;
+
+        internal static int _soundFill
         {
             get
             {
-                return CompletelyOptional.OptionScript.soundFill;
+                return OptionScript.soundFill;
             }
             set
             {
-                CompletelyOptional.OptionScript.soundFill = value;
-            }
-        }
-        /// <summary>
-        /// Whether the Sound Engine is full or not.
-        /// </summary>
-        public static bool soundFilled
-        {
-            get
-            {
-                return soundFill > 80;
+                OptionScript.soundFill = value;
             }
         }
 
         /// <summary>
-        /// Whether this is in ConfigMenu or not.
+        /// Whether the Sound Engine is full or not. Use OptionInterface one instead.
         /// </summary>
-        public static bool init => CompletelyOptional.OptionScript.init;
+        [Obsolete]
+        public static bool soundFilled => _soundFilled;
+
+        public static bool _soundFilled
+        {
+            get
+            {
+                return _soundFill > 80;
+            }
+        }
+
+        /// <summary>
+        /// Whether this is in ConfigMenu or not. Use OptionInterface one instead.
+        /// </summary>
+        [Obsolete]
+        public static bool init => OptionScript.init;
+
+        internal static bool _init => OptionScript.init;
+
 
         /// <summary>
         /// Position of this element.
@@ -116,10 +135,10 @@ namespace OptionalUI
             }
             set
             {
-                if (_pos != value + offset)
+                if (_pos != value + _offset)
                 {
-                    _pos = value + offset;
-                    if (init)
+                    _pos = value + _offset;
+                    if (_init)
                     {
                         OnChange();
                     }
@@ -142,7 +161,7 @@ namespace OptionalUI
                 if (_size != value)
                 {
                     _size = value;
-                    if (init)
+                    if (_init)
                     {
                         OnChange();
                     }
@@ -157,6 +176,7 @@ namespace OptionalUI
         {
             get
             {
+                if (isRectangular) { throw new InvaildGetPropertyException(this, "rad"); }
                 return _rad;
             }
             set
@@ -164,7 +184,7 @@ namespace OptionalUI
                 if (_rad != value)
                 {
                     _rad = value;
-                    if (init)
+                    if (_init)
                     {
                         OnChange();
                     }
@@ -173,19 +193,24 @@ namespace OptionalUI
         }
         internal float _rad;
 
-        public Menu.Menu menu;
+        internal Menu.Menu menu;
         /// <summary>
-        /// Whether the element is Rectangular or Circular(false)
+        /// Whether the element is Rectangular(true) or Circular(false)
         /// </summary>
         public readonly bool isRectangular;
         /// <summary>
         /// OpTab this element is belong to.
         /// </summary>
-        public OpTab tab;
+        private OpTab tab;
+        /// <summary>
+        /// Do not use this. Instead, use OpTab.AddItems and OpTab.RemoveItems.
+        /// </summary>
+        /// <param name="newTab">new OpTab this item will be belong to</param>
+        public void SetTab(OpTab newTab) { this.tab = newTab; }
 
 
 
-        public Page page
+        internal Page page
         {
             get
             {
@@ -201,18 +226,18 @@ namespace OptionalUI
         /// MenuObject this element have.
         /// </summary>
         public List<PositionedMenuObject> subObjects;
-        public Page owner;
+        internal Page owner;
         public PositionedMenuObject[] nextSelectable;
-        public FContainer myContainer;
+        internal FContainer myContainer;
 
 
 
         /// <summary>
         /// When this element needs graphical change.
         /// </summary>
-        public virtual void OnChange()
+        internal virtual void OnChange()
         {
-            if (!init) { return; }
+            if (!_init) { return; }
             this.myContainer.SetPosition(this.ScreenPos);
         }
 
@@ -231,7 +256,7 @@ namespace OptionalUI
         /// <summary>
         /// Whether mousecursor is over this element or not.
         /// </summary>
-        public virtual bool MouseOver
+        internal virtual bool MouseOver
         {
             get
             {
@@ -279,7 +304,7 @@ namespace OptionalUI
         /// <param name="dt">deltaTime</param>
         public virtual void Update(float dt)
         {
-            if (!init) { return; }
+            if (!_init) { return; }
             foreach (MenuObject obj in this.subObjects)
             {
                 obj.Update();
@@ -290,15 +315,13 @@ namespace OptionalUI
             showDesc = !tab.isHidden && this.MouseOver && !string.IsNullOrEmpty(this.description);
             if (showDesc && !(this is UIconfig))
             {
-                CompletelyOptional.ConfigMenu.description = this.description;
+                ConfigMenu.description = this.description;
             }
         }
         public bool showDesc;
 
         /// <summary>
-        /// Update that happens every frame,
-        /// but this is only for graphical detail,
-        /// for visiblity of Update code.
+        /// Update that happens every frame, but this is only for graphical detail for visiblity of Update code.
         /// </summary>
         /// <param name="dt">deltaTime</param>
         public virtual void GrafUpdate(float dt)

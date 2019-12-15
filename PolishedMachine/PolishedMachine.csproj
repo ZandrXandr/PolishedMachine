@@ -114,7 +114,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Config\To Do List.txt" />
+    <None Include="Config\To Do List.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />

@@ -22,7 +22,7 @@ namespace OptionalUI
         public OpRect(Vector2 pos, Vector2 size, float alpha = 0.3f) : base(pos, size)
         {
             this.alpha = alpha;
-            if (!init) { return; }
+            if (!_init) { return; }
             
             this.rect = new DyeableRect(menu, owner, this.pos, size, true);
             this.subObjects.Add(this.rect);
@@ -92,7 +92,7 @@ namespace OptionalUI
 
         public override void Update(float dt)
         {
-            if (!init) { return; }
+            if (!_init) { return; }
             base.Update(dt);
         }
 

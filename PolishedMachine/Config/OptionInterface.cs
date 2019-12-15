@@ -58,6 +58,31 @@ namespace OptionalUI
             get { return OptionScript.init; }
         }
 
+        /// <summary>
+        /// How much the Sound Engine is full.
+        /// </summary>
+        public static int soundFill
+        {
+            get
+            {
+                return OptionScript.soundFill;
+            }
+            set
+            {
+                OptionScript.soundFill = value;
+            }
+        }
+
+        /// <summary>
+        /// Whether the Sound Engine is full or not.
+        /// </summary>
+        public static bool soundFilled
+        {
+            get
+            {
+                return soundFill > 80;
+            }
+        }
 
 
         /// <summary>

@@ -166,12 +166,11 @@ namespace PolishedMachine.Config
             this.pages[0].Container.AddChild(this.darkSprite);
 
 
-            modListBound = new OpRect(new Vector2(205f, 225f) - UIelement.offset, new Vector2(280f, 510f), 0.3f);
+            modListBound = new OpRect(new Vector2(205f, 225f) - UIelement._offset, new Vector2(280f, 510f), 0.3f);
             //modCanvasBound = new OpRect(new Vector2(553f, 105f), new Vector2(630f, 630f), 0.4f);
-            modCanvasBound = new OpRect(new Vector2(533f, 105f) - UIelement.offset, new Vector2(630f, 630f), 0.4f);
+            modCanvasBound = new OpRect(new Vector2(533f, 105f) - UIelement._offset, new Vector2(630f, 630f), 0.4f);
             //Base: new Vector2(468f, 120f);
-            menuTab.AddItem(modListBound);
-            menuTab.AddItem(modCanvasBound);
+            menuTab.AddItems(modListBound, modCanvasBound);
             this.pages[0].subObjects.Add(modListBound.rect);
             this.pages[0].subObjects.Add(modCanvasBound.rect);
             
@@ -317,8 +316,8 @@ namespace PolishedMachine.Config
             }
 
 
-            tabCtrler = new ConfigTabController(new Vector2(493f, 120f) - UIelement.offset, new Vector2(40f, 600f), menuTab, this);
-            menuTab.AddItem(tabCtrler);
+            tabCtrler = new ConfigTabController(new Vector2(493f, 120f) - UIelement._offset, new Vector2(40f, 600f), menuTab, this);
+            menuTab.AddItems(tabCtrler);
             foreach (MenuObject obj in tabCtrler.subObjects)
             {
                 this.pages[0].subObjects.Add(obj);

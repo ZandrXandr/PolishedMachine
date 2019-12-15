@@ -73,7 +73,7 @@ namespace PolishedMachine.Config
 
         }
 
-        public override void OnChange()
+        internal override void OnChange()
         { //Selected Tab has changed
             base.OnChange();
             if(_tabCount != tabCount)

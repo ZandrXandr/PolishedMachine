@@ -36,7 +36,7 @@ namespace OptionalUI
             this.bind = ctrlerNo;
             this.defaultValue = this.value;
 
-            if (!init) { return; }
+            if (!_init) { return; }
             this.Initalize(defaultKey);
         }
 
@@ -61,7 +61,7 @@ namespace OptionalUI
             this.check = collisionCheck;
             this.bind = ctrlerNo;
 
-            if (!init) { return; }
+            if (!_init) { return; }
             this.Initalize(defaultKey);
         }
 
@@ -112,8 +112,8 @@ namespace OptionalUI
 
         private Dictionary<string, string> BoundKey
         {
-            get { return CompletelyOptional.ConfigMenu.BoundKey; }
-            set { CompletelyOptional.ConfigMenu.BoundKey = value; }
+            get { return ConfigMenu.BoundKey; }
+            set { ConfigMenu.BoundKey = value; }
         }
         private readonly string controlKey; private readonly string modID;
 
@@ -170,7 +170,7 @@ namespace OptionalUI
 
             if (this.MouseOver)
             {
-                CompletelyOptional.ConfigMenu.description = this.Getdescription();
+                ConfigMenu.description = this.Getdescription();
                 this.sizeBump = Custom.LerpAndTick(this.sizeBump, 1f, 0.1f, 0.1f);
                 this.extraSizeBump = Mathf.Min(1f, this.extraSizeBump + 0.1f);
                 this.sin += 1f;
@@ -354,9 +354,9 @@ namespace OptionalUI
 
         }
 
-        public override void OnChange()
+        internal override void OnChange()
         {
-            if (!init) { return; }
+            if (!_init) { return; }
             base.OnChange();
             this.label.text = this.value;
             Debug.Log(this.value);

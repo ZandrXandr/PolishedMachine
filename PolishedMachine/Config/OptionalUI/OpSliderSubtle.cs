@@ -31,7 +31,7 @@ namespace OptionalUI
             this.wheelTick = 1;
             this.defaultValue = this.value;
 
-            if (!init) { return; }
+            if (!_init) { return; }
 
             this.Nobs = new FSprite[r];
             this.s = 10f;
@@ -49,7 +49,7 @@ namespace OptionalUI
         internal override void Initialize()
         {
             base.Initialize();
-            if (!init) { return; }
+            if (!_init) { return; }
 
         }
 
@@ -91,7 +91,7 @@ namespace OptionalUI
             this.s = Custom.LerpAndTick(this.s, this.flash * 6f + 10f, 0.08f, 0.333333343f);
         }
 
-        public override void OnChange()
+        internal override void OnChange()
         {
             base.OnChange();
         }

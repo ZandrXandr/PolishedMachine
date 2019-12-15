@@ -19,7 +19,7 @@ namespace OptionalUI
         {
             this.ForceValue(defaultValue.ToString());
             this.defaultValue = this.value;
-            if (!init) { return; }
+            if (!_init) { return; }
             this._greyedOut = false;
 
             this.subObjects = new List<PositionedMenuObject>(0);
@@ -95,7 +95,7 @@ namespace OptionalUI
                 if (base.value != value)
                 {
                     this.ForceValue(value);
-                    if (init)
+                    if (_init)
                     {
                         Switch(int.Parse(value));
                     }
@@ -116,9 +116,9 @@ namespace OptionalUI
             this.OnChange();
         }
 
-        public override void OnChange()
+        internal override void OnChange()
         {
-            if (!init) { return; }
+            if (!_init) { return; }
             base.OnChange();
 
 

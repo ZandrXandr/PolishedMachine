@@ -30,7 +30,7 @@ namespace OptionalUI
             this.mul = m;
             this._size = this.vertical ? new Vector2(24f, Mathf.Max(32f, r * m)) : new Vector2(Mathf.Max(32f, r * m), 24f);
             this.ForceValue(Custom.IntClamp(defaultValue, min, max).ToString());
-            if (!init) { return; }
+            if (!_init) { return; }
             Initialize();
         }
 
@@ -54,7 +54,7 @@ namespace OptionalUI
             this._size = this.vertical ? new Vector2(24f, Mathf.Max(32f, l)) : new Vector2(Mathf.Max(32f, l), 24f);
             this.ForceValue(Custom.IntClamp(defaultValue, min, max).ToString());
             this.defaultValue = this.value;
-            if (!init) { return; }
+            if (!_init) { return; }
             Initialize();
         }
 
@@ -228,7 +228,7 @@ namespace OptionalUI
             }
 
             this.flash = Custom.LerpAndTick(this.flash, 0f, 0.01f, 0.166666672f);
-            this.greyFade = Custom.LerpAndTick(this.greyFade, (!CompletelyOptional.ConfigMenu.freezeMenu || this.held) ? 0f : 1f, 0.05f, 0.025f);
+            this.greyFade = Custom.LerpAndTick(this.greyFade, (!PolishedMachine.Config.ConfigMenu.freezeMenu || this.held) ? 0f : 1f, 0.05f, 0.025f);
             float num = 0.5f - 0.5f * Mathf.Sin(this.sin / 30f * 3.14159274f * 2f);
             num *= this.sizeBump;
 
@@ -348,14 +348,14 @@ namespace OptionalUI
 
         }
 
-        public override void OnChange()
+        internal override void OnChange()
         {
             base.OnChange();
             if (MouseOver || held)
             {
-                if (!soundFilled)
+                if (!_soundFilled)
                 {
-                    soundFill += 5;
+                    _soundFill += 5;
                     menu.PlaySound(SoundID.MENU_Scroll_Tick);
                 }
                 this.flashBool = true;

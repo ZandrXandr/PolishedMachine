@@ -46,6 +46,10 @@ namespace OptionalUI
 
         public List<UIelement> items;
 
+        /// <summary>
+        /// Update for OpTab. Automatically called. Don't use this by yourself.
+        /// </summary>
+        /// <param name="dt">deltaTime</param>
         public void Update(float dt)
         {
             if (this.isHidden || !PolishedMachine.Config.OptionScript.init) { return; }
@@ -70,7 +74,7 @@ namespace OptionalUI
         {
             if (this.items.Contains(item)) { return; }
             this.items.Add(item);
-            item.tab = this;
+            item.SetTab(this);
         }
 
         /// <summary>
@@ -83,18 +87,32 @@ namespace OptionalUI
         }
 
         /// <summary>
-        /// Remove UIelement in this Tab.
+        /// Obsolete! Use RemoveItems instead.
         /// </summary>
-        /// <param name="item"></param>
-        public void RemoveItem(UIelement item)
+        /// <param name="item">UIelement</param>
+        [Obsolete]
+        public void RemoveItem(UIelement item) { _RemoveItem(item); }
+        /// <summary>
+        /// Remove UIelements in this Tab.
+        /// </summary>
+        /// <param name="items">UIelements</param>
+        public void RemoveItems(params UIelement[] items)
+        {
+            foreach (UIelement item in items) { this._RemoveItem(item); }
+        }
+
+        private void _RemoveItem(UIelement item)
         {
             while (this.items.Contains(item))
             {
                 this.items.Remove(item);
             }
-            item.tab = null;
+            item.SetTab(null);
         }
 
+        /// <summary>
+        /// Hide this tab. Automatically called. Don't use this by yourself.
+        /// </summary>
         public void Hide()
         {
             this.isHidden = true;
@@ -103,6 +121,9 @@ namespace OptionalUI
                 element.Hide();
             }
         }
+        /// <summary>
+        /// Show this tab. Automatically called. Don't use this by yourself.
+        /// </summary>
         public void Show()
         {
             this.isHidden = false;
