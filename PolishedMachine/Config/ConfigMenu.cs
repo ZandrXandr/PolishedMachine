@@ -676,11 +676,13 @@ namespace CompletelyOptional
                 {
                     foreach (MenuObject obj in element.subObjects)
                     {
-                        //obj.RemoveSprites();
+                        obj.RemoveSprites();
                         //this.pages[0].subObjects.Remove(obj);
                     }
+                    element.myContainer.RemoveAllChildren();
                     this.pages[0].Container.RemoveChild(element.myContainer);
                     element.myContainer.RemoveFromContainer();
+                    element.Unload();
                 }
                 tab.Unload();
             }

@@ -97,6 +97,13 @@ namespace CompletelyOptional
         {
             get { return pm.rainWorld.options.saveSlot; }
         }
+        /// <summary>
+        /// Currently Playing Slugcat.
+        /// </summary>
+        public static int slugcat
+        {
+            get { return pm.rainWorld.progression.PlayingAsSlugcat; }
+        }
 
         /// <summary>
         /// Whether Config has changed in Config Menu or not
@@ -290,7 +297,7 @@ namespace CompletelyOptional
 
             if (pm.currentMainLoop?.ID != ProcessManager.ProcessID.OptionsMenu)
             {
-                return;
+                goto BackgroundUpdate;
             }
             else if (!OptionsMenuPatch.mod)
             {
@@ -398,6 +405,17 @@ namespace CompletelyOptional
                 }
             }
 
+            return;
+
+        BackgroundUpdate:
+            //Background running
+            if (pm.currentMainLoop?.ID == ProcessManager.ProcessID.IntroRoll) { return; }
+            /*
+            foreach (OptionInterface oi in loadedInterfaces)
+            {
+
+            }
+            */
         }
 
     }

@@ -58,7 +58,10 @@ namespace OptionalUI
                 this.nextSelectable = new PositionedMenuObject[4];
                 this.myContainer = new FContainer();
                 this.myContainer.SetPosition(this._pos);
+                this.myContainer.scaleX = 1f;
+                this.myContainer.scaleY = 1f;
             }
+            this.description = "";
 
             //CompletelyOptional.OptionScript.uielements.Add(this);
         }

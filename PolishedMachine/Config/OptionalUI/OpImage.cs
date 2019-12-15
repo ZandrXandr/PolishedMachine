@@ -68,6 +68,21 @@ namespace OptionalUI
             this.isTexture = false;
         }
 
+        /// <summary>
+        /// Swap Image to new one
+        /// </summary>
+        /// <param name="newImage">new image</param>
+        public void ChangeImage(Texture2D newImage)
+        {
+            if (!init) { return; }
+            if (!isTexture) { throw new ElementFormatException(this, "You must construct this with Texture2D to use this function"); }
+            Futile.atlasManager.UnloadAtlas(salt + "image");
+            myContainer.RemoveAllChildren();
+            Futile.atlasManager.LoadAtlasFromTexture(salt + "image", newImage);
+            this.sprite = new FSprite(salt + "image", true);
+            this.sprite.SetAnchor(0f, 0f);
+            this.myContainer.AddChild(this.sprite);
+        }
 
         public FSprite sprite;
         private readonly bool isTexture;

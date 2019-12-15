@@ -199,11 +199,36 @@ namespace OptionalUI
         }
         protected ElementFormatException(System.Runtime.Serialization.SerializationInfo serializationInfo, System.Runtime.Serialization.StreamingContext streamingContext)
         {
-            throw new NotImplementedException();
         }
         public ElementFormatException() : base("One of UIelement threw exception for Invalid arguments!")
         {
         }
     }
+
+    /// <summary>
+    /// Called progData property without being it progData
+    /// </summary>
+    [Serializable]
+    public class NoProgDataException : FormatException
+    {
+        public NoProgDataException(OptionInterface oi, string name) : base(
+            string.Concat(oi.mod.ModID, " called ", name, "eventhough its progData is false!"))
+        {
+        }
+
+        public NoProgDataException(string message) : base(string.Concat("NoProgDataException: ", message))
+        {
+        }
+        public NoProgDataException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+        public NoProgDataException() : base("Invaild property called eventhough its progData is false")
+        {
+        }
+        protected NoProgDataException(System.Runtime.Serialization.SerializationInfo serializationInfo, System.Runtime.Serialization.StreamingContext streamingContext)
+        {
+        }
+    }
+
 
 }

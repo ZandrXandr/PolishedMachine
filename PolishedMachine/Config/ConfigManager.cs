@@ -70,6 +70,7 @@ namespace PolishedMachine.Config {
             On.Menu.OptionsMenu.Update += new On.Menu.OptionsMenu.hook_Update(OptionsMenuPatch.UpdatePatch);
             On.Menu.OptionsMenu.Singal += new On.Menu.OptionsMenu.hook_Singal(OptionsMenuPatch.SingalPatch);
             On.Menu.OptionsMenu.ShutDownProcess += new On.Menu.OptionsMenu.hook_ShutDownProcess(OptionsMenuPatch.ShutDownProcessPatch);
+            ProgressData.SubPatch();
 
             go = new GameObject("OptionController");
             script = go.AddComponent<OptionScript>();
