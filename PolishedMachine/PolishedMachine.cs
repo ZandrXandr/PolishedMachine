@@ -5,7 +5,6 @@ using System.Text;
 using Partiality.Modloader;
 using PolishedMachine.Bugfixes;
 using PolishedMachine.ModUtilities;
-using PolishedMachine.Config;
 using MonoMod.ModInterop;
 
 namespace PolishedMachine {

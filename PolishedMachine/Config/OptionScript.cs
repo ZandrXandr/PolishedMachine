@@ -14,7 +14,7 @@ using Menu;
 using On;
 using PolishedMachine.Config;
 
-namespace CompletelyOptional
+namespace PolishedMachine.Config
 {
     /// <summary>
     /// MonoBehavior part of CompletelyOptional Mod

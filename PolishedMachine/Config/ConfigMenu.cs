@@ -10,7 +10,7 @@ using OptionalUI;
 using System.Reflection;
 using PolishedMachine.Config;
 
-namespace CompletelyOptional
+namespace PolishedMachine.Config
 {
     /// <summary>
     /// Menu Screen for Mod Config

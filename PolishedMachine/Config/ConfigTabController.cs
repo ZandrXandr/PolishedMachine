@@ -7,7 +7,7 @@ using UnityEngine;
 using OptionalUI;
 using Menu;
 
-namespace CompletelyOptional
+namespace PolishedMachine.Config
 {
     /// <summary>
     /// UI for switching tabs
@@ -268,11 +268,11 @@ namespace CompletelyOptional
                     string name = ConfigMenu.currentInterface.Tabs[index].name;
                     if (string.IsNullOrEmpty(name))
                     {
-                        CompletelyOptional.ConfigMenu.description = string.Concat("Switch to Tab No ", index.ToString());
+                        ConfigMenu.description = string.Concat("Switch to Tab No ", index.ToString());
                     }
                     else
                     {
-                        CompletelyOptional.ConfigMenu.description = string.Concat("Switch to Tab ", name);
+                        ConfigMenu.description = string.Concat("Switch to Tab ", name);
                     }
 
                     if (Input.GetMouseButtonDown(0))

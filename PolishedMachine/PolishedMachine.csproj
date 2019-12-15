@@ -104,7 +104,6 @@
     <Compile Include="Config\OptionsMenuPatch.cs" />
     <Compile Include="Config\ProgressData.cs" />
     <Compile Include="Config\UnconfiguableOI.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="ModUtilities\Extenders\CharacterExtender.cs" />
     <Compile Include="ModUtilities\Extenders\CreatureExtender.cs" />
     <Compile Include="ModUtilities\Extenders\ObjectExtender.cs" />

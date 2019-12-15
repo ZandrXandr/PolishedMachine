@@ -55,7 +55,7 @@ namespace OptionalUI
         /// </summary>
         public static bool IsConfigScreen
         {
-            get { return CompletelyOptional.OptionScript.init; }
+            get { return OptionScript.init; }
         }
 
 
@@ -67,7 +67,7 @@ namespace OptionalUI
         /// <returns>Whether the mod is configuable or not</returns>
         public virtual bool Configuable()
         {
-            if (!CompletelyOptional.OptionScript.init) { return false; }
+            if (!OptionScript.init) { return false; }
             Dictionary<string, string> temp = GrabConfig();
             if (temp.Count > 0) { return true; }
             else { return false; }
@@ -108,12 +108,12 @@ namespace OptionalUI
         /// <summary>
         /// Currently selected saveslot
         /// </summary>
-        public static int slot { get { return CompletelyOptional.OptionScript.slot; } }
+        public static int slot { get { return OptionScript.slot; } }
         private static int _slot;
         /// <summary>
         /// Currently selected slugcat
         /// </summary>
-        public static int slugcat { get { return CompletelyOptional.OptionScript.slugcat; } }
+        public static int slugcat { get { return OptionScript.slugcat; } }
         private static int _slugcat;
 
 
@@ -154,7 +154,7 @@ namespace OptionalUI
                         return false;
                     }
 
-                    this.rawConfig = CompletelyOptional.Crypto.DecryptString(txt, string.Concat("OptionalConfig " + mod.ModID));
+                    this.rawConfig = Crypto.DecryptString(txt, string.Concat("OptionalConfig " + mod.ModID));
                 }
                 catch
                 {
@@ -297,7 +297,7 @@ namespace OptionalUI
                 directory.FullName,
                 "config.txt"
                 });
-                string enc = CompletelyOptional.Crypto.EncryptString(this.rawConfig, string.Concat("OptionalConfig " + mod.ModID));
+                string enc = Crypto.EncryptString(this.rawConfig, string.Concat("OptionalConfig " + mod.ModID));
                 string key = Custom.Md5Sum(enc);
 
                 File.WriteAllText(path, key + enc, Encoding.UTF8);
@@ -432,7 +432,7 @@ namespace OptionalUI
                     {
                         dataTinkered = false;
                     }
-                    data = CompletelyOptional.Crypto.DecryptString(data, string.Concat("OptionalData " + mod.ModID));
+                    data = Crypto.DecryptString(data, string.Concat("OptionalData " + mod.ModID));
                 }
                 string[] raw = Regex.Split(data, "<slugChar>");
                 _data = new string[Math.Max(_data.Length, raw.Length)];
@@ -469,7 +469,7 @@ namespace OptionalUI
                 slot.ToString(),
                 ".txt"
                 });
-                string enc = CompletelyOptional.Crypto.EncryptString(data, string.Concat("OptionalData " + mod.ModID));
+                string enc = Crypto.EncryptString(data, string.Concat("OptionalData " + mod.ModID));
                 string key = Custom.Md5Sum(enc);
 
                 File.WriteAllText(path, key + enc);
@@ -486,7 +486,7 @@ namespace OptionalUI
         /// If true, Initialize is in Mod Config; if false, this is game initialization and
         /// do not edit graphical details of UIelements when init is false
         /// </summary>
-        public static bool init => CompletelyOptional.OptionScript.init;
+        public static bool init => OptionScript.init;
 
         /// <summary>
         /// Write your UI overlay here.

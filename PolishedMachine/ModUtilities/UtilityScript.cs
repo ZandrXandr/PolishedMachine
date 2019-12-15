@@ -74,8 +74,9 @@ namespace PolishedMachine.ModUtilities {
                 return;
             KeyCheckers[code].Remove( action );
         }
+#pragma warning disable CA1822 // Mark members as static
         public void CheckInputs() {
-            foreach( KeyValuePair<KeyCode, List<Action>> kvp in KeyCheckers ) {
+            foreach ( KeyValuePair<KeyCode, List<Action>> kvp in KeyCheckers ) {
                 if( Input.GetKey( kvp.Key ) ) {
                     if( !pressedKeys.Contains( kvp.Key ) ) {
                         pressedKeys.Add( kvp.Key );

@@ -6,7 +6,6 @@ using System.Reflection;
 using Partiality.Modloader;
 using UnityEngine;
 using RWCustom;
-using CompletelyOptional;
 
 namespace PolishedMachine.Config {
     public static class ConfigManager {
